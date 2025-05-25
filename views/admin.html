@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - The British Interiors</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #0e4c92;
+      --secondary-color: #f8f9fa;
+      --accent-color: #0077ff;
+      --light-gray: #eee;
+      --dark-gray: #333;
+      --danger-color: #dc3545;
+      --success-color: #28a745;
+      --font-primary: 'Arial', sans-serif;
+      --font-secondary: 'Georgia', serif;
+      --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-primary);
+      line-height: 1.6;
+      color: var(--dark-gray);
+      background-color: var(--secondary-color);
+      padding: 20px;
+    }
+    
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+    }
+    
+    .admin-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .admin-title {
+      font-family: var(--font-secondary);
+      font-size: 1.8rem;
+    }
+    
+    .header-links {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .header-link {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    
+    .header-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .header-link i {
+      margin-right: 8px;
+    }
+    
+    .logout-link {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .admin-content {
+      padding: 20px;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      font-family: var(--font-secondary);
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 10px;
+    }
+    
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    .btn i {
+      margin-right: 8px;
+    }
+    
+    .btn-danger {
+      background-color: var(--danger-color);
+    }
+    
+    .btn-success {
+      background-color: var(--success-color);
+    }
+    
+    .order-count {
+      font-weight: 600;
+      background-color: var(--accent-color);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    
+    .orders-table th, .orders-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .orders-table th {
+      background-color: var(--secondary-color);
+      font-weight: 600;
+    }
+    
+    .orders-table tr:hover {
+      background-color: rgba(0, 119, 255, 0.05);
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .action-btn {
+      border: none;
+      background-color: transparent;
+      color: var(--accent-color);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 5px;
+      border-radius: 4px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .action-btn:hover {
+      background-color: rgba(0, 119, 255, 0.1);
+    }
+    
+    .action-btn.delete {
+      color: var(--danger-color);
+    }
+    
+    .action-btn.delete:hover {
+      background-color: rgba(220, 53, 69, 0.1);
+    }
+    
+    .view-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    
+    .no-orders {
+      text-align: center;
+      padding: 30px;
+      background-color: var(--light-gray);
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    
+    .modal-content {
+      background-color: white;
+      margin: 50px auto;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 8px;
+      box-shadow: var(--box-shadow);
+      animation: modalFadeIn 0.3s;
+    }
+    
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .modal-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+    
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+    }
+    
+    .close-modal {
+      color: white;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+    
+    .close-modal:hover {
+      opacity: 1;
+    }
+    
+    .modal-body {
+      padding: 20px;
+    }
+    
+    .modal-footer {
+      padding: 15px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      border-top: 1px solid var(--light-gray);
+    }
+    
+    .order-info {
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    
+    .info-card {
+      background-color: var(--secondary-color);
+      padding: 15px;
+      border-radius: 4px;
+    }
+    
+    .info-card h4 {
+      margin-bottom: 5px;
+      color: var(--primary-color);
+      font-size: 1rem;
+    }
+    
+    .product-list {
+      margin-top: 20px;
+    }
+    
+    .product-item {
+      border: 1px solid var(--light-gray);
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 15px;
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 20px;
+    }
+    
+    .product-image {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    
+    .product-details h4 {
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .product-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    
+    .meta-item {
+      background-color: var(--secondary-color);
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .meta-label {
+      font-weight: 600;
+      color: var(--dark-gray);
+    }
+    
+    /* Confirm dialog */
+    .confirm-dialog {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .confirm-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+    }
+    
+    .confirm-title {
+      margin-bottom: 15px;
+      color: var(--danger-color);
+      font-size: 1.2rem;
+    }
+    
+    .confirm-text {
+      margin-bottom: 20px;
+    }
+    
+    .confirm-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--success-color);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 4px;
+      box-shadow: var(--box-shadow);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .toast.show {
+      opacity: 1;
+    }
+    
+    .toast.error {
+      background-color: var(--danger-color);
+    }
+    
+    @media (max-width: 768px) {
+      .admin-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-links {
+        margin-top: 15px;
+      }
+      
+      .orders-table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .order-info {
+        grid-template-columns: 1fr;
+      }
+      
+      .product-item {
+        grid-template-columns: 1fr;
+      }
+      
+      .product-image {
+        height: 150px;
+        width: 150px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <header class="admin-header">
+      <h1 class="admin-title">The British Interiors - Admin Panel</h1>
+      <div class="header-links">
+        <a href="/" class="header-link">
+          <i class="fas fa-home"></i> View Site
+        </a>
+        <a href="/admin/logout" class="header-link logout-link">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+        <button id="debugModeBtn" class="header-link" style="background: none; border: none; cursor: pointer; display: none;">
+          <i class="fas fa-bug"></i> Debug Mode
+        </button>
+      </div>
+    </header>
+    
+    <main class="admin-content">
+      <h2 class="section-title">Orders Management</h2>
+      
+      <div class="action-row">
+        <div>
+          <button id="refreshBtn" class="btn">
+            <i class="fas fa-sync-alt"></i> Refresh Orders
+          </button>
+          <button id="checkNewOrdersBtn" class="btn" style="margin-left: 10px; background-color: #28a745;">
+            <i class="fas fa-cloud-download-alt"></i> Check for New Orders
+          </button>
+          <button id="syncOrdersBtn" class="btn" style="margin-left: 10px; background-color: #0077ff;">
+            <i class="fas fa-cloud-upload-alt"></i> Sync Orders
+          </button>
+          <button id="forceSyncBtn" class="btn" style="margin-left: 10px; background-color: #ff7700;">
+            <i class="fas fa-cloud-download-alt"></i> Force Full Sync
+          </button>
+          <button id="debugOrdersBtn" class="btn" style="margin-left: 10px; background-color: #ff9900; display: none;">
+            <i class="fas fa-bug"></i> Debug Orders
+          </button>
+          <button id="addTestOrderBtn" class="btn" style="margin-left: 10px; background-color: var(--success-color); display: none;">
+            <i class="fas fa-plus"></i> Add Test Order
+          </button>
+        </div>
+        <span id="orderCount" class="order-count">0 Orders</span>
+      </div>
+      
+      <div id="ordersTableContainer">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Customer</th>
+              <th>Products</th>
+              <th>Total</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            <!-- Orders will be loaded here via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Order Details Modal -->
+  <div id="orderDetailsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Order Details</h2>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div class="modal-body" id="orderDetailsContent">
+        <!-- Order details will be loaded here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="closeOrderDetails">Close</button>
+        <button class="btn btn-danger" id="deleteOrderBtn">
+          <i class="fas fa-trash"></i> Delete Order
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Confirm Delete Dialog -->
+  <div id="confirmDeleteDialog" class="confirm-dialog">
+    <div class="confirm-content">
+      <h3 class="confirm-title">Confirm Deletion</h3>
+      <p class="confirm-text">Are you sure you want to delete this order? This action cannot be undone.</p>
+      <div class="confirm-buttons">
+        <button class="btn" id="cancelDeleteBtn">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage">Operation successful!</span>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const ordersTableBody = document.getElementById('ordersTableBody');
+      const ordersTableContainer = document.getElementById('ordersTableContainer');
+      const orderCountElement = document.getElementById('orderCount');
+      const orderDetailsModal = document.getElementById('orderDetailsModal');
+      const orderDetailsContent = document.getElementById('orderDetailsContent');
+      const confirmDeleteDialog = document.getElementById('confirmDeleteDialog');
+      const toastNotification = document.getElementById('toastNotification');
+      const debugModeBtn = document.getElementById('debugModeBtn');
+      
+      // Global variables
+      let currentOrderId = null;
+      let orders = [];
+      let debugMode = false;
+      
+      // Check for developer mode via keyboard shortcut
+      document.addEventListener('keydown', function(event) {
+        // CTRL+SHIFT+D to enable debug mode
+        if (event.ctrlKey && event.shiftKey && event.key === 'D') {
+          debugModeBtn.style.display = 'flex';
+          document.getElementById('addTestOrderBtn').style.display = 'inline-flex';
+          document.getElementById('debugOrdersBtn').style.display = 'inline-flex';
+          showToast('Debug mode activated');
+        }
+      });
+      
+      // Debug mode toggle
+      debugModeBtn.addEventListener('click', () => {
+        debugMode = !debugMode;
+        
+        // Show all raw data elements if debug mode is on
+        const rawDataElements = document.querySelectorAll('[id^=rawData-]');
+        rawDataElements.forEach(el => {
+          el.style.display = debugMode ? 'block' : 'none';
+        });
+        
+        showToast(debugMode ? 'Debug mode ON' : 'Debug mode OFF');
+      });
+      
+      // Event Listeners
+      document.getElementById('refreshBtn').addEventListener('click', loadOrders);
+      document.getElementById('checkNewOrdersBtn').addEventListener('click', async function() {
+        try {
+          // Show loading indicator
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+          this.disabled = true;
+          
+          // First ensure order-utils.js is loaded
+          if (typeof window.ensureOrderUtilsLoaded === 'function') {
+            await new Promise(resolve => window.ensureOrderUtilsLoaded(resolve));
+          } else {
+            // Load the script directly
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = '/js/order-utils.js';
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          
+          // Use the new checkForNewOrders function if available
+          if (typeof window.checkForNewOrders === 'function') {
+            const result = await window.checkForNewOrders();
+            if (result.success) {
+              if (result.newOrders) {
+                showToast(`Found new orders! (${result.reason}) Refreshing list...`);
+                loadOrders(); // Reload orders to display the latest
+              } else {
+                showToast(`You're up to date! (${result.count} orders total)`);
+              }
+            } else {
+              showToast(`Failed to check for new orders: ${result.error}`, true);
+            }
+          } else {
+            // Force sync as fallback
+            if (typeof window.forceOrderSync === 'function') {
+              const result = await window.forceOrderSync();
+              if (result.success) {
+                showToast(`Checked for new orders: ${result.count} orders synchronized`);
+                loadOrders(); // Reload orders to display the latest
+              } else {
+                showToast(`Failed to check for new orders: ${result.error}`, true);
+              }
+            } else {
+              // Direct API call as fallback
+              const response = await fetch('/api/orders', {
+                headers: {
+                  'Cache-Control': 'no-cache',
+                  'Pragma': 'no-cache'
+                }
+              });
+              
+              if (response.ok) {
+                const serverOrders = await response.json();
+                orders = serverOrders;
+                localStorage.setItem('orders', JSON.stringify(orders));
+                displayOrders();
+                showToast(`Retrieved ${orders.length} orders from server`);
+              } else {
+                showToast('Failed to retrieve orders from server', true);
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Error checking for new orders:', error);
+          showToast('Error checking for new orders', true);
+        } finally {
+          // Restore button state
+          this.innerHTML = originalText;
+          this.disabled = false;
+        }
+      });
+      document.getElementById('closeOrderDetails').addEventListener('click', closeOrderDetails);
+      document.querySelectorAll('.close-modal').forEach(btn => {
+        btn.addEventListener('click', closeOrderDetails);
+      });
+      document.getElementById('deleteOrderBtn').addEventListener('click', showDeleteConfirmation);
+      document.getElementById('cancelDeleteBtn').addEventListener('click', hideDeleteConfirmation);
+      document.getElementById('confirmDeleteBtn').addEventListener('click', deleteOrder);
+      document.getElementById('addTestOrderBtn').addEventListener('click', addTestOrder);
+      document.getElementById('syncOrdersBtn').addEventListener('click', async function() {
+        try {
+          // Show syncing indicator
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Syncing...';
+          this.disabled = true;
+          
+          // First ensure order-utils.js is loaded
+          if (typeof window.ensureOrderUtilsLoaded === 'function') {
+            await new Promise(resolve => window.ensureOrderUtilsLoaded(resolve));
+          } else {
+            // Load the script directly
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = '/js/order-utils.js';
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          
+          // Use the syncPendingOrders function
+          if (typeof window.syncPendingOrders === 'function') {
+            const result = await window.syncPendingOrders();
+            
+            if (result.success) {
+              showToast(`Synced ${result.synced} orders successfully`);
+            } else {
+              showToast(`Synced ${result.synced} orders, ${result.failed} failed`, true);
+            }
+            
+            // Reload orders to show the latest state
+            loadOrders();
+          } else {
+            showToast('Sync function not available', true);
+          }
+        } catch (error) {
+          console.error('Error syncing orders:', error);
+          showToast('Error syncing orders', true);
+        } finally {
+          // Restore button state
+          const button = document.getElementById('syncOrdersBtn');
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }
+      });
+      
+      document.getElementById('forceSyncBtn').addEventListener('click', async function() {
+        try {
+          // Show syncing indicator
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Syncing...';
+          this.disabled = true;
+          
+          // First ensure order-utils.js is loaded
+          if (typeof window.ensureOrderUtilsLoaded === 'function') {
+            await new Promise(resolve => window.ensureOrderUtilsLoaded(resolve));
+          } else {
+            // Load the script directly
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = '/js/order-utils.js';
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          
+          // Use the forceOrderSync function
+          if (typeof window.forceOrderSync === 'function') {
+            const result = await window.forceOrderSync();
+            
+            if (result.success) {
+              showToast(`Full sync successful, ${result.count} orders synchronized`);
+            } else {
+              showToast(`Full sync failed: ${result.error}`, true);
+            }
+            
+            // Reload orders to show the latest state
+            loadOrders();
+          } else {
+            showToast('Force sync function not available', true);
+          }
+        } catch (error) {
+          console.error('Error forcing order sync:', error);
+          showToast('Error forcing order sync', true);
+        } finally {
+          // Restore button state
+          const button = document.getElementById('forceSyncBtn');
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }
+      });
+      
+      document.getElementById('debugOrdersBtn').addEventListener('click', async function() {
+        try {
+          const response = await fetch('/api/debug/orders-status');
+          
+          if (response.ok) {
+            const status = await response.json();
+            
+            // Create a formatted message
+            const message = `
+              <strong>Environment:</strong> ${status.environment}<br>
+              <strong>In-Memory Orders:</strong> ${status.inMemoryOrders}<br>
+              <strong>Tmp File Exists:</strong> ${status.tmpFileExists}<br>
+              <strong>Tmp File Orders:</strong> ${status.tmpFileOrdersCount}<br>
+              <strong>Regular File Exists:</strong> ${status.regularFileExists}<br>
+              <strong>Regular File Orders:</strong> ${status.regularFileOrdersCount}<br>
+            `;
+            
+            // Create a modal to display the info
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '50%';
+            modal.style.left = '50%';
+            modal.style.transform = 'translate(-50%, -50%)';
+            modal.style.backgroundColor = 'white';
+            modal.style.padding = '20px';
+            modal.style.borderRadius = '8px';
+            modal.style.boxShadow = '0 0 20px rgba(0,0,0,0.3)';
+            modal.style.zIndex = '9999';
+            modal.style.maxWidth = '500px';
+            modal.style.width = '90%';
+            
+            modal.innerHTML = `
+              <h3 style="margin-top: 0; color: #0e4c92;">Orders Storage Debug Info</h3>
+              <div>${message}</div>
+              <button id="closeDebugModal" style="background-color: #0e4c92; color: white; border: none; padding: 8px 16px; margin-top: 15px; border-radius: 4px; cursor: pointer;">Close</button>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            document.getElementById('closeDebugModal').addEventListener('click', function() {
+              document.body.removeChild(modal);
+            });
+          } else {
+            showToast('Failed to get debug info', true);
+          }
+        } catch (error) {
+          console.error('Error getting debug info:', error);
+          showToast('Error getting debug info', true);
+        }
+      });
+      
+      // Close modals when clicking outside of content
+      window.addEventListener('click', (e) => {
+        if (e.target === orderDetailsModal) {
+          closeOrderDetails();
+        }
+        if (e.target === confirmDeleteDialog) {
+          hideDeleteConfirmation();
+        }
+      });
+      
+      // Load orders on page load
+      checkSessionAndLoadOrders();
+      
+      // Immediately check for new orders when the page loads
+      setTimeout(async function() {
+        try {
+          // First ensure order-utils.js is loaded
+          if (typeof window.ensureOrderUtilsLoaded === 'function') {
+            await new Promise(resolve => window.ensureOrderUtilsLoaded(resolve));
+          } else {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = '/js/order-utils.js';
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          
+          // Use the checkForNewOrders function to immediately check for new orders
+          if (typeof window.checkForNewOrders === 'function') {
+            console.log('Performing immediate check for new orders on page load');
+            const result = await window.checkForNewOrders();
+            if (result.success && result.newOrders) {
+              console.log('New orders detected on page load, reloading orders list');
+              loadOrders();
+            }
+          }
+        } catch (error) {
+          console.error('Error during initial order check:', error);
+        }
+      }, 2000); // Wait 2 seconds after page load to avoid overwhelming the browser
+      
+      // Set up periodic sync to check for new orders
+      let syncInterval;
+      
+      function startPeriodicSync() {
+        // Clear any existing interval
+        if (syncInterval) {
+          clearInterval(syncInterval);
+        }
+        
+        // Check for new orders every 10 seconds
+        syncInterval = setInterval(async function() {
+          console.log('Performing automatic check for new orders');
+          try {
+            // First ensure order-utils.js is loaded
+            if (typeof window.ensureOrderUtilsLoaded === 'function') {
+              await new Promise(resolve => window.ensureOrderUtilsLoaded(resolve));
+            } else {
+              await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = '/js/order-utils.js';
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+              });
+            }
+            
+            // Use the checkForNewOrders function first (faster check)
+            if (typeof window.checkForNewOrders === 'function') {
+              const result = await window.checkForNewOrders();
+              if (result.success && result.newOrders) {
+                console.log('New orders detected, reloading orders list');
+                loadOrders();
+              }
+            } else {
+              // Fallback to forceOrderSync if checkForNewOrders is not available
+              if (typeof window.forceOrderSync === 'function') {
+                const result = await window.forceOrderSync();
+                if (result.success) {
+                  console.log('Auto-sync successful, received', result.count, 'orders');
+                  // Reload the orders display
+                  loadOrders();
+                } else {
+                  console.warn('Auto-sync failed:', result.error);
+                }
+              }
+            }
+          } catch (error) {
+            console.error('Error during automatic sync:', error);
+          }
+        }, 10000); // 10 seconds
+        
+        console.log('Automatic sync started - checking for new orders every 10 seconds');
+      }
+      
+      // Start the periodic sync when the page loads
+      startPeriodicSync();
+      
+      // Also restart sync when the page becomes visible again
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+          console.log('Page became visible, forcing sync and restarting periodic checks');
+          loadOrders(); // Immediately load orders
+          startPeriodicSync(); // Restart the sync interval
+        }
+      });
+      
+      // Functions
+      async function checkSessionAndLoadOrders() {
+        try {
+          // Check if we're authenticated
+          const sessionResponse = await fetch('/api/check-session');
+          const sessionData = await sessionResponse.json();
+          
+          if (!sessionData.isAuthenticated) {
+            console.error('Not authenticated according to session check');
+            showToast('Session expired. Redirecting to login...', true);
+            setTimeout(() => {
+              window.location.href = '/admin/login';
+            }, 2000);
+            return;
+          }
+          
+          console.log('Session check passed, loading orders');
+          loadOrders();
+        } catch (error) {
+          console.error('Error checking session:', error);
+          showToast('Error checking authentication. Trying to load orders anyway.', true);
+          loadOrders();
+        }
+      }
+      
+      async function loadOrders() {
+        // Show loading state
+        ordersTableBody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center;">
+              Loading orders...
+              <div style="margin-top: 15px;">
+                <button id="manualRefreshBtn" class="btn" style="margin: 0 auto;">
+                  <i class="fas fa-sync-alt"></i> Click to Refresh Manually
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+        
+        // Add event listener to the manual refresh button
+        document.getElementById('manualRefreshBtn').addEventListener('click', function() {
+          // Clear any cached data
+          localStorage.removeItem('orders');
+          // Force reload the page
+          window.location.reload();
+        });
+        
+        try {
+          // First ensure order-utils.js is loaded
+          if (typeof window.ensureOrderUtilsLoaded === 'function') {
+            await new Promise(resolve => window.ensureOrderUtilsLoaded(resolve));
+          } else {
+            console.log('Loading order-utils.js directly');
+            // Load the script directly
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = '/js/order-utils.js';
+              script.onload = function() {
+                console.log('order-utils.js loaded successfully');
+                resolve();
+              };
+              script.onerror = function(err) {
+                console.error('Failed to load order-utils.js:', err);
+                reject(err);
+              };
+              document.head.appendChild(script);
+            });
+          }
+          
+          // Check if we're authenticated
+          try {
+            const authCheckResponse = await fetch('/api/health');
+            if (!authCheckResponse.ok) {
+              throw new Error(`Auth check failed: ${authCheckResponse.status}`);
+            }
+            console.log('Auth check passed');
+          } catch (authError) {
+            console.error('Auth check error:', authError);
+            showToast('Authentication error. Please try logging in again.', true);
+          }
+          
+          // Always do a force sync to ensure we have all orders from all devices
+          if (typeof window.forceOrderSync === 'function') {
+            console.log('Performing initial sync on page load');
+            try {
+              const syncResult = await window.forceOrderSync();
+              if (syncResult.success) {
+                console.log('Initial sync successful, synced', syncResult.count, 'orders');
+              } else {
+                console.warn('Initial sync failed:', syncResult.error);
+                showToast(`Sync failed: ${syncResult.error}`, true);
+              }
+            } catch (syncError) {
+              console.error('Error during initial sync:', syncError);
+              showToast('Error syncing orders. Using local data if available.', true);
+            }
+          } else {
+            console.warn('forceOrderSync function not available');
+          }
+          
+          // Try to get orders directly from server first
+          try {
+            console.log('Fetching orders directly from server');
+            const response = await fetch('/api/orders', {
+              headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+              }
+            });
+            
+            if (response.ok) {
+              const serverOrders = await response.json();
+              console.log('Received', serverOrders.length, 'orders directly from server');
+              
+              if (serverOrders.length > 0) {
+                orders = serverOrders;
+                // Update local storage with server orders
+                localStorage.setItem('orders', JSON.stringify(orders));
+                displayOrders();
+                return;
+              }
+            } else {
+              console.warn('Failed to fetch orders directly from server:', response.status);
+            }
+          } catch (directFetchError) {
+            console.error('Error fetching orders directly:', directFetchError);
+          }
+          
+          // Use the getAllOrders function from order-utils.js as fallback
+          if (typeof window.getAllOrders === 'function') {
+            console.log('Calling getAllOrders function');
+            try {
+              orders = await window.getAllOrders();
+              console.log('Orders loaded:', orders.length);
+              
+              // If server returned no orders but we have local orders, use those
+              if (orders.length === 0) {
+                const localOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+                if (localOrders.length > 0) {
+                  console.log('Server returned no orders, but found', localOrders.length, 'local orders');
+                  showToast('Server has no orders. Using orders from your device.', true);
+                  orders = localOrders;
+                  
+                  // Try to send local orders to server
+                  if (typeof window.forceOrderSync === 'function') {
+                    try {
+                      console.log('Trying to send local orders to server');
+                      await window.forceOrderSync();
+                    } catch (syncError) {
+                      console.error('Failed to sync local orders to server:', syncError);
+                    }
+                  }
+                }
+              }
+              
+              displayOrders();
+            } catch (orderError) {
+              console.error('Error in getAllOrders:', orderError);
+              showToast('Error loading orders: ' + (orderError.message || 'Unknown error'), true);
+              
+              // Try to use local orders as fallback
+              try {
+                const localOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+                if (localOrders.length > 0) {
+                  console.log('Using', localOrders.length, 'local orders as fallback');
+                  showToast('Using locally stored orders as fallback', true);
+                  orders = localOrders;
+                  displayOrders();
+                  return;
+                }
+              } catch (localError) {
+                console.error('Error loading local orders:', localError);
+              }
+              
+              ordersTableContainer.innerHTML = `<div class="no-orders">Failed to load orders: ${orderError.message || 'Unknown error'}</div>`;
+            }
+          } else {
+            console.error('getAllOrders function not available');
+            ordersTableContainer.innerHTML = '<div class="no-orders">Failed to load orders. Order utility functions not available.</div>';
+          }
+        } catch (error) {
+          console.error('Error loading orders:', error);
+          ordersTableContainer.innerHTML = `<div class="no-orders">Failed to load orders: ${error.message || 'Unknown error'}</div>`;
+        }
+      }
+      
+      function displayOrders() {
+        // Update order count
+        orderCountElement.textContent = `${orders.length} Orders`;
+      
+        if (orders.length === 0) {
+          // No orders found
+          ordersTableContainer.innerHTML = '<div class="no-orders">No orders found.</div>';
+          return;
+        }
+        
+        // Clear loading state
+        ordersTableBody.innerHTML = '';
+        
+        // Sort orders by date (newest first)
+        orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        
+        // Add orders to table
+        orders.forEach(order => {
+          const date = new Date(order.timestamp);
+            const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+          
+          // Handle products display (could be single product or array from basket)
+          let productsDisplay = '';
+          
+          if (order.products && Array.isArray(order.products)) {
+            // Multiple products from basket
+            productsDisplay = order.products.map(item => {
+                return item.name || 'Unknown Product';
+              }).join(', ');
+              
+              // If too long, truncate
+              if (productsDisplay.length > 40) {
+                productsDisplay = productsDisplay.substring(0, 40) + '...';
+              }
+              
+              productsDisplay += ` (${order.products.length} items)`;
+          } else {
+            // Single product from direct purchase
+            productsDisplay = order.product || 'Unknown Product';
+          }
+          
+          const row = document.createElement('tr');
+          row.innerHTML = `
+              <td>#${order.id}</td>
+            <td>${order.name}</td>
+            <td>${productsDisplay}</td>
+            <td>£${order.total}</td>
+            <td>${formattedDate}</td>
+            <td>
+                <div class="action-buttons">
+                  <button class="view-btn" data-order-id="${order.id}">
+                    <i class="fas fa-eye"></i> View
+                  </button>
+                  <button class="action-btn delete" data-order-id="${order.id}" title="Delete Order">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+            </td>
+          `;
+          
+          ordersTableBody.appendChild(row);
+        });
+          
+        // Add event listeners to view and delete buttons
+        document.querySelectorAll('.view-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const orderId = btn.getAttribute('data-order-id');
+            viewOrderDetails(orderId);
+          });
+        });
+        
+        document.querySelectorAll('.action-btn.delete').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const orderId = btn.getAttribute('data-order-id');
+            currentOrderId = orderId;
+            showDeleteConfirmation();
+          });
+        });
+      }
+      
+      function viewOrderDetails(orderId) {
+        const order = orders.find(o => o.id === orderId);
+        
+        if (!order) {
+          showToast('Order not found', true);
+          return;
+        }
+        
+        currentOrderId = orderId;
+        
+        // Format date
+        const date = new Date(order.timestamp);
+        const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+        
+        // Prepare HTML for order details
+        let detailsHTML = `
+          <div class="order-info">
+            <div class="info-card">
+              <h4>Order ID</h4>
+              <div>#${order.id}</div>
+            </div>
+            <div class="info-card">
+              <h4>Customer</h4>
+              <div>${order.name}</div>
+            </div>
+            <div class="info-card">
+              <h4>Contact</h4>
+              <div>${order.contact}</div>
+            </div>
+            <div class="info-card">
+              <h4>Address</h4>
+              <div>${order.address}, ${order.postcode}</div>
+            </div>
+            <div class="info-card">
+              <h4>Date</h4>
+              <div>${formattedDate}</div>
+            </div>
+            <div class="info-card">
+              <h4>Total Amount</h4>
+              <div>£${order.total}</div>
+            </div>
+          </div>
+          
+          <h3 class="section-title">Products</h3>
+          <div class="product-list">
+        `;
+        
+        // Handle products based on the data structure
+        if (order.products && Array.isArray(order.products)) {
+          // Multiple products from basket
+          order.products.forEach(product => {
+            detailsHTML += createProductHtml(product, order);
+          });
+        } else if (order.productDetails) {
+          // New structure - single product with details
+          detailsHTML += createProductHtml(order.productDetails, order);
+        } else if (typeof order.product === 'object') {
+          // Legacy structure - single product as object
+          detailsHTML += createProductHtml(order.product, order);
+        } else if (typeof order.product === 'string') {
+          // Product is just a string, create a simple object for display
+          const simpleProduct = {
+            name: order.product,
+            title: order.productTitle || order.product,
+            price: order.total - (order.deliveryCost || 0)
+          };
+          detailsHTML += createProductHtml(simpleProduct, order);
+        } else {
+          // Fallback for unknown structure
+          detailsHTML += `<div class="product-item">No product details available</div>`;
+        }
+        
+        detailsHTML += `</div>`;
+        
+        // Populate the modal and show it
+        orderDetailsContent.innerHTML = detailsHTML;
+        orderDetailsModal.style.display = 'block';
+      }
+      
+      function createProductHtml(product, order) {
+        console.log('Product data:', product);
+        
+        // Get product name first to help determine image
+        let productName = '';
+        
+        // Check all possible name field variations
+        if (typeof product === 'string') {
+          productName = product;
+        } else {
+          productName = product.name || product.title || product.product || order.product || order.productTitle || 'Unknown Product';
+        }
+        console.log('Product name:', productName);
+        
+        // Find product image with fallback logic
+        let productImage = '';
+        
+        // If product is a string, we need to check the parent order for image
+        if (typeof product === 'string') {
+          if (order.productDetails && order.productDetails.image) {
+            productImage = order.productDetails.image;
+          } else {
+            // Try to determine from product name
+            productImage = determineImageFromName(productName, order.color);
+          }
+        } else {
+          // Check all possible image field variations
+          if (product.image && product.image.trim() !== '') {
+            productImage = product.image;
+            console.log('Using image from product.image:', productImage);
+          } 
+          else if (product.imageSrc && product.imageSrc.trim() !== '') {
+            productImage = product.imageSrc;
+            console.log('Using image from product.imageSrc:', productImage);
+          }
+          else if (product.img && product.img.trim() !== '') {
+            productImage = product.img;
+            console.log('Using image from product.img:', productImage);
+          }
+          else if (product.imageUrl && product.imageUrl.trim() !== '') {
+            productImage = product.imageUrl;
+            console.log('Using image from product.imageUrl:', productImage);
+          }
+          // If we have a productImage field at the parent order level (single item orders might have this)
+          else if (order.productImage && order.productImage.trim() !== '') {
+            productImage = order.productImage;
+            console.log('Using image from order.productImage:', productImage);
+          }
+          // Next, try to determine image based on product type/category
+          else {
+            productImage = determineImageFromName(productName, product.color || order.color);
+          }
+        }
+        
+        // Ensure image path is properly formatted
+        if (productImage && productImage.includes('http://localhost:') || productImage.includes('http://127.0.0.1:')) {
+          // Extract just the path portion from a localhost URL
+          try {
+            const url = new URL(productImage);
+            productImage = url.pathname;
+            console.log('Extracted path from URL:', productImage);
+          } catch (e) {
+            console.error('Failed to parse URL:', productImage, e);
+          }
+        }
+        
+        // Special handling for Leather Roma Recliner 3 seater
+        if (productName.toLowerCase().includes('leather roma recliner 3 seater')) {
+          const color = (product.color || order.color || '').toLowerCase();
+          if (color.includes('grey')) {
+            productImage = '/images/Leather Sofa/3+2/lg2.jpg';
+          } else if (color.includes('black')) {
+            productImage = '/images/Leather Sofa/3+2/lb1.jpg';
+          } else if (color.includes('brown')) {
+            productImage = '/images/Leather Sofa/3+2/lh3.jpg';
+          } else {
+            productImage = '/images/Leather Sofa/3+2/lg2.jpg';
+          }
+          console.log('Special handling for Leather Roma Recliner 3 seater, using image:', productImage);
+        }
+        
+        // Extract product details
+        const price = typeof product === 'string' ? (order.total - (order.deliveryCost || 0)) : (product.price || 'N/A');
+        const quantity = typeof product === 'string' ? 1 : (product.quantity || 1);
+        const color = typeof product === 'string' ? (order.color || 'N/A') : (product.color || order.color || 'N/A');
+        const sideFacing = typeof product === 'string' ? 'N/A' : (product.sideFacing || 'N/A');
+        const extraSeats = typeof product === 'string' ? (order.extraSeats || 0) : (product.extraSeats || 0);
+        const backType = typeof product === 'string' ? (order.backType || 'N/A') : (product.backType || order.backType || 'N/A');
+        const size = typeof product === 'string' ? (order.size || 'N/A') : (product.size || order.size || 'N/A');
+        
+        // Create a unique ID for this raw data element
+        const rawDataId = 'rawData-' + Math.random().toString(36).substr(2, 9);
+        const imageId = 'img-' + Math.random().toString(36).substr(2, 9);
+        
+        // Create a raw data display for debugging purposes
+        const rawDataDisplay = `
+          <div class="meta-item" style="grid-column: span 3; margin-top: 15px; display: ${debugMode ? 'block' : 'none'};" id="${rawDataId}">
+            <span class="meta-label">Raw Data:</span>
+            <pre style="background-color: #f5f5f5; padding: 10px; overflow: auto; max-height: 150px; font-size: 0.8rem; margin-top: 5px;">${JSON.stringify(product, null, 2)}</pre>
+          </div>
+        `;
+        
+        return `
+          <div class="product-item">
+            <img src="${productImage}" alt="${productName}" id="${imageId}" class="product-image" 
+              onerror="this.onerror=null; this.src='/images/placeholder.jpg'; console.error('Image failed to load:', '${productImage}', 'Product name:', '${productName}', 'Color:', '${color}'); this.style.border='2px solid red';"
+              onload="console.log('Image loaded successfully:', '${productImage}')">
+            <div class="product-details">
+              <h4>${productName}</h4>
+              <div class="product-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Price:</span> £${price}
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Quantity:</span> ${quantity}
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Color:</span> ${color}
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Side Facing:</span> ${sideFacing}
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Extra Seats:</span> ${extraSeats}
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Back Type:</span> ${backType !== 'N/A' ? (backType === 'scatter' ? 'Scatter Back (High Back)' : 'Standard Back') : 'N/A'}
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Size:</span> ${size}
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Image Path:</span> <code>${productImage}</code>
+                </div>
+                ${rawDataDisplay}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      // Helper function to determine image from product name
+      function determineImageFromName(productName, color) {
+        const productNameLower = productName.toLowerCase();
+        console.log('No direct image found, trying to determine from product name:', productNameLower);
+        
+        // Also check color to determine more specific image
+        const colorLower = (color || '').toLowerCase();
+        
+        // Handle different product categories
+        if (productNameLower.includes('sofa') || productNameLower.includes('seater')) {
+          if (productNameLower.includes('dylan')) {
+            // Choose image based on color if available
+            if (colorLower.includes('grey')) {
+              return '/images/Dylan Sofa/DSC_0018.JPG';
+            } else {
+              return '/images/Dylan Sofa/DSC_0018.JPG';
+            }
+          } else if (productNameLower.includes('verona')) {
+            // Choose image based on color if available
+            if (colorLower.includes('grey')) {
+              return '/images/Verona Sofa/v3+2/vgrey3.jpg';
+            } else if (colorLower.includes('black')) {
+              return '/images/Verona Sofa/v3+2/vblack2.jpg';
+            } else if (colorLower.includes('mink')) {
+              return '/images/Verona Sofa/v3+2/vmink1.jpg';
+            } else {
+              return '/images/Verona Sofa/v3+2/vgrey3.jpg';
+            }
+          } else if (productNameLower.includes('salone')) {
+            return '/images/Salone Sofa/1.JPG';
+          } else if (productNameLower.includes('u-shape') || productNameLower.includes('ushape') || productNameLower.includes('bishop')) {
+            return '/images/U-shape Sofa/1.jpg';
+          } else if (productNameLower.includes('leather roma recliner 3 seater')) {
+            // Specific handling for Leather Roma Recliner 3 seater
+            console.log('Found Leather Roma Recliner 3 seater, color:', colorLower);
+            if (colorLower.includes('grey')) {
+              return '/images/Leather Sofa/3+2/lg2.jpg';
+            } else if (colorLower.includes('black')) {
+              return '/images/Leather Sofa/3+2/lb1.jpg';
+            } else if (colorLower.includes('brown')) {
+              return '/images/Leather Sofa/3+2/lh3.jpg';
+            } else {
+              return '/images/Leather Sofa/3+2/lg2.jpg';
+            }
+          } else if (productNameLower.includes('leather')) {
+            return '/images/Leather Sofa/1.jpg';
+          } else {
+            return '/images/Verona Sofa/v3+2/vgrey3.jpg'; // Default sofa image
+          }
+        } else if (productNameLower.includes('chair') || productNameLower.includes('arm chair')) {
+          // Choose image based on color if available
+          if (colorLower.includes('grey')) {
+            return '/images/Arm Chair/v/vgrey.jpg';
+          } else if (colorLower.includes('black')) {
+            return '/images/Arm Chair/v/vblack.jpg';
+          } else if (colorLower.includes('mink')) {
+            return '/images/Arm Chair/v/vmink.jpg';
+          } else {
+            return '/images/Arm Chair/v/vgrey.jpg';
+          }
+        } else if (productNameLower.includes('sofabed')) {
+          return '/images/Sofabed/sb1.jpg';
+        } else {
+          // Default to placeholder
+          return '/images/placeholder.jpg';
+        }
+      }
+      
+      function closeOrderDetails() {
+        orderDetailsModal.style.display = 'none';
+      }
+      
+      function showDeleteConfirmation() {
+        confirmDeleteDialog.style.display = 'flex';
+      }
+      
+      function hideDeleteConfirmation() {
+        confirmDeleteDialog.style.display = 'none';
+      }
+      
+      async function deleteOrder() {
+        if (!currentOrderId) return;
+        
+        try {
+          // First ensure order-utils.js is loaded
+          if (typeof window.ensureOrderUtilsLoaded === 'function') {
+            await new Promise(resolve => window.ensureOrderUtilsLoaded(resolve));
+          } else {
+            // Load the script directly
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = '/js/order-utils.js';
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          
+          // Use the deleteOrder function from order-utils.js
+          if (typeof window.deleteOrder === 'function') {
+            const result = await window.deleteOrder(currentOrderId);
+            
+            if (result) {
+              // Show success message
+              showToast('Order deleted successfully');
+              
+              // Close dialogs
+              hideDeleteConfirmation();
+              closeOrderDetails();
+              
+              // Reload orders
+              loadOrders();
+            } else {
+              showToast('Failed to delete order', true);
+            }
+          } else {
+            // Fallback to the original implementation
+            const response = await fetch(`/api/orders/${currentOrderId}`, {
+              method: 'DELETE'
+            });
+            
+            if (response.ok) {
+              // Show success message
+              showToast('Order deleted successfully');
+              
+              // Close dialogs
+              hideDeleteConfirmation();
+              closeOrderDetails();
+              
+              // Reload orders
+              loadOrders();
+            } else {
+              const errorData = await response.json();
+              showToast(`Failed to delete order: ${errorData.error || 'Unknown error'}`, true);
+            }
+          }
+        } catch (error) {
+          console.error('Error deleting order:', error);
+          showToast('Failed to delete order due to a network error', true);
+        }
+      }
+      
+      function showToast(message, isError = false) {
+        const toast = document.getElementById('toastNotification');
+        const toastMessage = document.getElementById('toastMessage');
+        
+        // Set message and type
+        toastMessage.textContent = message;
+        
+        if (isError) {
+          toast.classList.add('error');
+        } else {
+          toast.classList.remove('error');
+        }
+        
+        // Show toast
+        toast.classList.add('show');
+        
+        // Hide after 3 seconds
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+      
+      // Add test order with image for debugging
+      async function addTestOrder() {
+        // Create a test order with proper image paths
+        const testOrder = {
+          id: 'TEST-' + Math.floor(Math.random() * 10000),
+          name: 'Test Customer',
+          contact: 'test@example.com',
+          address: '123 Test Street',
+          postcode: 'TS1 1ST',
+          timestamp: new Date().toISOString(),
+          total: '1299.99',
+          products: [
+            {
+              name: 'Verona Sofa',
+              price: '999.99',
+              quantity: 1,
+              color: 'Grey',
+              sideFacing: 'Left',
+              extraSeats: 0,
+              image: '/images/Verona Sofa/v3+2/vgrey3.jpg'
+            },
+            {
+              name: 'Arm Chair',
+              price: '299.99',
+              quantity: 1,
+              color: 'Grey',
+              sideFacing: 'N/A',
+              extraSeats: 0,
+              image: '/images/Arm Chair/v/vgrey.jpg'
+            }
+          ]
+        };
+        
+        try {
+          // Save order via API
+          const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(testOrder)
+          });
+          
+          if (response.ok) {
+            showToast('Test order added successfully');
+          } else {
+            const errorData = await response.json();
+            showToast(`Failed to add test order: ${errorData.error || 'Unknown error'}`, true);
+          }
+        } catch (error) {
+          console.error('Error adding test order:', error);
+          showToast('Failed to add test order due to a network error', true);
+        }
+        
+        // Reload orders
+        loadOrders();
+      }
+    });
+  </script>
+</body>
+</html> 

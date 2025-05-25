@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The British Interiors - Luxury Furniture</title>
+  <link rel="icon" href="/images/logo.jpg" type="image/jpeg">
+  <link rel="apple-touch-icon" href="/images/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/basket.css">
+  <link rel="stylesheet" href="/css/search-dropdown.css">
+  <link rel="stylesheet" href="/css/mobile.css">
+  <link rel="stylesheet" href="/css/mobile-search-fix.css">
+  <style>
+    /* OVERRIDE ALL PRODUCT CARD STYLES FOR MOBILE ONLY */
+    @media only screen and (max-width: 768px) {
+      .product-card {
+        background-color: #f2f2f2 !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        transition: none !important;
+        transform: none !important;
+      }
+      
+      .product-info {
+        background-color: #f2f2f2 !important;
+        padding: 12px !important;
+      }
+      
+      /* Override any transitions or animations */
+      .product-card:hover, 
+      .product-card:active,
+      .product-card:focus {
+        background-color: #f2f2f2 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      
+      /* Apply to every section specifically */
+      #dylan-sofa .product-card,
+      #verona-sofa .product-card,
+      #u-shape-sofa .product-card,
+      #salone-sofa .product-card,
+      #leather-sofa .product-card,
+      #arm-chair .product-card,
+      #sofabed .product-card {
+        background-color: #f2f2f2 !important;
+      }
+      
+      #dylan-sofa .product-info,
+      #verona-sofa .product-info,
+      #u-shape-sofa .product-info,
+      #salone-sofa .product-info,
+      #leather-sofa .product-info,
+      #arm-chair .product-info,
+      #sofabed .product-info {
+        background-color: #f2f2f2 !important;
+      }
+      
+      /* Fix mobile menu positioning */
+      .mobile-nav {
+        top: 97px !important;
+        z-index: 2000 !important;
+        display: none !important;
+        position: fixed !important;
+        width: 100% !important;
+        background-color: white !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+      }
+      
+      .mobile-nav.active {
+        display: block !important;
+      }
+      
+      /* Ensure consistent mobile menu styling */
+      .mobile-nav li a {
+        padding: 15px !important;
+        font-size: 14px !important;
+        color: #2c3e50 !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+      }
+      
+      /* Ensure header doesn't overlap menu */
+      .main-header {
+        z-index: 2500 !important;
+        position: fixed !important;
+        top: 33px !important;
+        left: 0 !important;
+        width: 100% !important;
+      }
+      
+      /* Make announcement bar fixed too */
+      .announcement-bar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        z-index: 2500 !important;
+      }
+      
+      /* Adjust body padding for fixed header and announcement bar */
+      body {
+        padding-top: 97px !important;
+      }
+    }
+    
+    /* Desktop-only styles */
+    @media only screen and (min-width: 769px) {
+      .mobile-nav {
+        display: none !important;
+      }
+      
+      /* Desktop search container z-index override */
+      .search-container {
+        position: relative;
+        z-index: 10000 !important;
+      }
+      
+      /* Ensure search dropdown always stays on top */
+      .search-dropdown {
+        z-index: 10000 !important;
+      }
+    }
+  </style>
+  
+  <!-- Immediate Safari iOS fix -->
+  <script>
+    (function() {
+      // Detect iOS Safari immediately
+      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      var isSafari = /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS/i.test(navigator.userAgent);
+      
+      if (isIOS && isSafari) {
+        // Add classes immediately
+        document.documentElement.className += ' ios-device';
+        
+        // Create and inject critical styles
+        var criticalStyle = document.createElement('style');
+        criticalStyle.textContent = `
+          .search-input.active,
+          #search-input.active,
+          #ios-search-input.active {
+            position: fixed !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            top: 106px !important;
+            right: 10px !important;
+            width: calc(100% - 20px) !important;
+            max-width: 300px !important;
+            height: 36px !important;
+            padding: 8px 15px !important;
+            border: 3px solid #3498db !important;
+            border-radius: 20px !important;
+            background-color: white !important;
+            color: #333 !important;
+            font-size: 16px !important;
+            z-index: 9999999 !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+            -webkit-appearance: none !important;
+          }
+          
+          /* Ensure search inputs are hidden by default */
+          .search-input:not(.active),
+          #search-input:not(.active),
+          #ios-search-input:not(.active) {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+          }
+        `;
+        document.head.appendChild(criticalStyle);
+        
+        // Set up DOM ready handler to fix search input
+        document.addEventListener('DOMContentLoaded', function() {
+          // Add iOS class to body
+          document.body.classList.add('ios-device');
+          
+          // Get search elements
+          var searchButton = document.querySelector('.search-button');
+          var searchInput = document.querySelector('.search-input');
+          
+          if (searchButton && searchInput) {
+            // Ensure search input is hidden initially
+            searchInput.classList.remove('active');
+            searchInput.style.display = 'none';
+            searchInput.style.visibility = 'hidden';
+            searchInput.style.opacity = '0';
+            
+            // Replace click handler
+            searchButton.addEventListener('click', function(e) {
+              // Toggle search input visibility with Safari reflow trick
+              if (!searchInput.classList.contains('active')) {
+                searchInput.classList.add('active');
+                
+                // First set opacity to 0
+                searchInput.style.opacity = '0';
+                searchInput.style.display = 'block';
+                searchInput.style.visibility = 'visible';
+                
+                // Force reflow for Safari
+                void searchInput.offsetWidth;
+                
+                // Now make visible
+                searchInput.style.opacity = '1';
+                
+                // Focus with delay after reflow
+                setTimeout(function() {
+                  searchInput.focus();
+                }, 50);
+              }
+            }, true);
+            
+            // Hide search input when clicking elsewhere
+            document.addEventListener('click', function(e) {
+              if (searchInput.classList.contains('active') && 
+                  e.target !== searchInput && 
+                  e.target !== searchButton && 
+                  !searchButton.contains(e.target)) {
+                searchInput.classList.remove('active');
+                searchInput.style.display = 'none';
+                searchInput.style.visibility = 'hidden';
+                searchInput.style.opacity = '0';
+              }
+            });
+          }
+        });
+      }
+    })();
+  </script>
+</head>
+<body class="home-page">
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="announcement-content">
+      <span>Free delivery on orders over £1000. £30 for standard service and £50 for next day service.</span>
+    </div>
+  </div>
+
+  <!-- Header Section -->
+  <header class="main-header">
+    <!-- Mobile Menu Toggle Button (visible only on mobile) -->
+    <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="logo-container">
+      <a href="#" class="home-link">
+        <div class="logo">
+          <img src="/images/logo.jpg" alt="The British Interiors Logo">
+        </div>
+        <h1 class="site-title">The British Interiors</h1>
+      </a>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#dylan-sofa">Dylan Sofa</a></li>
+        <li><a href="#verona-sofa">Verona Sofa</a></li>
+        <li><a href="#u-shape-sofa">U-Shape Sofa</a></li>
+        <li><a href="#salone-sofa">Salone Sofa</a></li>
+        <li><a href="#leather-sofa">Leather Sofa</a></li>
+        <li><a href="#arm-chair">Arm Chair</a></li>
+        <li><a href="#sofabed">Sofabed Collection</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li class="price-filter-container">
+          <a href="#" class="price-filter-btn" id="price-filter-trigger">
+            <i class="fas fa-sort-amount-down"></i>
+            <span>Price</span>
+          </a>
+        </li>
+        <li class="search-container">
+          <form class="search-form">
+            <input type="text" placeholder="Search..." class="search-input" id="search-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="-webkit-appearance: none; border-radius: 20px; background-color: white; color: black;">
+            <button type="button" class="search-button" id="search-button">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Fixed search dropdown for iPhone -->
+  <div id="search-dropdown" class="search-dropdown" style="display:none;">
+    <!-- Search results will appear here -->
+  </div>
+
+  <!-- iOS Safari Visible Search Input -->
+  <input type="text" id="ios-search-input" placeholder="Search..." style="position: fixed; display: none !important; top: 106px; right: 10px; width: calc(100% - 20px); max-width: 300px; height: 40px; padding: 8px 15px; border: 3px solid #3498db; border-radius: 20px; background-color: #ffffff; color: #000000; font-size: 16px; z-index: 9999999; box-shadow: 0 4px 15px rgba(0,0,0,0.3); -webkit-appearance: none;">
+
+  <!-- Mobile Navigation Menu -->
+  <nav class="mobile-nav">
+    <ul>
+      <li><a href="#dylan-sofa">Dylan Sofa</a></li>
+      <li><a href="#verona-sofa">Verona Sofa</a></li>
+      <li><a href="#u-shape-sofa">U-Shape Sofa</a></li>
+      <li><a href="#salone-sofa">Salone Sofa</a></li>
+      <li><a href="#leather-sofa">Leather Sofa</a></li>
+      <li><a href="#arm-chair">Arm Chair</a></li>
+      <li><a href="#sofabed">Sofabed Collection</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Price dropdown placed outside header -->
+  <div id="price-dropdown">
+    <a href="#" data-sort="low-to-high">Low to High</a>
+    <a href="#" data-sort="high-to-low">High to Low</a>
+  </div>
+
+  <!-- Debug Button - Only visible during testing -->
+  <div style="text-align: center; margin: 5px 0; display: none;">
+    <button id="toggle-price" style="padding: 5px 10px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      Toggle Price Menu
+    </button>
+  </div>
+  
+  <script>
+    // Backup toggle for price menu
+    document.getElementById('toggle-price').onclick = function() {
+      var dropdown = document.getElementById('price-dropdown');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    };
+  </script>
+
+  <!-- Search dropdown container - ensures proper layering -->
+  <!-- This container has been removed as it's not needed with the original design -->
+
+  <!-- Horizontal Category Bar -->
+  <div class="category-bar">
+    <a href="#dylan-sofa" class="category">
+      <i class="fas fa-couch"></i>
+      <span>Dylan Sofa</span>
+    </a>
+    <a href="#verona-sofa" class="category">
+      <i class="fas fa-couch"></i>
+      <span>Verona Sofa</span>
+    </a>
+    <a href="#u-shape-sofa" class="category">
+      <i class="fas fa-couch"></i>
+      <span>U-Shape Sofa</span>
+    </a>
+    <a href="#salone-sofa" class="category">
+      <i class="fas fa-couch"></i>
+      <span>Salone Sofa</span>
+    </a>
+    <a href="#leather-sofa" class="category">
+      <i class="fas fa-couch"></i>
+      <span>Leather Sofa</span>
+    </a>
+    <a href="#arm-chair" class="category">
+      <i class="fas fa-chair"></i>
+      <span>Arm Chair</span>
+    </a>
+    <a href="#sofabed" class="category">
+      <i class="fas fa-bed"></i>
+      <span>Sofabed</span>
+    </a>
+  </div>
+
+  <!-- Hero Image Slider -->
+  <div class="hero-slider">
+    <div class="slides">
+      <div class="slide active">
+        <img src="/images/hero1.jpg" alt="Luxury Sofa 1">
+        <div class="shop-now-container">
+          <a href="#dylan-sofa" class="shop-now-btn">SHOP DYLAN SOFA</a>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/images/hero2.jpg" alt="Luxury Sofa 2">
+        <div class="shop-now-container">
+          <a href="#verona-sofa" class="shop-now-btn">SHOP VERONA SOFA</a>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/images/hero3.jpg" alt="Luxury Sofa 3">
+        <div class="shop-now-container">
+          <a href="#u-shape-sofa" class="shop-now-btn">SHOP U-SHAPE SOFA</a>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/images/hero4.jpg" alt="Luxury Sofa 4">
+        <div class="shop-now-container">
+          <a href="#salone-sofa" class="shop-now-btn">SHOP SALONE SOFA</a>
+        </div>
+      </div>
+    </div>
+    <button class="slider-arrow prev-arrow" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+    <button class="slider-arrow next-arrow" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+  </div>
+
+  <!-- Product Sections -->
+  <main class="product-sections">
+    <!-- Dylan Sofa Section -->
+    <section id="dylan-sofa" class="product-section">
+      <h2 class="section-title dylan-sofa-heading">Dylan Sofa Collection</h2>
+      <div class="product-grid dylan-grid">
+        <!-- Product Card 1 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/dylan-sofa1.html" class="image-link">
+              <img src="/images/Dylan Sofa/cv/greycv1.jpg" alt="Crush Velvet L-Shape Dylan Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Crush Velvet L-Shape Dylan Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£569</span>
+              <span class="current-price">£449</span>
+            </div>
+            <a href="/products/dylan-sofa1.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+        
+        <!-- Product Card 2 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/dylan-sofa2.html" class="image-link">
+              <img src="/images/Dylan Sofa/p/pcream4.jpg" alt="Plush Velvet L-Shape Dylan Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Plush Velvet L-Shape Dylan Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£569</span>
+              <span class="current-price">£449</span>
+            </div>
+            <a href="/products/dylan-sofa2.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+        
+        <!-- Product Card 3 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/dylan-sofa3.html" class="image-link">
+              <img src="/images/Dylan Sofa/j/jmink2.jpg" alt="Jumbo Cord L-Shape Dylan Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Jumbo Cord L-Shape Dylan Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£569</span>
+              <span class="current-price">£449</span>
+            </div>
+            <a href="/products/dylan-sofa3.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+        
+        <!-- Product Card 4 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/dylan-sofa4.html" class="image-link">
+              <img src="/images/Dylan Sofa/L/bb2.jpg" alt="Leather L-Shape Dylan Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Leather L-Shape Dylan Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£569</span>
+              <span class="current-price">£449</span>
+            </div>
+            <a href="/products/dylan-sofa4.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Verona Sofa Section -->
+    <section id="verona-sofa" class="product-section">
+      <h2 class="section-title">Verona Sofa Collection</h2>
+      <div class="product-grid dylan-grid">
+        <!-- Product Card 1 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/verona-corner-sofa.html" class="image-link">
+              <img src="/images/Verona Sofa/vc/vcmink2.jpg" alt="Verona Corner Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Verona Corner Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£849</span>
+              <span class="current-price">£649</span>
+            </div>
+            <a href="/products/verona-corner-sofa.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+        
+        <!-- Product Card 2 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/verona-3-2-sofa.html" class="image-link">
+              <img src="/images/Verona Sofa/v3+2/vblack2.jpg" alt="3+2 Verona Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">3+2 Verona Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£550</span>
+              <span class="current-price">£449</span>
+            </div>
+            <a href="/products/verona-3-2-sofa.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- U-Shape Sofa Section -->
+    <section id="u-shape-sofa" class="product-section">
+      <h2 class="section-title">U-Shape Sofa Collection</h2>
+      <div class="product-grid dylan-grid">
+        <!-- Product Card 1 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/bishop-u-shape-sofa.html" class="image-link">
+              <img src="/images/U-shape Sofa/bishop/bblack1.jpg" alt="Bishop U-Shape Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Bishop U-Shape Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£850</span>
+              <span class="current-price">£699</span>
+            </div>
+            <a href="/products/bishop-u-shape-sofa.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+        
+        <!-- Product Card 2 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/mini-u-shape-sofa.html" class="image-link">
+              <img src="/images/U-shape Sofa/mini/mcream1.jpg" alt="Mini U-Shape Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Mini U-Shape Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£649</span>
+              <span class="current-price">£550</span>
+            </div>
+            <a href="/products/mini-u-shape-sofa.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Salone Sofa Section -->
+    <section id="salone-sofa" class="product-section">
+      <h2 class="section-title">Salone Sofa Collection</h2>
+      <div class="product-grid dylan-grid">
+        <!-- Product Card 1 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/salone-corner-sofa.html" class="image-link">
+              <img src="/images/Salone Sofa/c/scream2.jpg" alt="Salone Corner Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Salone Corner Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£1150</span>
+              <span class="current-price">£950</span>
+            </div>
+            <a href="/products/salone-corner-sofa.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+        
+        <!-- Product Card 2 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/salone-3-2-sofa.html" class="image-link">
+              <img src="/images/Salone Sofa/3+2/black.jpg" alt="Salone 3+2 Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Salone 3+2 Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£550</span>
+              <span class="current-price">£450</span>
+            </div>
+            <a href="/products/salone-3-2-sofa.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leather Sofa Section -->
+    <section id="leather-sofa" class="product-section">
+      <h2 class="section-title">Leather Sofa Collection</h2>
+      <div class="product-grid dylan-grid">
+        <!-- Product Card 1 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/leather-corner-sofa.html" class="image-link">
+              <img src="/images/Leather Sofa/c/bg2.jpg" alt="Leather Roma Recliner Corner Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Leather Roma Recliner Corner Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£899</span>
+              <span class="current-price">£699</span>
+            </div>
+            <a href="/products/leather-corner-sofa.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+        
+        <!-- Product Card 2 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/leather-3-2-sofa.html" class="image-link">
+              <img src="/images/Leather Sofa/3+2/lb1.jpg" alt="Leather Roma Recliner 3+2 Sofa">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Leather Roma Recliner 3+2 Sofa</h3>
+            <div class="product-price">
+              <span class="old-price">£600</span>
+              <span class="current-price">£550</span>
+            </div>
+            <a href="/products/leather-3-2-sofa.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Arm Chair Section -->
+    <section id="arm-chair" class="product-section">
+      <h2 class="section-title">Arm Chair Collection</h2>
+      <div class="product-grid dylan-grid">
+        <!-- Product Card 1 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/dylan-arm-chair.html" class="image-link">
+              <img src="/images/Arm Chair/d/kgrey.jpg" alt="Dylan Arm Chair">l
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Dylan Arm Chair</h3>
+            <div class="product-price">
+              <span class="old-price">£280</span>
+              <span class="current-price">£229</span>
+            </div>
+            <a href="/products/dylan-arm-chair.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+        
+        <!-- Product Card 2 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/salone-arm-chair.html" class="image-link">
+              <img src="/images/Arm Chair/s/smink.jpg" alt="Salone Arm Chair">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Salone Arm Chair</h3>
+            <div class="product-price">
+              <span class="old-price">£399</span>
+              <span class="current-price">£349</span>
+            </div>
+            <a href="/products/salone-arm-chair.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+
+        <!-- Product Card 3 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/verona-arm-chair.html" class="image-link">
+              <img src="/images/Arm Chair/v/vmink.jpg" alt="Verona Arm Chair">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Verona Arm Chair</h3>
+            <div class="product-price">
+              <span class="old-price">£349</span>
+              <span class="current-price">£299</span>
+            </div>
+            <a href="/products/verona-arm-chair.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+        
+        <!-- Product Card 4 -->
+        <div class="product-card" style="background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/leather-recliner-arm-chair.html" class="image-link">
+              <img src="/images/Arm Chair/l/lbb.jpg" alt="Leather Recliner Arm Chair">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Leather Recliner Arm Chair</h3>
+            <div class="product-price">
+              <span class="old-price">£499</span>
+              <span class="current-price">£349</span>
+            </div>
+            <a href="/products/leather-recliner-arm-chair.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sofabed Collection Section -->
+    <section id="sofabed" class="product-section">
+      <h2 class="section-title">Sofabed Collection</h2>
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <!-- Product Card 1 -->
+        <div class="product-card" style="width: 100%; max-width: 550px; margin: 0 auto; background-color: #f2f2f2;">
+          <div class="product-image">
+            <a href="/products/modern-sofabeds.html" class="image-link">
+              <img src="/images/Sofabed/sb/sbgrey.jpg" alt="Modern Sofabeds With Storage">
+            </a>
+          </div>
+          <div class="product-info" style="background-color: #f2f2f2;">
+            <h3 class="product-title">Modern Sofabeds With Storage</h3>
+            <div class="product-price">
+              <span class="old-price">£549</span>
+              <span class="current-price">£449</span>
+            </div>
+            <div style="text-align: center;">
+              <a href="/products/modern-sofabeds.html" class="shop-now-btn">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer id="contact" class="footer">
+    <div class="footer-info">
+      <div class="footer-logo">
+        <img src="/images/logo.jpg" alt="The British Interiors Logo">
+        <h3>The British Interiors</h3>
+        <p>Quality British-made furniture for your home.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#dylan-sofa">Dylan Sofa</a></li>
+          <li><a href="#verona-sofa">Verona Sofa</a></li>
+          <li><a href="#u-shape-sofa">U-Shape Sofa</a></li>
+          <li><a href="#salone-sofa">Salone Sofa</a></li>
+          <li><a href="#leather-sofa">Leather Sofa</a></li>
+          <li><a href="#arm-chair">Arm Chair</a></li>
+          <li><a href="#sofabed">Sofabed Collection</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Info</h4>
+        <p><i class="fas fa-map-marker-alt"></i> Nottingham, England, NG7 7LJ, United Kingdom </p>
+        <p><i class="fas fa-phone"></i> +44 7351 898651</p>
+        <p><i class="fas fa-clock"></i> Mon-Sat: 24/7</p>
+      </div>
+      <div class="footer-social">
+        <h4>Follow Us</h4>
+        <p>Give us reviews on TikTok and Instagram</p>
+        <div class="social-links">
+          <a href="https://www.tiktok.com/@thebritishinterior" target="_blank" aria-label="TikTok">
+            <i class="fab fa-tiktok"></i>
+          </a>
+          <a href="https://www.instagram.com/thebritish_interiors" target="_blank" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 The British Interiors. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/script.js"></script>
+  <script src="/js/smooth-scroll.js"></script>
+  <script src="/js/basket.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/mobile-menu.js"></script>
+  <script src="/js/safari-search-fix.js"></script>
+
+  <!-- Basket Button -->
+  <a href="/products/basket.html" class="basket-btn footer-utility-btn" title="View your basket">
+    <svg class="basket-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" 
+            fill="currentColor"/>
+    </svg>
+    <span class="basket-count">0</span>
+  </a>
+
+  <!-- WhatsApp Chat Support Button -->
+  <a href="https://wa.me/447351898651" 
+     class="whatsapp-btn footer-utility-btn" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     title="Need help? Chat with us on WhatsApp">
+    <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" 
+            fill="currentColor"/>
+    </svg>
+  </a>
+
+  <!-- A simple debug toggle button outside the nav structure -->
+  <div style="position: fixed; bottom: 10px; left: 10px; background: white; border: 1px solid #ddd; padding: 5px; z-index: 10000; display: none;" class="footer-utility-btn">
+    <button id="debug-toggle" style="background: #3498db; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+      Toggle Price Menu
+    </button>
+  </div>
+
+  <script>
+    // Debug price menu
+    document.getElementById('debug-toggle').addEventListener('click', function() {
+      const dropdown = document.querySelector('.price-filter-content');
+      dropdown.classList.toggle('show');
+      console.log('Debug toggle clicked, dropdown state:', dropdown.classList.contains('show'));
+    });
+  </script>
+
+  <!-- Before your closing body tag -->
+  <script>
+    // Safari/iOS specific fix for search functionality
+    (function() {
+      // Detect Safari and iOS
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      
+      if (isSafari || isIOS) {
+        console.log('Safari/iOS detected, applying fixes');
+        document.body.classList.add('safari-browser');
+        document.body.classList.add('ios-device');
+        
+        // Apply more aggressive iOS fix
+        document.addEventListener('DOMContentLoaded', function() {
+          const searchButton = document.querySelector('.search-button');
+          const searchInput = document.querySelector('.search-input');
+          const searchContainer = document.querySelector('.search-container');
+          
+          if (searchButton && searchInput) {
+            // Completely replace the click handler for iOS
+            searchButton.addEventListener('touchend', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              
+              // iOS-specific toggle
+              if (!searchInput.classList.contains('active')) {
+                // Opening search
+                searchInput.classList.add('active');
+                document.body.classList.add('search-active');
+                
+                // Force inline styles for iOS
+                searchInput.style.opacity = '1';
+                searchInput.style.visibility = 'visible';
+                searchInput.style.display = 'block';
+                searchInput.style.width = 'calc(100% - 20px)';
+                searchInput.style.maxWidth = '300px';
+                searchInput.style.position = 'fixed';
+                searchInput.style.top = '106px';
+                searchInput.style.right = '10px';
+                searchInput.style.zIndex = '20000';
+                searchInput.style.padding = '8px 15px';
+                searchInput.style.border = '1px solid #ddd';
+                searchInput.style.borderRadius = '20px';
+                searchInput.style.backgroundColor = 'white';
+                searchInput.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                
+                // iOS needs more time
+                setTimeout(function() {
+                  try {
+                    searchInput.focus();
+                  } catch(err) {
+                    console.log('Focus error:', err);
+                  }
+                }, 400);
+              } else {
+                // Closing search
+                searchInput.classList.remove('active');
+                document.body.classList.remove('search-active');
+                
+                // Hide with inline styles for iOS
+                searchInput.style.opacity = '0';
+                searchInput.style.visibility = 'hidden';
+                searchInput.style.width = '0';
+                searchInput.style.padding = '0';
+                searchInput.style.border = 'none';
+                
+                // Hide dropdown if visible
+                const searchDropdown = document.querySelector('.search-dropdown');
+                if (searchDropdown) {
+                  searchDropdown.classList.remove('show');
+                  searchDropdown.style.display = 'none';
+                }
+              }
+              
+              return false;
+            }, { passive: false, capture: true });
+            
+            // Use click as fallback
+            searchButton.addEventListener('click', function(e) {
+              if (isIOS) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Same logic as touchend for fallback
+                if (!searchInput.classList.contains('active')) {
+                  searchInput.classList.add('active');
+                  document.body.classList.add('search-active');
+                  
+                  // Force inline styles
+                  searchInput.style.opacity = '1';
+                  searchInput.style.visibility = 'visible';
+                  searchInput.style.display = 'block';
+                  searchInput.style.width = 'calc(100% - 20px)';
+                  searchInput.style.maxWidth = '300px';
+                  searchInput.style.position = 'fixed';
+                  searchInput.style.top = '106px';
+                  searchInput.style.right = '10px';
+                  searchInput.style.zIndex = '20000';
+                  searchInput.style.padding = '8px 15px';
+                  searchInput.style.border = '1px solid #ddd';
+                  searchInput.style.borderRadius = '20px';
+                  searchInput.style.backgroundColor = 'white';
+                  searchInput.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                  
+                  setTimeout(function() {
+                    searchInput.focus();
+                  }, 400);
+                }
+                
+                return false;
+              }
+            }, { passive: false, capture: true });
+          }
+        });
+      }
+    })();
+  </script>
+
+  <!-- Mobile Search Fix Script - Place right before closing body tag -->
+  <script>
+    // Direct mobile search button click handler
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get search elements
+      const searchButton = document.querySelector('.search-button');
+      const searchInput = document.querySelector('.search-input');
+      
+      if (searchButton && searchInput) {
+        // Ensure search input is hidden initially
+        searchInput.classList.remove('active');
+        searchInput.style.display = 'none';
+        searchInput.style.visibility = 'hidden';
+        searchInput.style.opacity = '0';
+        
+        // Add multiple event listeners to ensure the click is captured
+        ['click', 'touchstart', 'touchend', 'mousedown', 'mouseup'].forEach(function(eventType) {
+          searchButton.addEventListener(eventType, function(e) {
+            // Prevent default behavior
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Force active state
+            if (!searchInput.classList.contains('active')) {
+              console.log('Mobile search button clicked - activating search');
+              
+              // Add active class
+              searchInput.classList.add('active');
+              document.body.classList.add('search-active');
+              
+              // Safari reflow trick - first set opacity to 0
+              searchInput.style.opacity = '0';
+              searchInput.style.display = 'block';
+              searchInput.style.visibility = 'visible';
+              searchInput.style.width = 'calc(100% - 20px)';
+              searchInput.style.maxWidth = '300px';
+              searchInput.style.position = 'fixed';
+              searchInput.style.top = '106px';
+              searchInput.style.right = '10px';
+              searchInput.style.zIndex = '1000000';
+              searchInput.style.padding = '8px 15px';
+              searchInput.style.border = '3px solid #3498db';
+              searchInput.style.borderRadius = '20px';
+              searchInput.style.backgroundColor = 'white';
+              searchInput.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+              
+              // Force reflow for Safari
+              void searchInput.offsetWidth;
+              
+              // Now make visible
+              searchInput.style.opacity = '1';
+              
+              // Try to focus with delay after reflow
+              setTimeout(function() {
+                try {
+                  searchInput.focus();
+                  console.log('Search input focused');
+                } catch (err) {
+                  console.error('Focus error:', err);
+                }
+              }, 50);
+            } else {
+              console.log('Mobile search button clicked - deactivating search');
+              
+              // Remove active class
+              searchInput.classList.remove('active');
+              document.body.classList.remove('search-active');
+              
+              // Force inline styles
+              searchInput.style.opacity = '0';
+              searchInput.style.visibility = 'hidden';
+              searchInput.style.width = '0';
+              searchInput.style.padding = '0';
+              searchInput.style.border = 'none';
+              
+              // Hide dropdown if visible
+              const searchDropdown = document.querySelector('.search-dropdown');
+              if (searchDropdown) {
+                searchDropdown.classList.remove('show');
+                searchDropdown.style.display = 'none';
+              }
+            }
+            
+            // Debug logs
+            console.log('Search input active state:', searchInput.classList.contains('active'));
+            console.log('Search input style display:', searchInput.style.display);
+            console.log('Search input style visibility:', searchInput.style.visibility);
+            
+            return false;
+          }, { passive: false, capture: true });
+        });
+        
+        // Hide search input when clicking elsewhere
+        document.addEventListener('click', function(e) {
+          if (searchInput.classList.contains('active') && 
+              e.target !== searchInput && 
+              e.target !== searchButton && 
+              !searchButton.contains(e.target)) {
+            searchInput.classList.remove('active');
+            document.body.classList.remove('search-active');
+            searchInput.style.display = 'none';
+            searchInput.style.visibility = 'hidden';
+            searchInput.style.opacity = '0';
+            
+            // Hide dropdown if visible
+            const searchDropdown = document.querySelector('.search-dropdown');
+            if (searchDropdown) {
+              searchDropdown.classList.remove('show');
+              searchDropdown.style.display = 'none';
+            }
+          }
+        });
+        
+        // Also handle touchstart for better mobile experience
+        document.addEventListener('touchstart', function(e) {
+          if (searchInput.classList.contains('active') && 
+              e.target !== searchInput && 
+              e.target !== searchButton && 
+              !searchButton.contains(e.target)) {
+            searchInput.classList.remove('active');
+            document.body.classList.remove('search-active');
+            searchInput.style.display = 'none';
+            searchInput.style.visibility = 'hidden';
+            searchInput.style.opacity = '0';
+          }
+        }, {passive: true});
+      }
+    });
+  </script>
+
+  <!-- Inline script for direct search button handling -->
+  <script>
+    // Direct toggle function for mobile search
+    function toggleMobileSearch(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      
+      const searchInput = document.querySelector('.search-input');
+      if (!searchInput) return false;
+      
+      // Toggle active state
+      const isActive = searchInput.classList.contains('active');
+      
+      if (!isActive) {
+        // Activate search
+        searchInput.classList.add('active');
+        document.body.classList.add('search-active');
+        
+        // Apply direct styles
+        searchInput.style.display = 'block';
+        searchInput.style.opacity = '1';
+        searchInput.style.visibility = 'visible';
+        searchInput.style.width = 'calc(100% - 20px)';
+        searchInput.style.maxWidth = '300px';
+        searchInput.style.position = 'fixed';
+        searchInput.style.top = '106px';
+        searchInput.style.right = '10px';
+        searchInput.style.zIndex = '1000000';
+        searchInput.style.padding = '8px 15px';
+        searchInput.style.border = '1px solid #ddd';
+        searchInput.style.borderRadius = '20px';
+        searchInput.style.backgroundColor = 'white';
+        searchInput.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        
+        // Focus with delay
+        setTimeout(function() {
+          searchInput.focus();
+        }, 300);
+      } else {
+        // Deactivate search
+        searchInput.classList.remove('active');
+        document.body.classList.remove('search-active');
+        
+        // Hide with direct styles
+        searchInput.style.opacity = '0';
+        searchInput.style.visibility = 'hidden';
+        searchInput.style.width = '0';
+        searchInput.style.padding = '0';
+        searchInput.style.border = 'none';
+        
+        // Hide dropdown if visible
+        const searchDropdown = document.querySelector('.search-dropdown');
+        if (searchDropdown) {
+          searchDropdown.classList.remove('show');
+          searchDropdown.style.display = 'none';
+        }
+      }
+      
+      console.log('Toggle mobile search - active:', !isActive);
+      return false;
+    }
+  </script>
+
+  <!-- iPhone Safari Search Fix - Minimal modification to fix iPhone search -->
+  <script>
+    (function() {
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check if it's iPhone Safari
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const isSafari = /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS/i.test(navigator.userAgent);
+        
+        // Add iOS detection class if needed
+        if (isIOS || (isSafari && window.innerWidth <= 768)) {
+          document.body.classList.add('ios-device');
+        }
+        
+        // Get search elements
+        const searchButton = document.getElementById('search-button');
+        const searchInput = document.getElementById('search-input');
+        const searchForm = document.querySelector('.search-form');
+        
+        // Only run on mobile devices
+        if (window.innerWidth <= 768 && searchButton && searchInput) {
+          // Handle the search button click specifically for mobile
+          searchButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Toggle active state
+            const isActive = searchInput.classList.contains('active');
+            
+            if (!isActive) {
+              // Show search input
+              searchInput.classList.add('active');
+              
+              // Focus with delay for iOS
+              setTimeout(function() {
+                searchInput.focus();
+              }, 300);
+            } else {
+              // Hide search input and reset
+              searchInput.classList.remove('active');
+              searchInput.value = '';
+            }
+          });
+          
+          // Special handling for iOS
+          if (isIOS || isSafari) {
+            searchButton.addEventListener('touchstart', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              
+              const isActive = searchInput.classList.contains('active');
+              
+              if (!isActive) {
+                searchInput.classList.add('active');
+                setTimeout(function() {
+                  searchInput.focus();
+                }, 300);
+              }
+            }, { passive: false });
+          }
+          
+          // Hide search when clicking elsewhere
+          document.addEventListener('click', function(e) {
+            if (searchInput.classList.contains('active') && 
+                !searchButton.contains(e.target) && 
+                !searchInput.contains(e.target)) {
+              searchInput.classList.remove('active');
+            }
+          });
+          
+          // Handle form submission
+          if (searchForm) {
+            searchForm.addEventListener('submit', function(e) {
+              e.preventDefault();
+              if (searchInput.value.trim()) {
+                processSearch(searchInput.value);
+                searchInput.value = '';
+                searchInput.classList.remove('active');
+              }
+            });
+          }
+        }
+      });
+    })();
+  </script>
+
+  <!-- Simple search function to handle basic search operations -->
+  <script>
+    // Process search query and redirect to appropriate section
+    function processSearch(query) {
+      if (!query || !query.trim()) return false;
+      
+      query = query.toLowerCase().trim();
+      
+      // Redirect based on search term
+      if (query.includes('dylan')) {
+        window.location.href = '#dylan-sofa';
+      } else if (query.includes('verona')) {
+        window.location.href = '#verona-sofa';
+      } else if (query.includes('u-shape') || query.includes('u shape')) {
+        window.location.href = '#u-shape-sofa';
+      } else if (query.includes('salone')) {
+        window.location.href = '#salone-sofa';
+      } else if (query.includes('leather')) {
+        window.location.href = '#leather-sofa';
+      } else if (query.includes('chair')) {
+        window.location.href = '#arm-chair';
+      } else if (query.includes('sofabed') || query.includes('sofa bed')) {
+        window.location.href = '#sofabed';
+      } else if (query.includes('sofa')) {
+        window.location.href = '#dylan-sofa';
+      } else {
+        // Default to first section if no match
+        window.location.href = '#dylan-sofa';
+      }
+      
+      return true;
+    }
+    
+    // Initialize search form
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchForm = document.querySelector('.search-form');
+      const searchInput = document.getElementById('search-input');
+      
+      if (searchForm && searchInput) {
+        searchForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          if (processSearch(searchInput.value)) {
+            searchInput.value = '';
+          }
+        });
+      }
+    });
+  </script>
+
+  <!-- iOS Safari Search Fix Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Detect iOS Safari
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isSafari = /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS/i.test(navigator.userAgent);
+      
+      if (isIOS || isSafari) {
+        // Add iOS detection class to body
+        document.body.classList.add('ios-device');
+        
+        // Get search elements
+        const searchButton = document.querySelector('.search-button');
+        const searchInput = document.querySelector('.search-input');
+        
+        if (searchButton && searchInput) {
+          // Add direct event listeners for iOS Safari
+          ['touchstart', 'click', 'mousedown'].forEach(function(eventType) {
+            searchButton.addEventListener(eventType, function(e) {
+              // Don't prevent default to preserve original behavior
+              
+              // Wait a bit for the original handler to run
+              setTimeout(function() {
+                if (searchInput.classList.contains('active')) {
+                  // Force visibility on the input without affecting the button
+                  searchInput.style.display = 'block';
+                  searchInput.style.visibility = 'visible';
+                  searchInput.style.opacity = '1';
+                  searchInput.style.backgroundColor = 'white';
+                  searchInput.style.color = '#333';
+                  
+                  // Focus with delay
+                  setTimeout(function() {
+                    searchInput.focus();
+                  }, 300);
+                }
+              }, 50);
+            }, false);
+          });
+        }
+      }
+    });
+  </script>
+
+  <!-- Direct Safari iOS search input visibility fix -->
+  <script>
+    (function() {
+      // Only run on Safari iOS
+      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      var isSafari = /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS/i.test(navigator.userAgent);
+      
+      if (isIOS && isSafari) {
+        // Function to make search input highly visible
+        function makeSearchInputVisible() {
+          var searchInput = document.querySelector('.search-input');
+          if (searchInput && searchInput.classList.contains('active')) {
+            // Apply high-visibility styles
+            searchInput.style.display = 'block';
+            searchInput.style.visibility = 'visible';
+            searchInput.style.opacity = '1';
+            searchInput.style.position = 'fixed';
+            searchInput.style.top = '106px';
+            searchInput.style.right = '10px';
+            searchInput.style.width = 'calc(100% - 20px)';
+            searchInput.style.maxWidth = '300px';
+            searchInput.style.height = '36px';
+            searchInput.style.padding = '8px 15px';
+            searchInput.style.border = '2px solid #3498db';
+            searchInput.style.borderRadius = '20px';
+            searchInput.style.backgroundColor = '#ffffff';
+            searchInput.style.color = '#000000';
+            searchInput.style.fontSize = '16px';
+            searchInput.style.zIndex = '9999999';
+            searchInput.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+            searchInput.style.webkitAppearance = 'none';
+          }
+        }
+        
+        // Run immediately and periodically check
+        setTimeout(makeSearchInputVisible, 500);
+        setInterval(makeSearchInputVisible, 1000);
+        
+        // Also monitor for click events on the search button
+        document.addEventListener('click', function(e) {
+          if (e.target.closest('.search-button')) {
+            setTimeout(makeSearchInputVisible, 100);
+            setTimeout(makeSearchInputVisible, 300);
+            setTimeout(makeSearchInputVisible, 500);
+          }
+        });
+      }
+    })();
+  </script>
+
+  <!-- Safari iOS Search Fix - Create Visible Input -->
+  <script>
+    (function() {
+      // Only run on Safari iOS
+      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      var isSafari = /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS/i.test(navigator.userAgent);
+      
+      if (isIOS && isSafari) {
+        console.log("Safari iOS detected - applying search input fix");
+        
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+          // Get original search elements
+          var searchButton = document.querySelector('.search-button');
+          var searchInput = document.querySelector('.search-input');
+          var searchForm = document.querySelector('.search-form');
+          
+          if (searchButton && searchInput) {
+            // Create a new visible search input overlay
+            var visibleInput = document.createElement('input');
+            visibleInput.type = 'text';
+            visibleInput.placeholder = 'Search...';
+            visibleInput.id = 'ios-visible-search';
+            visibleInput.style.position = 'fixed';
+            visibleInput.style.display = 'none'; // Initially hidden
+            visibleInput.style.top = '106px';
+            visibleInput.style.right = '10px';
+            visibleInput.style.width = 'calc(100% - 20px)';
+            visibleInput.style.maxWidth = '300px';
+            visibleInput.style.height = '40px';
+            visibleInput.style.padding = '8px 15px';
+            visibleInput.style.border = '3px solid #3498db';
+            visibleInput.style.borderRadius = '20px';
+            visibleInput.style.backgroundColor = '#ffffff';
+            visibleInput.style.color = '#000000';
+            visibleInput.style.fontSize = '16px';
+            visibleInput.style.zIndex = '9999999';
+            visibleInput.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+            visibleInput.style.webkitAppearance = 'none';
+            
+            // Add to body
+            document.body.appendChild(visibleInput);
+            
+            // Handle search button click
+            searchButton.addEventListener('click', function(e) {
+              // Show our visible input
+              if (visibleInput.style.display === 'none') {
+                visibleInput.style.display = 'block';
+                setTimeout(function() {
+                  visibleInput.focus();
+                }, 100);
+              } else {
+                visibleInput.style.display = 'none';
+              }
+            });
+            
+            // Sync visible input with real input
+            visibleInput.addEventListener('input', function() {
+              searchInput.value = visibleInput.value;
+            });
+            
+            // Handle form submission
+            searchForm.addEventListener('submit', function(e) {
+              searchInput.value = visibleInput.value;
+            });
+            
+            // Hide visible input when clicking elsewhere
+            document.addEventListener('click', function(e) {
+              if (e.target !== visibleInput && e.target !== searchButton && !searchButton.contains(e.target)) {
+                visibleInput.style.display = 'none';
+              }
+            });
+          }
+        });
+      }
+    })();
+  </script>
+
+  <!-- iOS Safari Search Input Handler -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Detect iOS Safari
+      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      var isSafari = /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS/i.test(navigator.userAgent);
+      
+      if (isIOS && isSafari) {
+        console.log("iOS Safari detected - activating visible search input");
+        
+        // Get elements
+        var searchButton = document.querySelector('.search-button');
+        var originalInput = document.querySelector('.search-input');
+        var visibleInput = document.getElementById('ios-search-input');
+        
+        if (searchButton && originalInput && visibleInput) {
+          // Ensure the input is hidden initially
+          visibleInput.style.display = 'none';
+          originalInput.classList.remove('active');
+          
+          // Handle search button click
+          searchButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Toggle visibility with Safari reflow trick
+            if (visibleInput.style.display === 'none' || visibleInput.style.display === '') {
+              // First set opacity to 0
+              visibleInput.style.opacity = '0';
+              visibleInput.style.display = 'block';
+              
+              // Force reflow for Safari
+              void visibleInput.offsetWidth;
+              
+              // Now make visible
+              visibleInput.style.opacity = '1';
+              
+              // Focus with delay after reflow
+              setTimeout(function() {
+                visibleInput.focus();
+              }, 50);
+            } else {
+              visibleInput.style.display = 'none';
+            }
+            
+            return false;
+          }, true);
+          
+          // Sync inputs
+          visibleInput.addEventListener('input', function() {
+            originalInput.value = visibleInput.value;
+            
+            // Trigger search functionality
+            var event = new Event('input', { bubbles: true });
+            originalInput.dispatchEvent(event);
+          });
+          
+          // Handle form submission
+          var searchForm = originalInput.closest('form');
+          if (searchForm) {
+            searchForm.addEventListener('submit', function(e) {
+              originalInput.value = visibleInput.value;
+              visibleInput.style.display = 'none';
+            });
+          }
+          
+          // Hide when clicking elsewhere - improved version
+          document.addEventListener('click', function(e) {
+            if (visibleInput.style.display === 'block' && 
+                e.target !== visibleInput && 
+                e.target !== searchButton && 
+                !searchButton.contains(e.target)) {
+              visibleInput.style.display = 'none';
+            }
+          });
+          
+          // Also handle touchstart for better mobile experience
+          document.addEventListener('touchstart', function(e) {
+            if (visibleInput.style.display === 'block' && 
+                e.target !== visibleInput && 
+                e.target !== searchButton && 
+                !searchButton.contains(e.target)) {
+              visibleInput.style.display = 'none';
+            }
+          }, {passive: true});
+        }
+      }
+    });
+  </script>
+</body>
+</html>

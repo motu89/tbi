@@ -1,0 +1,1022 @@
+/* Mobile Styles - Only applies to screens 768px or smaller */
+@media only screen and (max-width: 768px) {
+  /* General Adjustments */
+  .container {
+    padding: 0 3%;
+  }
+  
+  /* Add body padding to account for fixed elements */
+  body {
+    padding-top: 106px !important; /* Adjusted for taller announcement bar */
+  }
+
+  /* Announcement Bar */
+  .announcement-bar {
+    padding: 6px 8px;
+    font-size: 11px;
+    line-height: 1.4;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2500;
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    height: auto;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .announcement-content {
+    padding: 0 5px;
+    width: 100%;
+    white-space: normal;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .announcement-content span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: 1.4;
+    font-weight: 400;
+    transform: none;
+  }
+
+  /* Header Styles - Exact restoration */
+  .main-header {
+    padding: 12px 3%;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 42px; /* Adjusted for taller announcement bar */
+    left: 0;
+    height: 64px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    z-index: 2400;
+  }
+
+  .logo-container {
+    max-width: 180px;
+    order: 2;
+    flex-grow: 1;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo {
+    margin: 0;
+    width: 28px;
+    height: 28px;
+  }
+
+  .site-title {
+    font-size: 0.75rem;
+    margin-left: 5px;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: unset;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+  }
+
+  /* Mobile Menu Toggle Button - Make sure it's visible */
+  .mobile-menu-toggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--primary-color);
+    cursor: pointer;
+    order: 1;
+    margin-right: 5px;
+    z-index: 10;
+    position: relative;
+  }
+
+  /* Hide navigation links on mobile */
+  .main-nav ul li:not(.search-container) {
+    display: none;
+  }
+
+  /* Show only essential elements in header */
+  .main-nav {
+    justify-content: flex-end;
+    width: auto;
+    order: 3;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .main-nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  /* Hide price filter in mobile */
+  .price-filter-container {
+    display: none;
+  }
+
+  /* Search container styling */
+  .search-container {
+    position: relative;
+    margin: 0 3px;
+    z-index: 10000; /* Ensure high z-index */
+  }
+
+  .search-form {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    min-width: auto;
+    position: relative;
+  }
+
+  /* Fix for Safari */
+  .search-input {
+    position: fixed; /* Change from absolute to fixed */
+    right: 10px; /* Adjust position */
+    top: 106px; /* Match the mobile header height */
+    width: 0;
+    padding: 0;
+    border: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Simplified transition */
+    z-index: 10000; /* Higher z-index to ensure visibility */
+    height: 36px;
+    -webkit-appearance: none; /* Fix for Safari */
+    border-radius: 0; /* Reset for Safari */
+    box-sizing: border-box; /* Ensure consistent sizing */
+  }
+
+  /* Safari-specific rules */
+  @supports (-webkit-touch-callout: none) {
+    .search-input {
+      opacity: 0;
+      visibility: hidden;
+      width: calc(100% - 20px);
+      max-width: 300px;
+    }
+    
+    .search-input.active {
+      opacity: 1 !important;
+      visibility: visible !important;
+      width: calc(100% - 20px) !important;
+      display: block !important;
+    }
+  }
+
+  .search-input.active {
+    width: calc(100% - 20px); /* Take most of screen width */
+    max-width: 300px; /* Maximum width */
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    opacity: 1;
+    visibility: visible;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    right: 10px; /* Consistent positioning */
+    display: block; /* Ensure it's displayed */
+  }
+
+  .search-button {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background-color: #f5f9fd;
+    color: var(--accent-color);
+    border: 1px solid rgba(52, 152, 219, 0.2);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    z-index: 9999; /* Ensure button stays above other elements */
+    position: relative; /* Add this */
+  }
+
+  .search-button i {
+    font-size: 16px;
+    pointer-events: none; /* Prevent click issues on the icon */
+  }
+
+  /* Mobile Navigation Dropdown */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 106px; /* Adjusted for taller announcement bar + header */
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 2000;
+    padding: 0;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .mobile-nav.active {
+    display: block !important;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .mobile-nav ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-nav li {
+    width: 100%;
+    margin: 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .mobile-nav li:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-nav a {
+    display: block;
+    padding: 15px;
+    color: var(--dark-gray);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .mobile-nav a:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Highlight active section */
+  .mobile-nav li a.active,
+  .mobile-nav li a:active {
+    background-color: #f8f8f8;
+    color: #3498db;
+  }
+
+  /* Category Bar - Keep it white on all pages */
+  .category-bar {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 0;
+    margin-bottom: 15px;
+    position: relative;
+    scrollbar-width: none; /* Firefox */
+    background-color: white;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  
+  .category-bar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  
+  /* Add scroll indicators - for white background */
+  .category-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 40px;
+    background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1));
+    pointer-events: none;
+  }
+  
+  .category-bar::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 15px;
+    background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,1));
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* Product card styling - force grey background for home page */
+  body.home-page .product-card,
+  .home-page .product-card,
+  html body.home-page .product-card {
+    background-color: #f2f2f2 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  body.home-page .product-info,
+  .home-page .product-info,
+  html body.home-page .product-info {
+    background-color: #f2f2f2 !important;
+    padding: 12px !important;
+  }
+
+  /* Override any transitions or transforms */
+  body.home-page .product-card:hover,
+  body.home-page .product-card:active,
+  body.home-page .product-card:focus,
+  .home-page .product-card:hover,
+  .home-page .product-card:active,
+  .home-page .product-card:focus,
+  html body.home-page .product-card:hover,
+  html body.home-page .product-card:active,
+  html body.home-page .product-card:focus {
+    background-color: #f2f2f2 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Extra specificity for all product sections */
+  body.home-page #dylan-sofa .product-card,
+  body.home-page #verona-sofa .product-card,
+  body.home-page #u-shape-sofa .product-card,
+  body.home-page #salone-sofa .product-card,
+  body.home-page #leather-sofa .product-card,
+  body.home-page #arm-chair .product-card,
+  body.home-page #sofabed .product-card {
+    background-color: #f2f2f2 !important;
+  }
+
+  body.home-page #dylan-sofa .product-info,
+  body.home-page #verona-sofa .product-info,
+  body.home-page #u-shape-sofa .product-info,
+  body.home-page #salone-sofa .product-info,
+  body.home-page #leather-sofa .product-info,
+  body.home-page #arm-chair .product-info,
+  body.home-page #sofabed .product-info {
+    background-color: #f2f2f2 !important;
+  }
+
+  /* Ensure product pages keep white background */
+  body[data-page] .product-card,
+  body.product-page .product-card {
+    background-color: white !important;
+  }
+
+  body[data-page] .product-info,
+  body.product-page .product-info {
+    background-color: white !important;
+  }
+
+  /* Dylan Sofa - extra specific targeting */
+  .dylan-grid .product-card {
+    margin-bottom: 15px !important;
+    background-color: #f2f2f2 !important;
+  }
+  
+  .dylan-grid .product-info {
+    padding: 10px 5px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    background-color: #f2f2f2 !important;
+  }
+
+  .category {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    margin-right: 15px;
+    min-width: 120px;
+    justify-content: center;
+    padding: 8px 12px;
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+  }
+  
+  .category:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .category:first-child {
+    margin-left: 15px;
+  }
+  
+  .category i {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: var(--accent-color);
+  }
+  
+  .category span {
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* Hero Slider - Mobile Only Fixes */
+  .hero-slider {
+    height: auto !important;
+    min-height: unset !important;
+    max-height: unset !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 0 !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    position: relative !important;
+    left: 0 !important; /* Ensure it's aligned with the left edge */
+    right: 0 !important;
+    transform: none !important; /* Remove any transforms */
+  }
+
+  .slides {
+    height: auto !important;
+    width: 100% !important;
+    display: block !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  .slide {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    display: none;
+    opacity: 0;
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+
+  .slide.active {
+    opacity: 1;
+    z-index: 1;
+    display: block !important;
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  .slide img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    object-fit: contain !important;
+    margin: 0 auto !important; /* Center the image */
+    max-width: 100% !important;
+    position: relative !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+
+  /* Improve shop now button visibility in hero slider */
+  .shop-now-container {
+    bottom: 20px !important;
+    position: absolute !important;
+    width: 100% !important;
+    text-align: center !important;
+    z-index: 5 !important;
+  }
+
+  .shop-now-btn {
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    white-space: nowrap !important;
+    display: inline-block !important;
+    background-color: rgba(52, 152, 219, 0.9) !important; /* Blue background with opacity */
+    color: white !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
+    border-radius: 25px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  }
+
+  .hero-slider .shop-now-btn {
+    transform: scale(1) !important; /* Ensure no transform is applied */
+    opacity: 1 !important; /* Ensure full opacity */
+  }
+
+  /* Slider arrow improvements for mobile - restored to original design */
+  .slider-arrow {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    opacity: 0.8;
+    background-color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  .prev-arrow {
+    left: 10px;
+  }
+
+  .next-arrow {
+    right: 10px;
+  }
+
+  /* Product Sections - Ensure no gap on mobile */
+  .product-sections {
+    margin-top: 10px !important; /* Add space between hero and product sections */
+    padding-top: 0 !important;
+  }
+  
+  #dylan-sofa {
+    margin-top: 0 !important;
+    padding-top: 15px !important; /* Increase padding at top */
+    background-color: #f9f9f9 !important;
+    border-top: 1px solid #eee !important;
+  }
+  
+  .dylan-sofa-heading {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 0;
+    line-height: 1.2;
+    text-align: center;
+  }
+  
+  /* Product Sections */
+  .product-section {
+    padding: 10px 0 20px;
+  }
+ 
+  h2.section-title {
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+ 
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .product-card {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+ 
+  .product-info {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+ 
+  .product-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+ 
+  .product-price {
+    margin-bottom: 10px;
+  }
+ 
+  .old-price {
+    font-size: 12px;
+  }
+ 
+  .current-price {
+    font-size: 16px;
+  }
+  
+  /* Make Shop Now button more visible on mobile */
+  .product-info .shop-now-btn,
+  .product-card .shop-now-btn {
+    display: block !important;
+    background-color: #3498db !important;
+    color: white !important;
+    padding: 8px 15px !important;
+    border-radius: 20px !important;
+    text-align: center !important;
+    margin-top: 5px !important;
+    font-weight: 500 !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+    width: 80% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  /* Footer - Additional styles for consistency across all pages */
+  footer.footer,
+  .footer {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 30px 0 20px;
+    text-align: center;
+    margin-top: 30px;
+    width: 100%;
+  }
+
+  footer .footer-info,
+  .footer .footer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  /* Quick Links section styling */
+  .footer-links h4 {
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .footer-links h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background-color: var(--accent-color);
+  }
+  
+  /* Contact Info section styling */
+  .footer-contact h4 {
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .footer-contact h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background-color: var(--accent-color);
+  }
+
+  /* Social Media section styling */
+  .footer-social h4 {
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .footer-social h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background-color: var(--accent-color);
+  }
+
+  .footer-logo, .footer-links, .footer-contact, .footer-social {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .footer-logo img {
+    margin: 0 auto 10px;
+    display: block;
+  }
+  
+  .footer-logo h3 {
+    margin: 0 auto 8px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .footer-logo p {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .footer-links ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .footer-links li {
+    margin: 5px 10px;
+  }
+
+  .footer-contact p {
+    justify-content: flex-start;
+    display: flex;
+    align-items: flex-start;
+    margin: 0 auto 10px;
+    width: 100%;
+    max-width: 280px;
+    text-align: left;
+  }
+  
+  .footer-contact i {
+    margin-right: 10px;
+    font-size: 16px;
+    margin-top: 3px;
+    min-width: 16px;
+  }
+  
+  /* Fix for location address specifically */
+  .footer-contact p:first-of-type {
+    align-items: flex-start;
+  }
+  
+  .footer-contact p:first-of-type i {
+    margin-top: 3px;
+  }
+
+  .copyright {
+    text-align: center;
+    font-size: 12px;
+    padding: 10px 15px;
+    margin: 0 auto;
+  }
+
+  /* Utility Buttons */
+  .whatsapp-btn {
+    right: 15px;
+    bottom: 15px;
+    width: 45px;
+    height: 45px;
+  }
+
+  .basket-btn {
+    right: 15px;
+    bottom: 70px;
+    width: 45px;
+    height: 45px;
+  }
+
+  /* Price dropdown positioning */
+  #price-dropdown {
+    top: 58px !important;
+    left: auto !important;
+    right: 45px !important;
+    width: 150px;
+    z-index: 1001;
+  }
+  
+  /* First product section after hero slider - special treatment */
+  .hero-slider + .product-sections .product-section:first-child {
+    margin-top: 0;
+    padding-top: 5px;
+  }
+
+  /* Adjust main container spacing */
+  main.product-sections {
+    margin-top: 0;
+    padding-top: 5px;
+  }
+
+  /* Dylan Sofa specific styles for mobile */
+  .dylan-grid .product-card {
+    margin-bottom: 15px !important;
+  }
+  
+  .dylan-grid .product-info {
+    padding: 10px 5px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  
+  .dylan-grid .shop-now-btn {
+    display: block !important;
+    background-color: #3498db !important;
+    color: white !important;
+    padding: 8px 15px !important;
+    border-radius: 20px !important;
+    text-align: center !important;
+    margin-top: 5px !important;
+    font-weight: 500 !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+    width: 80% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Sofabed section specific styles for mobile */
+  #sofabed .product-card {
+    margin-bottom: 15px !important;
+    width: 90% !important; /* Reduce width from both sides */
+    max-width: 400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+  }
+  
+  #sofabed .product-info {
+    padding: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  
+  #sofabed .product-info div {
+    text-align: center !important;
+    width: 100% !important;
+  }
+  
+  #sofabed .product-title {
+    font-size: 15px !important;
+    margin-bottom: 8px !important;
+    font-weight: 500 !important;
+  }
+  
+  #sofabed .product-price {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-bottom: 12px !important;
+    width: 100% !important;
+  }
+  
+  #sofabed .old-price {
+    margin-right: 10px !important;
+  }
+  
+  #sofabed .current-price {
+    color: #3498db !important;
+    font-weight: 600 !important;
+  }
+  
+  #sofabed .shop-now-btn {
+    display: inline-block !important;
+    background-color: #3498db !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    border-radius: 25px !important;
+    text-align: center !important;
+    margin-top: 5px !important;
+    font-weight: 500 !important;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2) !important;
+    width: 80% !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .footer-social p {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #bdc3c7;
+  }
+  
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  /* iOS-specific fixes */
+  .ios-device .search-input.active {
+    position: fixed !important;
+    top: 106px !important;
+    right: 10px !important;
+    width: calc(100% - 20px) !important;
+    max-width: 300px !important;
+    padding: 8px 15px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 20px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: white !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+    z-index: 100000 !important;
+    display: block !important;
+    -webkit-appearance: none !important;
+    transform: none !important;
+    transition: none !important;
+    height: 36px !important;
+  }
+  
+  /* Force hardware acceleration for smoother transitions on iOS */
+  .ios-device .search-input,
+  .ios-device .search-dropdown {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+  
+  /* Ensure dropdown always shows above header in iOS */
+  .ios-device .search-dropdown.show {
+    position: fixed !important;
+    top: 150px !important;
+    right: 10px !important;
+    left: auto !important;
+    width: calc(100% - 20px) !important;
+    max-width: 300px !important;
+    z-index: 100000 !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background-color: white !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* Fix for Chrome mobile search disappearing */
+  .search-input.active {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: auto !important;
+    touch-action: auto !important;
+  }
+
+  /* Prevent search from disappearing on touch */
+  .search-active .search-input.active {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: fixed !important;
+  }
+} 

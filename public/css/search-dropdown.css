@@ -1,0 +1,325 @@
+/* Search Container */
+.search-container {
+  position: relative;
+  z-index: 10000;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 14px;
+  width: 180px;
+  transition: all 0.3s ease;
+  background-color: #f5f9fd;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.search-button {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #f5f9fd;
+  color: #3498db;
+  border: 1px solid rgba(52, 152, 219, 0.2);
+  cursor: pointer;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.search-button:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Search Dropdown */
+.search-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 300px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: none;
+  z-index: 10000;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.search-dropdown.show {
+  display: block;
+}
+
+/* Mobile Adjustments */
+@media only screen and (max-width: 768px) {
+  .search-input {
+    width: 140px;
+  }
+  
+  /* Position the dropdown for mobile */
+  .search-dropdown {
+    top: 45px;
+    width: calc(100vw - 20px);
+    max-width: 300px;
+  }
+}
+
+/* Search Dropdown Styles */
+.search-container {
+  position: relative;
+  z-index: 1000000; /* Extremely high z-index for the container */
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000000; /* Even higher z-index to appear above header */
+  display: none;
+  padding: 10px 0;
+}
+
+/* Make sure it's always above header for desktop too */
+body:not(.ios-device) .search-dropdown.show {
+  display: block !important;
+  animation: fadeIn 0.2s ease-out;
+  position: absolute;
+  z-index: 1000000;
+}
+
+/* Desktop z-index adjustments - ensure dropdown is in front */
+@media only screen and (min-width: 769px) {
+  .main-header {
+    z-index: 2500; /* Keep header z-index lower than dropdown */
+  }
+  
+  .search-container {
+    position: relative;
+    z-index: 1000000; /* Higher than anything else */
+  }
+  
+  .search-dropdown {
+    top: calc(100% + 10px); /* Add space below search input */
+    z-index: 1000000;
+    margin-top: 5px;
+    /* Force the dropdown to be at the very front */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+  
+  .search-dropdown.show {
+    z-index: 1000000;
+    position: absolute;
+    display: block !important;
+  }
+}
+
+/* Ensure desktop search dropdown is always on top */
+@media only screen and (min-width: 769px) {
+  body.search-active .search-dropdown.show,
+  .search-dropdown.show {
+    display: block !important;
+    position: absolute !important;
+    z-index: 1000000 !important;
+  }
+  
+  /* Create a higher stacking context for search container */
+  .search-container {
+    isolation: isolate;
+  }
+}
+
+/* iOS specific overrides to ensure dropdown works */
+.ios-device .search-dropdown.show {
+  position: fixed !important;
+  top: 150px !important;
+  right: 10px !important;
+  z-index: 1000000 !important;
+  max-width: 300px !important;
+  width: calc(100% - 20px) !important;
+}
+
+.search-dropdown-header {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  font-weight: 500;
+  color: #333;
+}
+
+.search-dropdown-results {
+  padding: 5px 0;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background-color: #f9f9f9;
+}
+
+.search-result-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.search-result-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.search-result-info {
+  flex: 1;
+}
+
+.search-result-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.search-result-price {
+  color: #2e8b57;
+  font-weight: 500;
+}
+
+.search-dropdown-footer {
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.search-dropdown-footer a {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.search-dropdown-footer a:hover {
+  text-decoration: underline;
+}
+
+.no-results {
+  padding: 15px;
+  text-align: center;
+  color: #777;
+}
+
+/* Mobile Responsive Styles */
+@media only screen and (max-width: 768px) {
+  .search-dropdown {
+    position: fixed;
+    top: 150px; /* Below the search input */
+    right: 10px;
+    width: calc(100% - 20px);
+    max-width: 300px;
+    max-height: 60vh;
+    z-index: 10001;
+  }
+  
+  /* When search is active, ensure it's above everything */
+  body.search-active .search-dropdown.show {
+    display: block;
+  }
+  
+  /* Increase tap target size for better mobile usability */
+  .search-result-item {
+    padding: 15px;
+  }
+  
+  /* Ensure results are properly visible */
+  .search-dropdown-results {
+    background-color: white;
+  }
+  
+  /* Add animation for smoother appearance */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Safari-specific fixes */
+  .safari-browser .search-dropdown.show,
+  body.safari-browser .search-dropdown.show {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .safari-browser .search-input.active,
+  body.safari-browser .search-input.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    width: calc(100% - 20px) !important;
+    display: block !important;
+  }
+  
+  /* Force hardware acceleration for smoother animations */
+  .safari-browser .search-input,
+  .safari-browser .search-dropdown {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Remove conflicting styles */
+@media (max-width: 768px) {
+  .search-input:focus {
+    width: auto;
+  }
+} 

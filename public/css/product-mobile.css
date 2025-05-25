@@ -1,0 +1,629 @@
+/* Mobile Styles for Product Pages - Only applies to screens 768px or smaller */
+@media only screen and (max-width: 768px) {
+  /* Product Detail Layout */
+  .product-detail {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+  
+  /* Product Gallery */
+  .product-gallery {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .main-image {
+    height: auto;
+    aspect-ratio: 1/1;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #eee;
+  }
+  
+  .main-image img {
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  .thumbnail-gallery {
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 350px;
+  }
+  
+  .thumbnail {
+    width: 60px;
+    height: 60px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  /* Product Info */
+  .product-info-detail {
+    gap: 1rem;
+    padding: 0 0.5rem;
+    text-align: center;
+  }
+  
+  .product-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+    text-align: center;
+  }
+  
+  .product-price {
+    margin-bottom: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .current-price {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+  
+  .old-price {
+    text-decoration: line-through;
+    color: #777;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+  }
+  
+  .discount-badge {
+    margin-left: 0.5rem;
+  }
+  
+  /* Product Description */
+  .product-description {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: left;
+  }
+  
+  .product-description h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .product-description p {
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Color Selection */
+  .color-selection {
+    margin: 1rem 0;
+    text-align: center;
+  }
+  
+  .color-selection h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .color-options {
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .color-option {
+    width: 2.5rem;
+    height: 2.5rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  
+  .selected-color {
+    text-align: center;
+    margin-top: 0.75rem;
+  }
+  
+  /* Side Facing Selection */
+  .side-facing-selection {
+    margin: 1rem 0;
+    text-align: center;
+  }
+  
+  .side-facing-selection h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .side-options {
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .side-option {
+    width: calc(50% - 0.5rem);
+    height: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .side-option.active {
+    border-color: #0e4c92;
+    box-shadow: 0 2px 8px rgba(14, 76, 146, 0.3);
+  }
+  
+  /* Extra Seats */
+  .extra-seats {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    background-color: #f5f9fd;
+    text-align: center;
+    border: 1px solid rgba(52, 152, 219, 0.2);
+  }
+  
+  .extra-seats h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .extra-seats p {
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+  
+  /* Quantity Selector */
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+  
+  .quantity-selector button {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .quantity-selector input {
+    width: 50px;
+    height: 36px;
+    text-align: center;
+    border: 1px solid #ddd;
+    margin: 0 0.5rem;
+    font-size: 1rem;
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    gap: 1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .action-buttons button {
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    width: 100%;
+    border-radius: 25px;
+    font-weight: 500;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+  
+  .add-to-basket {
+    background-color: #0e4c92;
+    color: white;
+    border: none;
+  }
+  
+  .buy-now {
+    background-color: #2e8b57;
+    color: white;
+    border: none;
+  }
+  
+  /* Customer Reviews */
+  .customer-reviews {
+    margin: 2rem 0;
+    padding: 1.25rem;
+    border-radius: 8px;
+    background-color: #fff;
+    border: 1px solid #eee;
+  }
+  
+  .reviews-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  
+  .reviews-summary {
+    gap: 1.25rem;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .rating-number {
+    font-size: 2.5rem;
+    color: #0e4c92;
+    font-weight: 600;
+  }
+  
+  .rating-stars {
+    color: #f39c12;
+    font-size: 1.25rem;
+  }
+  
+  .reviews-container {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+  
+  .review-card {
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+  }
+  
+  .reviewer-name {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  .review-date {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 0.75rem;
+  }
+  
+  .review-text {
+    line-height: 1.5;
+  }
+  
+  /* Modal */
+  .modal-content {
+    padding: 1.5rem;
+    width: 95%;
+    max-width: 450px;
+    border-radius: 12px;
+  }
+  
+  .modal-header {
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  
+  .modal-close {
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  /* WhatsApp Button */
+  .whatsapp-button {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem 1rem;
+    border-radius: 25px;
+    background-color: #25d366;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    margin: 1rem 0;
+  }
+  
+  /* Order Form */
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .form-group input, 
+  .form-group textarea {
+    padding: 0.85rem;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  
+  .form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .form-submit {
+    background-color: #0e4c92;
+    color: white;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 500;
+    width: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+  
+  /* Fix for search input on product pages */
+  .search-input.active {
+    width: 200px;
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    opacity: 1;
+    visibility: visible;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    right: -5px;
+    top: 45px;
+    position: absolute;
+    z-index: 1000;
+  }
+  
+  /* Product Features List */
+  .product-features {
+    text-align: left;
+    margin: 1.5rem 0;
+    padding: 0 0.5rem;
+  }
+  
+  .product-features h3 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  
+  .features-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .features-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+  }
+  
+  .features-list li i {
+    color: #2e8b57;
+    margin-right: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Related Products Section */
+  .related-products {
+    margin: 2rem 0;
+    padding: 1.25rem 0;
+  }
+  
+  .related-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .related-product {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    background: white;
+  }
+  
+  .related-product:hover {
+    transform: translateY(-5px);
+  }
+  
+  .related-image {
+    height: 160px;
+    overflow: hidden;
+  }
+  
+  .related-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .related-info {
+    padding: 0.75rem;
+    text-align: center;
+  }
+  
+  .related-name {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  
+  .related-price {
+    color: #2e8b57;
+    font-weight: 600;
+  }
+  
+  /* Specific fixes for Salone Corner Sofa Page */
+  body.salone-corner-page .product-gallery,
+  [data-page="salone-corner-sofa"] .product-gallery {
+    margin: 0 auto;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  body.salone-corner-page .main-image,
+  [data-page="salone-corner-sofa"] .main-image {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #eee;
+    border-radius: 12px;
+  }
+  
+  body.salone-corner-page .main-image img,
+  body.salone-corner-page .main-image video,
+  [data-page="salone-corner-sofa"] .main-image img,
+  [data-page="salone-corner-sofa"] .main-image video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  body.salone-corner-page .thumbnail-gallery,
+  [data-page="salone-corner-sofa"] .thumbnail-gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 0.5rem;
+    overflow-x: visible;
+  }
+  
+  body.salone-corner-page .thumbnail,
+  [data-page="salone-corner-sofa"] .thumbnail {
+    width: 60px;
+    height: 60px;
+    margin: 0 2px;
+    flex: 0 0 auto;
+  }
+  
+  body.salone-corner-page .product-info-detail,
+  [data-page="salone-corner-sofa"] .product-info-detail {
+    text-align: center;
+    padding: 0 1rem;
+  }
+  
+  body.salone-corner-page .product-title,
+  [data-page="salone-corner-sofa"] .product-title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  body.salone-corner-page .product-price,
+  [data-page="salone-corner-sofa"] .product-price {
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  body.salone-corner-page .color-selection,
+  body.salone-corner-page .color-options,
+  [data-page="salone-corner-sofa"] .color-selection,
+  [data-page="salone-corner-sofa"] .color-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem auto;
+  }
+  
+  body.salone-corner-page .color-options,
+  [data-page="salone-corner-sofa"] .color-options {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  body.salone-corner-page .side-facing-selection,
+  [data-page="salone-corner-sofa"] .side-facing-selection {
+    text-align: center;
+  }
+  
+  body.salone-corner-page .side-options,
+  [data-page="salone-corner-sofa"] .side-options {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0 auto;
+    max-width: 350px;
+  }
+  
+  body.salone-corner-page .action-buttons,
+  [data-page="salone-corner-sofa"] .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 350px;
+    margin: 1.5rem auto 0;
+  }
+  
+  body.salone-corner-page .product-description,
+  [data-page="salone-corner-sofa"] .product-description {
+    margin: 2rem auto;
+    max-width: 500px;
+    text-align: left;
+  }
+  
+  body.salone-corner-page .product-description h2,
+  [data-page="salone-corner-sofa"] .product-description h2 {
+    text-align: center;
+  }
+  
+  body.salone-corner-page .delivery-options,
+  [data-page="salone-corner-sofa"] .delivery-options {
+    margin: 1.5rem auto;
+    max-width: 500px;
+  }
+  
+  body.salone-corner-page .order-form,
+  [data-page="salone-corner-sofa"] .order-form {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  body.salone-corner-page .thank-you,
+  [data-page="salone-corner-sofa"] .thank-you {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  /* End of specific fixes for Salone Corner Sofa Page */
+} 

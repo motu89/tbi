@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - The British Interiors</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #0e4c92;
+      --secondary-color: #f8f9fa;
+      --accent-color: #0077ff;
+      --light-gray: #eee;
+      --dark-gray: #333;
+      --danger-color: #dc3545;
+      --font-primary: 'Arial', sans-serif;
+      --font-secondary: 'Georgia', serif;
+      --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-primary);
+      line-height: 1.6;
+      color: var(--dark-gray);
+      background-color: var(--secondary-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+    }
+    
+    .login-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .login-title {
+      font-family: var(--font-secondary);
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+    }
+    
+    .login-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    
+    .login-form {
+      padding: 30px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--light-gray);
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(0, 119, 255, 0.2);
+    }
+    
+    .login-btn {
+      width: 100%;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 12px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+    
+    .login-btn:hover {
+      background-color: #0066dd;
+    }
+    
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+    
+    .error-message {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: var(--danger-color);
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    
+    @media (max-width: 480px) {
+      .login-container {
+        max-width: 100%;
+      }
+      
+      .login-form {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <header class="login-header">
+      <h1 class="login-title">The British Interiors</h1>
+      <p class="login-subtitle">Admin Access</p>
+    </header>
+    
+    <div class="login-form">
+      <div id="errorMessage" class="error-message">
+        Invalid username or password. Please try again.
+      </div>
+      
+      <form action="/admin/login" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        
+        <button type="submit" class="login-btn">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+      </form>
+      
+      <a href="/" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Site
+      </a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check for error parameter in URL
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('error') === 'invalid') {
+        document.getElementById('errorMessage').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html> 

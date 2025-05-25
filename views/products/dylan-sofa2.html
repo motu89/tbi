@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plush Velvet L-Shape Dylan Sofa - The British Interiors</title>
+  <link rel="icon" href="/images/logo.jpg" type="image/jpeg">
+  <link rel="apple-touch-icon" href="/images/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/basket.css">
+  <link rel="stylesheet" href="/css/mobile.css">
+  <link rel="stylesheet" href="/css/search-dropdown.css">
+  <link rel="stylesheet" href="/css/product-mobile.css">
+  <style>
+    /* Main layout */
+    .product-detail {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+    
+    @media (min-width: 768px) {
+      .product-detail {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    /* Product gallery */
+    .product-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .main-image {
+      width: 100%;
+      height: 350px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: all 0.3s ease;
+    }
+    
+    .thumbnail-gallery {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+    }
+    
+    .thumbnail {
+      width: 70px;
+      height: 70px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      overflow: hidden;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    
+    .thumbnail:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .thumbnail.active {
+      border-color: #0e4c92;
+      transform: scale(1.05);
+    }
+    
+    /* Product info */
+    .product-info-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    
+    .product-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .product-price {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .old-price {
+      text-decoration: line-through;
+      color: #777;
+      font-size: 1.1rem;
+    }
+    
+    .current-price {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #2e8b57;
+    }
+    
+    .discount-badge {
+      background-color: #ffedea;
+      color: #e74c3c;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    /* Color selection */
+    .color-selection {
+      margin: 1rem 0;
+    }
+    
+    .color-selection h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #555;
+    }
+    
+    .color-options {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .color-option {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+    
+    .color-option.blue {
+      background-color: #3a80c2;
+    }
+    
+    .color-option.grey {
+      background-color: #888;
+    }
+    
+    .color-option.black {
+      background-color: #222;
+    }
+    
+    .color-option.cream {
+      background-color: #f0ead6;
+    }
+    
+    .color-option.active {
+      border-color: #0e4c92;
+    }
+    
+    .color-option.active::after {
+      content: "✓";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 0 2px rgba(0,0,0,0.8);
+    }
+
+    .color-option.cream.active::after {
+      text-shadow: 0 0 2px rgba(0,0,0,1);
+      color: #222;
+    }
+    
+    .selected-color {
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+    
+    /* Side facing selection */
+    .side-facing-selection {
+      margin: 1rem 0;
+    }
+    
+    .side-facing-selection h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #555;
+    }
+    
+    .side-options {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .side-option {
+      width: 100px;
+      height: 70px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 2px solid #ddd;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px;
+    }
+    
+    .side-option:hover {
+      transform: scale(1.05);
+    }
+    
+    .side-option.active {
+      border-color: #0e4c92;
+      background-color: #f0f7ff;
+    }
+    
+    .side-option img {
+      width: 80px;
+      height: auto;
+      object-fit: contain;
+    }
+    
+    .side-option span {
+      font-size: 0.8rem;
+      margin-top: 4px;
+      text-align: center;
+    }
+    
+    /* Extra seats section */
+    .extra-seats {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+    
+    .extra-seats h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .extra-seats select {
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      width: 100%;
+      max-width: 100%;
+      font-size: 0.95rem;
+      background-color: white;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .extra-seats select:focus {
+      border-color: #0e4c92;
+      outline: none;
+    }
+    
+    /* Total price */
+    .total-price {
+      background-color: #e6f0ff;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+    
+    .total-price h3 {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0e4c92;
+    }
+    
+    /* Action buttons */
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .action-buttons button {
+      flex: 1;
+      padding: 1rem 0.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .add-to-cart-btn {
+      background-color: #0e4c92;
+      color: white;
+      box-shadow: 0 4px 6px rgba(14, 76, 146, 0.2);
+    }
+    
+    .add-to-cart-btn:hover {
+      background-color: #0b3d78;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(14, 76, 146, 0.3);
+    }
+    
+    .add-to-cart-btn:active {
+      transform: translateY(0);
+    }
+    
+    .buy-now-btn {
+      background-color: #2e8b57;
+      color: white;
+      box-shadow: 0 4px 6px rgba(46, 139, 87, 0.2);
+    }
+    
+    .buy-now-btn:hover {
+      background-color: #267349;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(46, 139, 87, 0.3);
+    }
+    
+    .buy-now-btn:active {
+      transform: translateY(0);
+    }
+    
+    /* Product description */
+    .product-description {
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+    }
+    
+    .product-description p {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+    
+    .product-description ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .product-description li {
+      margin-bottom: 0.5rem;
+      color: #555;
+    }
+    
+    /* WhatsApp Custom Order Section */
+    .whatsapp-custom-order {
+      margin: 2rem 0;
+      text-align: center;
+      padding: 1.5rem;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+    
+    .whatsapp-custom-order p {
+      color: #555;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    
+    .whatsapp-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: #25D366;
+      color: white;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(37, 211, 102, 0.25);
+    }
+    
+    .whatsapp-button:hover {
+      background-color: #1ea952;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 12px rgba(37, 211, 102, 0.35);
+    }
+    
+    .whatsapp-button:active {
+      transform: translateY(0);
+    }
+    
+    .whatsapp-button i {
+      font-size: 1.2rem;
+    }
+    
+    /* Customer Reviews Styling */
+    .customer-reviews {
+      margin: 2rem 0 3rem;
+      padding: 1.5rem;
+      background-color: #f8f9fa;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .reviews-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: #333;
+      font-family: 'Playfair Display', serif;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.75rem;
+    }
+    
+    .reviews-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eaeaea;
+    }
+    
+    .average-rating {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 150px;
+    }
+    
+    .rating-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #0e4c92;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stars {
+      color: #f8ce0b;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .total-reviews {
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    .rating-bars {
+      flex: 1;
+      max-width: 400px;
+    }
+    
+    .rating-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .rating-label {
+      width: 25px;
+      text-align: right;
+      margin-right: 10px;
+      color: #777;
+    }
+    
+    .bar-container {
+      flex: 1;
+      height: 12px;
+      background-color: #e9ecef;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0 10px;
+    }
+    
+    .bar {
+      height: 100%;
+      background-color: #0e4c92;
+      border-radius: 10px;
+    }
+    
+    .count {
+      width: 25px;
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    .reviews-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      max-height: 800px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+    
+    .review-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: all 0.2s ease;
+    }
+    
+    .review-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-3px);
+    }
+    
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    
+    .reviewer {
+      display: flex;
+      align-items: center;
+    }
+    
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #0e4c92;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-right: 0.75rem;
+      font-size: 0.9rem;
+    }
+    
+    .reviewer-name {
+      font-weight: 500;
+      color: #444;
+    }
+    
+    .review-rating {
+      color: #f8ce0b;
+      font-size: 0.9rem;
+    }
+    
+    .review-date {
+      color: #777;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .review-content p {
+      color: #555;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+    
+    @media (max-width: 768px) {
+      .reviews-summary {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .average-rating {
+        align-items: flex-start;
+      }
+      
+      .reviews-container {
+        grid-template-columns: 1fr;
+        max-height: 600px;
+      }
+    }
+    
+            /* Modal styling */    .modal-overlay {      position: fixed;      top: 0;      left: 0;      width: 100%;      height: 100%;      background-color: rgba(0,0,0,0.6);      display: none;      justify-content: center;      align-items: center;      z-index: 1000;      opacity: 0;      transition: all 0.3s ease;    }        .modal-overlay.show {      opacity: 1;      display: flex;    }
+    
+    .modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    
+    .modal-overlay.show .modal-content {
+      transform: translateY(0);
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+      transition: color 0.2s ease;
+    }
+    
+    .close-modal:hover {
+      color: #333;
+    }
+    
+    /* Delivery options */
+    .delivery-options {
+      margin: 1rem 0 2rem;
+    }
+    
+    .delivery-options h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+    
+    .delivery-option {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    
+    .delivery-option:hover {
+      border-color: #0e4c92;
+      background-color: #f8f9fa;
+    }
+    
+    .delivery-option input {
+      margin: 0.25rem 1rem 0 0;
+      transform: scale(1.2);
+    }
+    
+    .delivery-option label {
+      flex: 1;
+    }
+    
+    .delivery-option strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: #333;
+    }
+    
+    .delivery-option p {
+      font-size: 0.9rem;
+      color: #777;
+      margin: 0;
+    }
+    
+    /* Order form */
+    .order-form {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      display: none;
+    }
+    
+    .order-form h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+    
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #555;
+      font-size: 0.95rem;
+    }
+    
+    .form-group input, 
+    .form-group textarea {
+      width: 100%;
+      padding: 0.875rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+    }
+    
+    .form-group input:focus, 
+    .form-group textarea:focus {
+      border-color: #0e4c92;
+      outline: none;
+    }
+    
+    /* Order summary */
+    .order-summary {
+      margin: 1.5rem 0;
+      padding: 1.25rem;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+    }
+    
+    .order-summary h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    
+    .order-summary p {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+    
+    .order-summary p:last-child {
+      font-weight: 600;
+      color: #0e4c92;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid #ddd;
+    }
+    
+    /* Thank you message */
+    .thank-you {
+      text-align: center;
+      padding: 1rem;
+      display: none;
+    }
+    
+    .thank-you h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #2e8b57;
+    }
+    
+    .thank-you p {
+      color: #555;
+      margin-bottom: 0.75rem;
+    }
+    
+    /* WhatsApp contact */
+    .whatsapp-contact {
+      margin-top: 2rem;
+      text-align: center;
+      padding: 1rem;
+      background-color: #f0f8f0;
+      border-radius: 8px;
+    }
+    
+    .whatsapp-contact p {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+    
+    /* Override the global whatsapp-btn for inline buttons */
+    .whatsapp-contact .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      position: static;
+      width: auto;
+      height: auto;
+    }
+    
+    /* Helper classes */
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="announcement-content">
+      <span>Free delivery on orders over £1000. £30 for standard service and £50 for next day service.</span>
+    </div>
+  </div>
+
+  <!-- Header Section -->
+  <header class="main-header">
+    <!-- Mobile Menu Toggle Button (visible only on mobile) -->
+    <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="logo-container">
+      <a href="/" class="home-link">
+        <div class="logo">
+          <img src="/images/logo.jpg" alt="The British Interiors Logo">
+        </div>
+        <h1 class="site-title">The British Interiors</h1>
+      </a>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/#dylan-sofa">Dylan Sofa</a></li>
+        <li><a href="/products/basket.html">Cart</a></li>
+        <li><a href="/#contact">Contact Us</a></li>
+        <li class="search-container">
+          <form class="search-form">
+            <input type="text" placeholder="Search..." class="search-input">
+            <button type="submit" class="search-button">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Product Detail Section -->
+  <main class="product-detail-container">
+    <div class="product-detail">
+      <div class="product-gallery">
+        <div class="main-image">
+          <img src="/images/Dylan Sofa/p/pcream4.jpg" alt="Plush Velvet L-Shape Dylan Sofa" id="main-product-image">
+        </div>
+        <div class="thumbnail-gallery">
+          <div class="thumbnail active" data-image="/images/Dylan Sofa/p/pcream4.jpg">
+            <img src="/images/Dylan Sofa/p/pcream4.jpg" alt="Cream Plush Velvet L-Shape Dylan Sofa">
+          </div>
+          <div class="thumbnail" data-image="/images/Dylan Sofa/p/pblue1.jpg">
+            <img src="/images/Dylan Sofa/p/pblue1.jpg" alt="Blue Plush Velvet L-Shape Dylan Sofa">
+          </div>
+          <div class="thumbnail" data-image="/images/Dylan Sofa/p/pgrey2.jpg">
+            <img src="/images/Dylan Sofa/p/pgrey2.jpg" alt="Grey Plush Velvet L-Shape Dylan Sofa">
+          </div>
+          <div class="thumbnail" data-image="/images/Dylan Sofa/p/pblack3.jpg">
+            <img src="/images/Dylan Sofa/p/pblack3.jpg" alt="Black Plush Velvet L-Shape Dylan Sofa">
+          </div>
+          <div class="thumbnail" data-image="/images/Dylan Sofa/p/size1.jpg">
+            <img src="/images/Dylan Sofa/p/size1.jpg" alt="Size Guide Plush Velvet L-Shape Dylan Sofa">
+          </div>
+        </div>
+      </div>
+      <div class="product-info-detail">
+        <h1 class="product-title">Plush Velvet L-Shape Dylan Sofa</h1>
+        <div class="product-price">
+          <span class="old-price">£569</span>
+          <span class="current-price">£449</span>
+          <span class="discount-badge">SAVE £120</span>
+        </div>
+        
+                        <!-- Color Selection -->        <div class="color-selection">          <h3>Select Color:</h3>          <div class="color-options">            <div class="color-option blue" data-color="Blue" data-image="/images/Dylan Sofa/p/pblue1.jpg"></div>            <div class="color-option grey" data-color="Grey" data-image="/images/Dylan Sofa/p/pgrey2.jpg"></div>            <div class="color-option black" data-color="Black" data-image="/images/Dylan Sofa/p/pblack3.jpg"></div>            <div class="color-option cream active" data-color="Cream" data-image="/images/Dylan Sofa/p/pcream4.jpg"></div>          </div>          <div class="selected-color">Selected: <span id="selected-color-text">Cream</span></div>        </div>
+        
+        <!-- Side Facing Selection -->
+        <div class="side-facing-selection">
+          <h3>Side: <span id="selectedSideText">Left Facing</span></h3>
+          <div class="side-options">
+            <div class="side-option active" data-side="Left Facing">
+              <svg width="80" height="45" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+                <!-- Outer rectangle -->
+                <rect x="15" y="10" width="70" height="30" stroke="#000" stroke-width="1" fill="none"/>
+                
+                <!-- Inner sections -->
+                <rect x="15" y="10" width="25" height="15" stroke="#000" stroke-width="1" fill="none"/>
+                <rect x="40" y="10" width="20" height="15" stroke="#000" stroke-width="1" fill="none"/>
+                <rect x="60" y="10" width="25" height="15" stroke="#000" stroke-width="1" fill="none"/>
+                
+                <!-- Bottom rectangle section -->
+                <rect x="15" y="25" width="25" height="15" stroke="#000" stroke-width="1" fill="none"/>
+              </svg>
+              <span>Left Side</span>
+            </div>
+            <div class="side-option" data-side="Right Facing">
+              <svg width="80" height="45" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+                <!-- Outer rectangle -->
+                <rect x="15" y="10" width="70" height="30" stroke="#000" stroke-width="1" fill="none"/>
+                
+                <!-- Inner sections -->
+                <rect x="15" y="10" width="25" height="15" stroke="#000" stroke-width="1" fill="none"/>
+                <rect x="40" y="10" width="20" height="15" stroke="#000" stroke-width="1" fill="none"/>
+                <rect x="60" y="10" width="25" height="15" stroke="#000" stroke-width="1" fill="none"/>
+                
+                <!-- Bottom rectangle section -->
+                <rect x="60" y="25" width="25" height="15" stroke="#000" stroke-width="1" fill="none"/>
+              </svg>
+              <span>Right Side</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="extra-seats">
+          <h3>Extend Seats (£99 each) <span class="extra-seats-price" id="extraSeatsPrice">(+£0)</span></h3>
+          <select id="extraSeats">
+            <option value="0">No extra seats</option>
+            <option value="1">1 extra seat</option>
+            <option value="2">2 extra seats</option>
+            <option value="3">3 extra seats</option>
+            <option value="4">4 extra seats</option>
+            <option value="5">5 extra seats</option>
+          </select>
+        </div>
+        
+        <!-- Total Price -->
+        <div class="total-price">
+          <h3>
+            <span>Total:</span>
+            <span class="final-price">£449</span>
+          </h3>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button class="add-to-cart-btn">
+            <i class="fas fa-shopping-cart"></i>
+            Add to Basket
+          </button>
+          <button class="buy-now-btn">
+            <i class="fas fa-bolt"></i>
+            Buy Now
+          </button>
+        </div>
+        
+        <!-- WhatsApp Custom Order Message -->
+        <div class="whatsapp-custom-order">
+          <p>If you want any customized sofa or if you want to book your order through WhatsApp, contact us on WhatsApp.</p>
+          <a href="https://wa.me/447351898651" class="whatsapp-button" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp"></i> Message Us on WhatsApp
+          </a>
+        </div>
+        
+        <!-- Product Description -->
+        <div class="product-description">
+          <p>Experience ultimate comfort with our Plush Velvet L-Shape Dylan Sofa. This luxurious sofa features:</p>
+          <ul>
+            <li>High-quality plush velvet upholstery</li>
+            <li>L-shaped design perfect for corner placement</li>
+            <li>Deep, comfortable cushions</li>
+            <li>Solid wood frame for durability</li>
+            <li>Chrome finished legs</li>
+            <li>Available in multiple colors</li>
+          </ul>
+          <p>Dimensions: W240cm x D85cm x H90cm</p>
+        </div>
+        
+        <!-- Customer Reviews Section -->
+        <div class="customer-reviews">
+          <h2 class="reviews-title">Customer Reviews</h2>
+          <div class="reviews-summary">
+            <div class="average-rating">
+              <span class="rating-number">4.2</span>
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <span class="total-reviews">15 reviews</span>
+            </div>
+            <div class="rating-bars">
+              <div class="rating-bar">
+                <span class="rating-label">5</span>
+                <div class="bar-container">
+                  <div class="bar" style="width: 40%"></div>
+                </div>
+                <span class="count">6</span>
+              </div>
+              <div class="rating-bar">
+                <span class="rating-label">4</span>
+                <div class="bar-container">
+                  <div class="bar" style="width: 40%"></div>
+                </div>
+                <span class="count">6</span>
+              </div>
+              <div class="rating-bar">
+                <span class="rating-label">3</span>
+                <div class="bar-container">
+                  <div class="bar" style="width: 20%"></div>
+                </div>
+                <span class="count">3</span>
+              </div>
+              <div class="rating-bar">
+                <span class="rating-label">2</span>
+                <div class="bar-container">
+                  <div class="bar" style="width: 0%"></div>
+                </div>
+                <span class="count">0</span>
+              </div>
+              <div class="rating-bar">
+                <span class="rating-label">1</span>
+                <div class="bar-container">
+                  <div class="bar" style="width: 0%"></div>
+                </div>
+                <span class="count">0</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="reviews-container">
+            <!-- 5 Star Reviews -->
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">JS</div>
+                  <div class="reviewer-name">James S.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 3 months ago</div>
+              <div class="review-content">
+                <p>Super comfortable and looks amazing in my living room. The plush velvet material is luxurious and the color is exactly as shown in the pictures. Assembly was straightforward and the sofa feels very sturdy. Highly recommend!</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">EM</div>
+                  <div class="reviewer-name">Emma M.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 1 month ago</div>
+              <div class="review-content">
+                <p>We love our new Dylan sofa! The plush velvet is beautiful and feels really luxurious. It's been perfect for our family movie nights and has plenty of space for everyone. The delivery team was also very professional.</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">RT</div>
+                  <div class="reviewer-name">Ryan T.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 2 months ago</div>
+              <div class="review-content">
+                <p>Fabric is soft and durable. Happy with the purchase. This sofa has transformed our living space and become the centerpiece of our home. The cushions are the perfect balance of soft yet supportive.</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">LB</div>
+                  <div class="reviewer-name">Lisa B.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 4 months ago</div>
+              <div class="review-content">
+                <p>Absolutely worth every penny! The color is gorgeous and it fits perfectly in our space. The L-shape design is ideal for our open floor plan. Very happy with this purchase and would buy from The British Interiors again.</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">AK</div>
+                  <div class="reviewer-name">Alex K.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 2 months ago</div>
+              <div class="review-content">
+                <p>Extremely comfortable and stylish. The delivery was quick and the setup was hassle-free. The velvet material is easy to clean which is great for our household with kids and pets. Couldn't be happier!</p>
+              </div>
+            </div>
+            
+            <!-- 4 Star Reviews -->
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">MD</div>
+                  <div class="reviewer-name">Monica D.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 2 months ago</div>
+              <div class="review-content">
+                <p>Great build quality but delivery took a bit longer than expected. The sofa itself is comfortable and looks elegant in our living room. Just taking off one star for the delay in delivery.</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">JT</div>
+                  <div class="reviewer-name">John T.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 1 month ago</div>
+              <div class="review-content">
+                <p>Very comfortable sofa that looks premium. The only minor issue is that the color is slightly different from what I expected based on the website images. Still very happy with it overall.</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">SP</div>
+                  <div class="reviewer-name">Sarah P.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 3 months ago</div>
+              <div class="review-content">
+                <p>Really pleased with this purchase. The sofa is comfortable and the fabric feels durable. Only reason for 4 stars is that one of the legs was slightly damaged, but customer service was quick to send a replacement.</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">DH</div>
+                  <div class="reviewer-name">Daniel H.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 2 months ago</div>
+              <div class="review-content">
+                <p>Good value for money and very stylish. The sofa is firm but comfortable. Taking one star off because assembly instructions could have been clearer, but managed to put it together with a bit of effort.</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">CW</div>
+                  <div class="reviewer-name">Charlotte W.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 4 months ago</div>
+              <div class="review-content">
+                <p>Really happy with my new Dylan sofa. It's very comfortable and the L-shape works perfectly in our space. Only reason for not giving 5 stars is that the delivery was delayed by a week from the original date.</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">MR</div>
+                  <div class="reviewer-name">Mike R.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 1 month ago</div>
+              <div class="review-content">
+                <p>The sofa looks fantastic and the material feels premium. Very comfortable to sit and lie on. Would've given 5 stars but the cushions are a bit firmer than I personally prefer. Overall still very satisfied.</p>
+              </div>
+            </div>
+            
+            <!-- 3 Star Reviews -->
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">KL</div>
+                  <div class="reviewer-name">Kevin L.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 3 months ago</div>
+              <div class="review-content">
+                <p>Looks good but seat depth could be better. The quality of the sofa is decent for the price, but I find the seats not deep enough for my preference. The velvet material does look nice though.</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">FG</div>
+                  <div class="reviewer-name">Fiona G.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 2 months ago</div>
+              <div class="review-content">
+                <p>The sofa looks nice but isn't as comfortable as I hoped. The cushions are quite firm and I needed to add extra pillows. Delivery was prompt and assembly was easy, which is why I'm giving 3 stars.</p>
+              </div>
+            </div>
+            
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="avatar">BR</div>
+                  <div class="reviewer-name">Ben R.</div>
+                </div>
+                <div class="review-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+              </div>
+              <div class="review-date">Purchased 3 months ago</div>
+              <div class="review-content">
+                <p>Average quality for the price point. The sofa looks good but after a few months of use, the cushions are starting to lose their shape. The color is nice and as shown in the pictures, but durability seems questionable.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal for Order Form -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      
+      <!-- Delivery Options Section -->
+      <div class="delivery-options" id="deliveryOptions">
+        <h2>Select Delivery Option</h2>
+        <div class="delivery-option">
+          <input type="radio" id="standardDelivery" name="delivery" value="standard" checked>
+          <label for="standardDelivery">
+            <strong>Standard Delivery - £30</strong>
+            <p>Delivery in 3-5 days</p>
+          </label>
+        </div>
+        <div class="delivery-option">
+          <input type="radio" id="premiumDelivery" name="delivery" value="premium">
+          <label for="premiumDelivery">
+            <strong>Premium Delivery - £50</strong>
+            <p>Delivery in 1 day</p>
+          </label>
+        </div>
+        <button id="continueToOrder" class="add-to-cart-btn">
+          <i class="fas fa-arrow-right"></i> Continue to Order Details
+        </button>
+      </div>
+      
+      <!-- Order Form Section -->
+      <div class="order-form" id="orderForm">
+        <h2>Complete Your Order</h2>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+          <label for="contact">Contact No</label>
+          <input type="tel" id="contact" placeholder="Enter your phone number" required>
+        </div>
+        <div class="form-group">
+          <label for="postcode">Post Code</label>
+          <input type="text" id="postcode" placeholder="Enter your post code" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <textarea id="address" rows="3" placeholder="Enter your full address" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="deliveryDate">Preferred Delivery Date (optional)</label>
+          <input type="date" id="deliveryDate">
+        </div>
+        
+        <div class="order-summary" id="orderSummary">
+          <h3>Order Summary</h3>
+          <p><strong>Product:</strong> <span id="summaryProduct">Plush Velvet L-Shape Dylan Sofa</span></p>
+          <p><strong>Color:</strong> <span id="summaryColor">Cream</span></p>
+          <p><strong>Side:</strong> <span id="summarySide">Left Facing</span></p>
+          <p><strong>Extra Seats:</strong> <span id="summarySeats">0</span></p>
+          <p><strong>Delivery:</strong> <span id="summaryDelivery">Standard (£30)</span></p>
+          <p><strong>Total:</strong> <span id="summaryTotal">£479</span></p>
+        </div>
+        
+        <button id="placeOrder" class="buy-now-btn">
+          <i class="fas fa-check"></i> Place Order
+        </button>
+      </div>
+      
+      <!-- Thank You Section -->
+      <div class="thank-you" id="thankYou">
+        <h2><i class="fas fa-check-circle"></i> Thank You For Your Order!</h2>
+        <p>Your order has been placed successfully.</p>
+        <p>We will contact you shortly to confirm your order details.</p>
+        
+        <div class="whatsapp-contact">
+          <p>If you want any customized sofa or want to book via WhatsApp, contact us.</p>
+          <a href="https://wa.me/447351898651" class="whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i> Contact on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer id="contact" class="footer">
+    <div class="footer-info">
+      <div class="footer-logo">
+        <img src="/images/logo.jpg" alt="The British Interiors Logo">
+        <h3>The British Interiors</h3>
+        <p>Quality British-made furniture for your home.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/#dylan-sofa">Dylan Sofa</a></li>
+          <li><a href="/products/basket.html">Cart</a></li>
+          <li><a href="/#contact">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Info</h4>
+        <p><i class="fas fa-map-marker-alt"></i> Nottingham, England, NG7 7LJ, United Kingdom </p>
+        <p><i class="fas fa-phone"></i> +44 7351 898651</p>
+        <p><i class="fas fa-clock"></i> Mon-Sat: 24/7</p>
+      </div>
+          <div class="footer-social">
+        <h4>Follow Us</h4>
+        <p>Give us reviews on TikTok and Instagram</p>
+        <div class="social-links">
+          <a href="https://www.tiktok.com/@thebritishinterior" target="_blank" aria-label="TikTok">
+            <i class="fab fa-tiktok"></i>
+          </a>
+          <a href="https://www.instagram.com/thebritish_interiors" target="_blank" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 The British Interiors. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Basket Button -->
+  <a href="/products/basket.html" class="basket-btn" title="View your basket">
+    <svg class="basket-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" 
+            fill="currentColor"/>
+    </svg>
+    <span class="basket-count">0</span>
+  </a>
+
+  <!-- WhatsApp Chat Support Button -->
+  <a href="https://wa.me/447351898651" 
+     class="whatsapp-btn" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     title="Need help? Chat with us on WhatsApp">
+    <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" 
+            fill="currentColor"/>
+    </svg>
+  </a>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elements
+      const mainImage = document.getElementById('main-product-image');
+      const thumbnails = document.querySelectorAll('.thumbnail');
+      const colorOptions = document.querySelectorAll('.color-option');
+      const selectedColorText = document.getElementById('selected-color-text');
+      const extraSeatsSelect = document.getElementById('extraSeats');
+      const extraSeatsPrice = document.getElementById('extraSeatsPrice');
+      const finalPriceElement = document.querySelector('.final-price');
+      const addToCartBtn = document.querySelector('.add-to-cart-btn');
+      const buyNowBtn = document.querySelector('.buy-now-btn');
+      const modal = document.getElementById('orderModal');
+      const closeModal = document.querySelector('.close-modal');
+      const deliveryOptions = document.getElementById('deliveryOptions');
+      const orderForm = document.getElementById('orderForm');
+      const thankYou = document.getElementById('thankYou');
+      const continueToOrderBtn = document.getElementById('continueToOrder');
+      const placeOrderBtn = document.getElementById('placeOrder');
+      
+      // Variables
+      const basePrice = 449;
+      const extraSeatPrice = 99;
+      let selectedColor = 'Cream';
+      let extraSeats = 0;
+      let deliveryOption = 'standard';
+      let deliveryCost = 30;
+      let selectedSide = 'Left Facing';
+      let totalPrice = basePrice;
+      
+      // Initialize
+      updateTotalPrice();
+      updateSummary();
+      
+      // Thumbnail gallery
+      thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+          // Update active state
+          thumbnails.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Update main image with smooth transition
+          mainImage.style.opacity = '0.6';
+          setTimeout(() => {
+            mainImage.src = this.getAttribute('data-image');
+            mainImage.style.opacity = '1';
+          }, 200);
+        });
+      });
+      
+      // Color selection
+      colorOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          const color = this.getAttribute('data-color');
+          const imgSrc = this.getAttribute('data-image');
+          
+          // Update active state
+          colorOptions.forEach(o => o.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Update selected color
+          selectedColor = color;
+          selectedColorText.textContent = color;
+          
+          // Update main image with smooth transition
+          mainImage.style.opacity = '0.6';
+          setTimeout(() => {
+            mainImage.src = imgSrc;
+            mainImage.style.opacity = '1';
+          }, 200);
+          
+          // Update thumbnails to show the first one as active
+          thumbnails.forEach(t => t.classList.remove('active'));
+          const activeThumb = document.querySelector(`.thumbnail[data-image="${imgSrc}"]`);
+          if (activeThumb) {
+            activeThumb.classList.add('active');
+          }
+          
+          // Update summary
+          updateSummary();
+        });
+      });
+      
+      // Side option click event
+      const sideOptions = document.querySelectorAll('.side-option');
+      const selectedSideText = document.getElementById('selectedSideText');
+      
+      sideOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          const side = this.getAttribute('data-side');
+          
+          // Update active side
+          sideOptions.forEach(s => s.classList.remove('active'));
+          this.classList.add('active');
+          
+          selectedSide = side;
+          if (selectedSideText) {
+            selectedSideText.textContent = side;
+          }
+          
+          // Update summary
+          updateSummary();
+        });
+      });
+      
+      // Extra seats calculation
+      extraSeatsSelect.addEventListener('change', function() {
+        extraSeats = parseInt(this.value);
+        const extraSeatTotal = extraSeats * extraSeatPrice;
+        extraSeatsPrice.textContent = extraSeatTotal > 0 ? `(+£${extraSeatTotal})` : '(+£0)';
+        updateTotalPrice();
+        updateSummary();
+      });
+      
+      // Update price based on extra seats
+      function updateTotalPrice() {
+        const extraSeatsTotal = extraSeats * extraSeatPrice;
+        const totalPrice = basePrice + extraSeatsTotal;
+        finalPriceElement.textContent = `£${totalPrice}`;
+      }
+      
+      // Update order summary
+      function updateSummary() {
+        const extraSeatsTotal = extraSeats * extraSeatPrice;
+        const productTotal = basePrice + extraSeatsTotal;
+        const finalTotal = productTotal + deliveryCost;
+        
+        if (document.getElementById('summaryColor')) {
+          document.getElementById('summaryProduct').textContent = 'Plush Velvet L-Shape Dylan Sofa';
+          document.getElementById('summaryColor').textContent = selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1);
+          document.getElementById('summarySide').textContent = selectedSide;
+          document.getElementById('summarySeats').textContent = extraSeats > 0 ? `${extraSeats} (£${extraSeatsTotal})` : '0';
+          document.getElementById('summaryDelivery').textContent = deliveryOption === 'standard' 
+            ? 'Standard (£30)' 
+            : 'Premium (£50)';
+          document.getElementById('summaryTotal').textContent = `£${finalTotal}`;
+        }
+      }
+      
+      // Add to cart button
+      if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', function(event) {
+          // Prevent default behavior if inside form
+          if (this.closest('form')) {
+            event.preventDefault();
+          }
+          
+          const product = {
+            name: 'Plush Velvet L-Shape Dylan Sofa',
+            color: selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1),
+            side: selectedSide,
+            extraSeats: extraSeats,
+            price: basePrice + (extraSeats * extraSeatPrice),
+            image: mainImage.src
+          };
+          
+          // Store in localStorage
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          cart.push(product);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          
+          // Update cart count
+          const basketCount = document.querySelector('.basket-count');
+          if (basketCount) {
+            basketCount.textContent = cart.length;
+          }
+          
+          // Show confirmation
+          showConfirmation('Product added to basket!');
+        });
+      }
+      
+      // Show confirmation message
+      function showConfirmation(message) {
+        // Create confirmation element if not exists
+        let confirmation = document.querySelector('.confirmation-message');
+        if (!confirmation) {
+          confirmation = document.createElement('div');
+          confirmation.className = 'confirmation-message';
+          document.body.appendChild(confirmation);
+        }
+        
+        confirmation.textContent = message;
+        confirmation.classList.add('show');
+        
+        setTimeout(() => {
+          confirmation.classList.remove('show');
+        }, 3000);
+      }
+      
+      // Buy now button
+      if (buyNowBtn) {
+        buyNowBtn.addEventListener('click', function() {
+          openModal();
+          
+          // Show delivery options, hide other sections
+          if (deliveryOptions) deliveryOptions.style.display = 'block';
+          if (orderForm) orderForm.style.display = 'none';
+          if (thankYou) thankYou.style.display = 'none';
+        });
+      }
+      
+      // Modal functions
+      function openModal() {
+        if (modal) {
+          modal.style.display = 'flex';
+          modal.classList.add('show');
+          document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+      }
+      
+      function closeModalFunc() {
+        if (modal) {
+          modal.classList.remove('show');
+          setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+          }, 300);
+        }
+      }
+      
+      // Close button event
+      if (closeModal) {
+        closeModal.addEventListener('click', closeModalFunc);
+      }
+      
+      // Click outside to close
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          closeModalFunc();
+        }
+      });
+      
+      // Delivery option selection
+      document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          deliveryOption = this.value;
+          deliveryCost = deliveryOption === 'standard' ? 30 : 50;
+          updateSummary();
+        });
+      });
+      
+      // Continue to order form
+      if (continueToOrderBtn) {
+        continueToOrderBtn.addEventListener('click', function() {
+          if (deliveryOptions) deliveryOptions.style.display = 'none';
+          if (orderForm) orderForm.style.display = 'block';
+          updateSummary();
+        });
+      }
+      
+      // Place order
+      if (placeOrderBtn) {
+        placeOrderBtn.addEventListener('click', function() {
+          const name = document.getElementById('name').value;
+          const contact = document.getElementById('contact').value;
+          const postcode = document.getElementById('postcode').value;
+          const address = document.getElementById('address').value;
+          
+          // Validate form
+          if (!name || !contact || !postcode || !address) {
+            alert('Please fill in all required fields');
+            return;
+          }
+          
+          // Create order object
+          const extraSeatsTotal = extraSeats * extraSeatPrice;
+          const productTotal = basePrice + extraSeatsTotal;
+          const finalTotal = productTotal + deliveryCost;
+          
+          const order = {
+            id: 'order-' + Date.now(),
+            name: name,
+            contact: contact,
+            postcode: postcode,
+            address: address,
+            deliveryDate: document.getElementById('deliveryDate').value,
+            product: `Plush Velvet L-Shape Dylan Sofa (${selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1)})`,
+            productTitle: "Plush Velvet L-Shape Dylan Sofa",
+            productDetails: {
+              name: "Plush Velvet L-Shape Dylan Sofa",
+              title: "Plush Velvet L-Shape Dylan Sofa",
+              color: selectedColor,
+              sideFacing: selectedSide,
+              extraSeats: extraSeats,
+              price: productTotal,
+              image: mainImage.src,
+              quantity: 1
+            },
+            // Add at order level for compatibility
+            color: selectedColor,
+            sideFacing: selectedSide,
+            extraSeats: extraSeats,
+            deliveryOption: deliveryOption,
+            deliveryCost: deliveryCost,
+            total: finalTotal,
+            timestamp: new Date().toISOString()
+          };
+          
+          // Save order to localStorage using the utility function if available
+          if (typeof window.saveOrder === 'function') {
+            window.saveOrder(order);
+          } else {
+            // Fallback if order-utils.js is not loaded
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+          }
+          
+          // Show thank you message
+          if (orderForm) orderForm.style.display = 'none';
+          if (thankYou) thankYou.style.display = 'block';
+        });
+      }
+      
+      // Add custom confirmation message style if not already in stylesheet
+      if (!document.getElementById('confirmationStyle')) {
+        const style = document.createElement('style');
+        style.id = 'confirmationStyle';
+        style.textContent = `
+          .confirmation-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2e8b57;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+          }
+          .confirmation-message.show {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    });
+  </script>
+
+  <!-- WhatsApp Chat Support Button -->
+  <a href="https://wa.me/447351898651" 
+     class="whatsapp-btn" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     title="Need help? Chat with us on WhatsApp">
+    <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" 
+            fill="currentColor"/>
+    </svg>
+  </a>
+
+  <script src="/js/script.js"></script>
+  <script src="/js/basket.js"></script>
+  <script src="/js/mobile-menu.js"></script>
+</body>
+</html> 
