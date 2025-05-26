@@ -33,6 +33,15 @@ function generateOrderId() {
 
 // Function to save an order to server
 async function saveOrder(orderData) {
+  // Auto-create contact field if missing but email or phone exists
+  if (!orderData.contact && (orderData.email || orderData.phone)) {
+    const contactParts = [];
+    if (orderData.email) contactParts.push(orderData.email);
+    if (orderData.phone) contactParts.push(orderData.phone);
+    orderData.contact = contactParts.join(' / ');
+    console.log('Created contact field from email/phone:', orderData.contact);
+  }
+  
   // Make sure we have the required fields
   if (!orderData.name || !orderData.contact || !orderData.address) {
     console.error('Missing required order fields');
@@ -503,4 +512,50 @@ window.deleteOrder = deleteOrder;
 window.syncPendingOrders = syncPendingOrders;
 window.forceOrderSync = forceOrderSync;
 window.checkForNewOrders = checkForNewOrders;
-window.ensureOrderUtilsLoaded = ensureOrderUtilsLoaded; 
+window.ensureOrderUtilsLoaded = ensureOrderUtilsLoaded;
+
+// Debug function to diagnose order issues
+window.debugOrderIssues = function() {
+  // Get orders from localStorage
+  const localOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+  console.log(`Found ${localOrders.length} orders in localStorage`);
+  
+  // Check for missing required fields
+  const problematicOrders = localOrders.filter(order => 
+    !order.name || !order.contact || !order.address
+  );
+  
+  if (problematicOrders.length > 0) {
+    console.warn(`Found ${problematicOrders.length} orders with missing required fields`);
+    console.table(problematicOrders.map(order => ({
+      id: order.id,
+      hasName: !!order.name,
+      hasContact: !!order.contact,
+      hasAddress: !!order.address,
+      pendingSync: !!order.pendingSync,
+      syncAttempts: order.syncAttempts || 0
+    })));
+  } else {
+    console.log('All orders have required fields');
+  }
+  
+  // Check for pending sync orders
+  const pendingOrders = localOrders.filter(order => order.pendingSync);
+  if (pendingOrders.length > 0) {
+    console.warn(`Found ${pendingOrders.length} orders pending sync`);
+    console.table(pendingOrders.map(order => ({
+      id: order.id,
+      timestamp: order.timestamp,
+      syncAttempts: order.syncAttempts || 0,
+      lastSyncAttempt: order.lastSyncAttempt || 'never'
+    })));
+  } else {
+    console.log('No orders pending sync');
+  }
+  
+  return {
+    totalOrders: localOrders.length,
+    problematicOrders: problematicOrders.length,
+    pendingOrders: pendingOrders.length
+  };
+}; 
