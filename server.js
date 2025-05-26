@@ -3,10 +3,29 @@ const path = require('path');
 const app = express();
 const session = require('express-session');
 const fs = require('fs');
+const admin = require('firebase-admin');
 
-// Determine if running on Vercel
-const isVercel = process.env.VERCEL === '1';
-console.log(`Running in ${isVercel ? 'Vercel' : 'local'} environment`);
+// Initialize Firebase Admin SDK
+let serviceAccount;
+try {
+  // Try to load service account from file
+  serviceAccount = require('./firebase-service-account.json');
+} catch (error) {
+  // If file doesn't exist, use environment variables or empty object
+  console.log('Service account file not found, using empty credentials for now');
+  serviceAccount = {};
+}
+
+// Initialize Firebase Admin
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+// Get Firestore database
+const db = admin.firestore();
+
+// Log environment
+console.log('Running in local environment');
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
@@ -54,60 +73,96 @@ let orders = [];
 // Global variable to store last order sync timestamp
 let lastOrderSync = new Date().toISOString();
 
-// Initialize orders - simplified approach to avoid file system issues on Vercel
+// Initialize orders from file system
 try {
-  if (!isVercel) {
-    // Only use file system in local environment
-    const ordersFilePath = path.join(__dirname, 'data', 'orders.json');
-    
+  const ordersFilePath = path.join(__dirname, 'data', 'orders.json');
+  
+  // Create data directory if it doesn't exist
+  if (!fs.existsSync(path.join(__dirname, 'data'))) {
+    fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
+    console.log('Created data directory');
+  }
+  
+  // Load orders from file or initialize with empty array
   if (fs.existsSync(ordersFilePath)) {
     const data = fs.readFileSync(ordersFilePath, 'utf8');
     orders = JSON.parse(data);
     console.log(`Loaded ${orders.length} orders from file`);
   } else {
-      // Create data directory if it doesn't exist
-      const dataDir = path.dirname(ordersFilePath);
-      if (!fs.existsSync(dataDir)) {
-        fs.mkdirSync(dataDir, { recursive: true });
-    }
-    
-    // Create empty orders file
-    fs.writeFileSync(ordersFilePath, JSON.stringify([]));
-    console.log('Created empty orders file');
-    }
-  } else {
-    console.log('Running on Vercel, using in-memory orders only');
-    // Initialize with empty array in Vercel
-    orders = [];
+    // Initialize with empty array and create the file
+    fs.writeFileSync(ordersFilePath, JSON.stringify(orders, null, 2));
+    console.log('Created new orders file');
   }
 } catch (error) {
-  console.error('Error initializing orders:', error);
-  // Continue with empty orders array
+  console.error('Error loading orders:', error);
+  console.log('Using in-memory orders only');
+  // Initialize with empty array
   orders = [];
 }
 
 // API endpoint to get all orders
-app.get('/api/orders', (req, res) => {
+app.get('/api/orders', async (req, res) => {
   // Only allow admin to access all orders
   if (!req.session.isAuthenticated) {
     console.log('Unauthorized access attempt to /api/orders');
     return res.status(401).json({ error: 'Unauthorized', message: 'Please log in to access this resource' });
   }
   
-  console.log(`Returning ${orders.length} orders to admin`);
-  
-  // Check if orders array is valid
-  if (!Array.isArray(orders)) {
-    console.error('Orders variable is not an array!');
-    // Reset orders to empty array if it's corrupted
-    orders = [];
+  try {
+    // Get orders from Firestore
+    const snapshot = await db.collection('orders').orderBy('timestamp', 'desc').get();
+    const firestoreOrders = [];
+    
+    snapshot.forEach(doc => {
+      firestoreOrders.push(doc.data());
+    });
+    
+    console.log(`Retrieved ${firestoreOrders.length} orders from Firestore`);
+    
+    // Merge with local orders - prioritize Firestore orders
+    const mergedOrders = mergeOrders(firestoreOrders, orders);
+    
+    console.log(`Returning ${mergedOrders.length} merged orders to admin`);
+    
+    res.json(mergedOrders);
+  } catch (error) {
+    console.error('Error fetching orders from Firestore:', error);
+    
+    // Fallback to local orders
+    console.log(`Falling back to ${orders.length} local orders`);
+    
+    // Check if orders array is valid
+    if (!Array.isArray(orders)) {
+      console.error('Orders variable is not an array!');
+      // Reset orders to empty array if it's corrupted
+      orders = [];
+    }
+    
+    res.json(orders);
   }
-  
-  res.json(orders);
 });
 
+// Helper function to merge orders from Firestore and local storage
+function mergeOrders(firestoreOrders, localOrders) {
+  // Create a map of orders by ID for faster lookup
+  const orderMap = new Map();
+  
+  // Add local orders to the map
+  localOrders.forEach(order => {
+    orderMap.set(order.id, order);
+  });
+  
+  // Override with Firestore orders (they take precedence)
+  firestoreOrders.forEach(order => {
+    orderMap.set(order.id, order);
+  });
+  
+  // Convert map back to array
+  return Array.from(orderMap.values());
+}
+
 // API endpoint to save an order
-app.post('/api/orders', (req, res) => {
+app.post('/api/orders', async (req, res) => {
   const orderData = req.body;
   
   // Validate required fields
@@ -145,24 +200,32 @@ app.post('/api/orders', (req, res) => {
   lastOrderSync = new Date().toISOString();
   
   // Save orders to file - but only in local environment
-  if (!isVercel) {
-    try {
-      const ordersFilePath = path.join(__dirname, 'data', 'orders.json');
+  try {
+    const ordersFilePath = path.join(__dirname, 'data', 'orders.json');
     fs.writeFileSync(ordersFilePath, JSON.stringify(orders, null, 2));
-    console.log(`Saved ${orders.length} orders to file`);
+    console.log('Order added and saved to file');
   } catch (error) {
-    console.error('Error saving orders to file:', error);
-      // Continue even if file save fails
-    }
-  } else {
-    console.log('Running on Vercel, using in-memory orders only (not saving to file)');
+    console.error('Error saving order to file:', error);
+  }
+  
+  // Save to Firebase Firestore
+  try {
+    // Convert any non-standard data types to string
+    const firestoreOrder = JSON.parse(JSON.stringify(orderData));
+    
+    // Add to Firestore collection
+    await db.collection('orders').doc(orderData.id).set(firestoreOrder);
+    console.log(`Order ${orderData.id} saved to Firestore`);
+  } catch (error) {
+    console.error('Error saving order to Firestore:', error);
+    // Don't return error - we've already saved to local file
   }
   
   res.status(201).json({ success: true, orderId: orderData.id });
 });
 
 // API endpoint to delete an order
-app.delete('/api/orders/:id', (req, res) => {
+app.delete('/api/orders/:id', async (req, res) => {
   // Only allow admin to delete orders
   if (!req.session.isAuthenticated) {
     console.log('Unauthorized access attempt to delete order');
@@ -172,31 +235,45 @@ app.delete('/api/orders/:id', (req, res) => {
   const orderId = req.params.id;
   console.log(`Deleting order: ${orderId}`);
   
-  // Find and remove the order
+  // Find and remove the order from local array
   const initialLength = orders.length;
   orders = orders.filter(order => order.id !== orderId);
   
-  // If no order was removed, return 404
-  if (orders.length === initialLength) {
-    console.log(`Order ${orderId} not found`);
-    return res.status(404).json({ error: 'Order not found' });
-  }
+  // If no order was removed, check if it exists in Firestore before returning 404
+  let orderExists = orders.length < initialLength;
   
   // Update last sync timestamp
   lastOrderSync = new Date().toISOString();
   
   // Save updated orders to file - but only in local environment
-  if (!isVercel) {
-    try {
-      const ordersFilePath = path.join(__dirname, 'data', 'orders.json');
-      fs.writeFileSync(ordersFilePath, JSON.stringify(orders, null, 2));
-      console.log(`Deleted order ${orderId}, saved ${orders.length} orders to file`);
-    } catch (error) {
-      console.error('Error saving orders to file after deletion:', error);
-      // Continue even if file save fails
+  try {
+    const ordersFilePath = path.join(__dirname, 'data', 'orders.json');
+    fs.writeFileSync(ordersFilePath, JSON.stringify(orders, null, 2));
+    console.log('Local orders updated after deletion');
+  } catch (error) {
+    console.error('Error saving orders to file after deletion:', error);
+  }
+  
+  // Delete from Firestore
+  try {
+    // Check if document exists in Firestore first
+    const docRef = db.collection('orders').doc(orderId);
+    const doc = await docRef.get();
+    
+    if (doc.exists) {
+      await docRef.delete();
+      console.log(`Order ${orderId} deleted from Firestore`);
+      orderExists = true;
+    } else if (!orderExists) {
+      console.log(`Order ${orderId} not found in Firestore or local storage`);
+      return res.status(404).json({ error: 'Order not found' });
     }
-  } else {
-    console.log('Running on Vercel, using in-memory orders only (not saving to file after deletion)');
+  } catch (error) {
+    console.error('Error deleting order from Firestore:', error);
+    // Continue if local deletion was successful
+    if (!orderExists) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
   }
   
   res.json({ 
@@ -258,17 +335,12 @@ app.post('/api/sync-orders', async (req, res) => {
       lastOrderSync = new Date().toISOString();
       
       // Save to file - but only in local environment
-      if (!isVercel) {
-        try {
-          const ordersFilePath = path.join(__dirname, 'data', 'orders.json');
-    fs.writeFileSync(ordersFilePath, JSON.stringify(orders, null, 2));
-          console.log(`Saved ${orders.length} merged orders to file after sync`);
-        } catch (fileError) {
-          console.error('Error saving orders to file:', fileError);
-          // Continue even if file save fails - at least we have orders in memory
-        }
-      } else {
-        console.log('Running on Vercel, using in-memory orders only (not saving to file after sync)');
+      try {
+        const ordersFilePath = path.join(__dirname, 'data', 'orders.json');
+        fs.writeFileSync(ordersFilePath, JSON.stringify(orders, null, 2));
+        console.log('Orders synced and saved to file');
+      } catch (error) {
+        console.error('Error saving orders to file after sync:', error);
       }
     }
     
@@ -331,26 +403,24 @@ app.get('/api/debug/orders-status', async (req, res) => {
     let fileOrdersCount = 0;
     
     // Only check file in local environment
-    if (!isVercel) {
-      const ordersFilePath = path.join(__dirname, 'data', 'orders.json');
-      try {
-        fileExists = fs.existsSync(ordersFilePath);
-        if (fileExists) {
-          try {
-            const fileData = fs.readFileSync(ordersFilePath, 'utf8');
-            const fileOrders = JSON.parse(fileData);
-            fileOrdersCount = fileOrders.length;
-          } catch (readError) {
-            console.error('Error reading orders file:', readError);
-          }
+    const ordersFilePath = path.join(__dirname, 'data', 'orders.json');
+    try {
+      fileExists = fs.existsSync(ordersFilePath);
+      if (fileExists) {
+        try {
+          const fileData = fs.readFileSync(ordersFilePath, 'utf8');
+          const fileOrders = JSON.parse(fileData);
+          fileOrdersCount = fileOrders.length;
+        } catch (readError) {
+          console.error('Error reading orders file:', readError);
         }
-      } catch (e) {
-        console.error('Error checking orders file:', e);
       }
+    } catch (e) {
+      console.error('Error checking orders file:', e);
     }
     
     res.json({
-      environment: isVercel ? 'Vercel' : 'Local',
+      environment: 'Local',
       inMemoryOrders: orders.length,
       fileExists: fileExists,
       fileOrdersCount: fileOrdersCount,
@@ -378,7 +448,7 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     ordersCount: orders.length,
     timestamp: new Date().toISOString(),
-    environment: isVercel ? 'Vercel' : 'Local',
+    environment: 'Local',
     isAuthenticated: req.session.isAuthenticated === true,
     lastSync: lastOrderSync
   });
@@ -487,5 +557,5 @@ if (require.main === module) {
   });
 }
 
-// Export the app for serverless use
+// Export the app for standard use
 module.exports = app;

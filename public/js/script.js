@@ -374,4 +374,36 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   }
+  
+  // Firebase order placement function
+  async function placeOrder(orderData) {
+    try {
+      // Load order-utils.js if not already loaded
+      if (typeof window.saveOrder !== 'function') {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = '/js/order-utils.js';
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+      
+      // If saveOrder function exists now, use it
+      if (typeof window.saveOrder === 'function') {
+        // Use the existing function which now handles Firebase
+        const result = await window.saveOrder(orderData);
+        return result;
+      } else {
+        console.error('Failed to load order-utils.js');
+        return false;
+      }
+    } catch (error) {
+      console.error('Error placing order:', error);
+      return false;
+    }
+  }
+  
+  // Make placeOrder function available globally
+  window.placeOrder = placeOrder;
 });

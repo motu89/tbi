@@ -6,6 +6,11 @@ yarn.lock
 # Environment variables
 .env
 
+# Firebase 
+firebase-service-account.json
+*firebase-service*.json
+*firebase*.json
+
 # Logs
 logs
 *.log

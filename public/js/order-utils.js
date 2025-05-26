@@ -1,6 +1,44 @@
 // Order utilities for The British Interiors
 // This file handles order creation and storage with proper API integration
 
+// Initialize Firebase (added to avoid loading Firebase twice)
+let firebaseInitialized = false;
+let firestoreDb = null;
+
+// Function to initialize Firebase
+async function initializeFirebase() {
+  if (firebaseInitialized) return firestoreDb;
+  
+  try {
+    // Import Firebase modules dynamically
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js");
+    const { getFirestore } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js");
+    
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCvnDkDRWsBjYQjcIXfdrHSeEulscgVfmo",
+      authDomain: "thebritishinteriors-68c62.firebaseapp.com",
+      databaseURL: "https://thebritishinteriors-68c62-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "thebritishinteriors-68c62",
+      storageBucket: "thebritishinteriors-68c62.firebasestorage.app",
+      messagingSenderId: "901319095096",
+      appId: "1:901319095096:web:04370ce9cb106668a587cd",
+      measurementId: "G-8HZ1BB5NJW"
+    };
+    
+    // Initialize Firebase app
+    const app = initializeApp(firebaseConfig);
+    firestoreDb = getFirestore(app);
+    
+    console.log('Firebase initialized successfully');
+    firebaseInitialized = true;
+    return firestoreDb;
+  } catch (error) {
+    console.error('Error initializing Firebase:', error);
+    return null;
+  }
+}
+
 // Function to ensure order-utils.js is loaded
 function ensureOrderUtilsLoaded(callback) {
   // If saveOrder function exists, then order-utils.js is already loaded
@@ -31,7 +69,7 @@ function generateOrderId() {
   return 'order-' + Date.now() + '-' + Math.random().toString(36).substring(2, 10);
 }
 
-// Function to save an order to server
+// Function to save an order to server and Firestore
 async function saveOrder(orderData) {
   // Make sure we have the required fields
   if (!orderData.name || !orderData.contact || !orderData.address) {
@@ -66,9 +104,37 @@ async function saveOrder(orderData) {
   // First save to localStorage to ensure we don't lose the order
   saveOrderToLocalStorage(orderData);
 
+  // Try to save to Firestore directly
+  let firestoreSaved = false;
+  try {
+    // Initialize Firebase if needed
+    const db = await initializeFirebase();
+    
+    if (db) {
+      // Import Firestore functions
+      const { collection, addDoc, doc, setDoc, serverTimestamp } = 
+        await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js");
+      
+      // Prepare data for Firestore (with server timestamp)
+      const firestoreData = {
+        ...orderData,
+        firestoreTimestamp: serverTimestamp()
+      };
+      
+      // Add to Firestore
+      await setDoc(doc(db, "orders", orderData.id), firestoreData);
+      console.log('Order saved directly to Firestore:', orderData.id);
+      firestoreSaved = true;
+    }
+  } catch (error) {
+    console.error('Error saving to Firestore directly:', error);
+    // Continue to save to server API as fallback
+  }
+
+  // Also try to save to server API (even if Firestore succeeded)
   try {
     // Save to server API
-    console.log('Sending order to server:', orderData.id);
+    console.log('Sending order to server API:', orderData.id);
     const response = await fetch('/api/orders', {
       method: 'POST',
       headers: {
@@ -84,24 +150,34 @@ async function saveOrder(orderData) {
     const result = await response.json();
     
     if (result.success) {
-      console.log('Order saved successfully to server:', orderData.id);
+      console.log('Order saved successfully to server API:', orderData.id);
       
       // Update the order in localStorage to mark it as synced
       markOrderAsSynced(orderData.id);
       
       return true;
-    } else {
-      console.error('Failed to save order to server:', result.error);
+    } else if (!firestoreSaved) {
+      console.error('Failed to save order to server API:', result.error);
       // The order is already in localStorage with pendingSync = true
       return false;
+    } else {
+      // Firestore succeeded but API failed - still consider it a success
+      console.log('Order saved to Firestore but not to server API - marking as synced');
+      markOrderAsSynced(orderData.id);
+      return true;
     }
   } catch (error) {
-    console.error('Error saving order to server:', error);
+    console.error('Error saving order to server API:', error);
     
-    // The order is already in localStorage
-    // Make sure it's marked for future sync
+    if (firestoreSaved) {
+      // Firestore succeeded but API failed - still consider it a success
+      console.log('Order saved to Firestore but not to server API - marking as synced');
+      markOrderAsSynced(orderData.id);
+      return true;
+    }
+    
+    // Neither succeeded - mark for future sync
     markOrderForSync(orderData.id);
-    
     return false;
   }
 }
