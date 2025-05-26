@@ -1250,6 +1250,7 @@
   <script src="/js/basket.js"></script>
   <script src="/js/mobile-menu.js"></script>
   <script src="/js/order-utils.js"></script>
+  <script src="/js/product-order.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Elements
@@ -1482,69 +1483,34 @@
       // Place order
       const orderFormElement = document.getElementById('orderFormElement');
       
-      orderFormElement.addEventListener('submit', function(event) {
+      orderFormElement.addEventListener('submit', async function(event) {
         // Prevent default form submission
         event.preventDefault();
         
-        // If the form is valid (browser validation will handle this)
-        if (this.checkValidity()) {
-          // Get form values using FormData
-          const formData = new FormData(this);
-          const name = formData.get('name');
-          const contact = formData.get('contact');
-          const postcode = formData.get('postcode');
-          const address = formData.get('address');
-          const deliveryDate = formData.get('deliveryDate');
+        try {
+          // Create product details object
+          const productDetails = {
+            name: "Verona 3+2 Sofa",
+            title: "Verona 3+2 Sofa",
+            color: selectedColor,
+            size: selectedSize,
+            price: currentPrice,
+            image: mainImage.src
+          };
           
-          // Calculate final price
-          const finalTotal = currentPrice + deliveryCost;
+          // Use the shared order handler
+          const success = await handleProductOrder(this, productDetails);
           
-          try {
-            // Create order object
-            const order = {
-              id: 'order-' + Date.now(),
-              name: name,
-              contact: contact,
-              postcode: postcode,
-              address: address,
-              deliveryDate: deliveryDate || '',
-              product: "Verona 3+2 Sofa",
-              productTitle: "Verona 3+2 Sofa",
-              productDetails: {
-                name: "Verona 3+2 Sofa",
-                title: "Verona 3+2 Sofa",
-                color: selectedColor,
-                size: selectedSize,
-                price: currentPrice,
-                image: mainImage.src,
-                quantity: 1,
-                sideFacing: "N/A",
-                extraSeats: 0
-              },
-              color: selectedColor,
-              size: selectedSize,
-              deliveryOption: deliveryOption,
-              deliveryCost: deliveryCost,
-              total: finalTotal,
-              timestamp: new Date().toISOString()
-            };
-            
-            // Save order to localStorage using the utility function if available
-            if (typeof window.saveOrder === 'function') {
-              window.saveOrder(order);
-            } else {
-              // Fallback if order-utils.js is not loaded
-              const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-              orders.push(order);
-              localStorage.setItem('orders', JSON.stringify(orders));
-            }
-            
+          if (success) {
             // Hide form and show thank you message
             orderForm.style.display = 'none';
             thankYou.style.display = 'block';
-          } catch (error) {
+          } else {
             alert('There was an error processing your order. Please try again.');
           }
+        } catch (error) {
+          console.error('Error processing order:', error);
+          alert('There was an error processing your order. Please try again.');
         }
       });
       

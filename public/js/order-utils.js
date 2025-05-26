@@ -83,6 +83,7 @@ async function saveOrder(orderData) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache'
       },
       body: JSON.stringify(orderData)
     });
@@ -110,6 +111,13 @@ async function saveOrder(orderData) {
     
     // Mark for future sync
     markOrderForSync(orderData.id);
+    
+    // Try again after a short delay
+    setTimeout(() => {
+      console.log('Retrying order sync after delay:', orderData.id);
+      syncPendingOrders();
+    }, 3000);
+    
     return false;
   }
 }
@@ -442,7 +450,12 @@ async function checkForNewOrders() {
     const localOrderCount = localOrders.length;
     
     // Check with server if we need to sync
-    const response = await fetch(`/api/sync`);
+    const response = await fetch(`/api/sync`, {
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      }
+    });
     
     if (!response.ok) {
       throw new Error(`Server returned ${response.status}: ${response.statusText}`);
@@ -459,13 +472,30 @@ async function checkForNewOrders() {
       localStorage.setItem('lastOrderSync', serverLastSync);
       
       // Get all orders from server
-      const ordersResponse = await fetch('/api/orders');
+      const ordersResponse = await fetch('/api/orders', {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
       
       if (!ordersResponse.ok) {
         throw new Error(`Server returned ${ordersResponse.status}: ${ordersResponse.statusText}`);
       }
       
       const serverOrders = await ordersResponse.json();
+      
+      // Check if we have new orders by comparing IDs
+      const localOrderIds = new Set(localOrders.map(order => order.id));
+      const serverOrderIds = new Set(serverOrders.map(order => order.id));
+      
+      // Find orders that are on the server but not locally
+      const newOrderIds = [...serverOrderIds].filter(id => !localOrderIds.has(id));
+      const hasNewOrders = newOrderIds.length > 0;
+      
+      if (hasNewOrders) {
+        console.log(`Found ${newOrderIds.length} new orders on server`);
+      }
       
       // Merge with local orders
       const mergedOrders = mergeOrders(serverOrders, localOrders);
@@ -484,22 +514,27 @@ async function checkForNewOrders() {
       localStorage.setItem('orders', JSON.stringify(nonPendingMerged));
       
       return {
-        newDataAvailable: true,
-        orderCount: mergedOrders.length,
+        success: true,
+        newOrders: hasNewOrders || mergedOrders.length > localOrderCount,
+        reason: hasNewOrders ? 'New orders found on server' : 'Updated order data',
+        count: mergedOrders.length,
         previousCount: localOrderCount,
-        newOrders: mergedOrders.length - localOrderCount
+        newOrderCount: newOrderIds.length
       };
     }
     
     // No new data
     return {
-      newDataAvailable: false,
-      orderCount: localOrderCount
+      success: true,
+      newOrders: false,
+      reason: 'Server has no new orders',
+      count: localOrderCount
     };
   } catch (error) {
     console.error('Error checking for new orders:', error);
     return {
-      newDataAvailable: false,
+      success: false,
+      newOrders: false,
       error: error.message
     };
   }

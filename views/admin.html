@@ -925,7 +925,7 @@
           clearInterval(syncInterval);
         }
         
-        // Check for new orders every 10 seconds
+        // Check for new orders every 5 seconds (reduced from 10 seconds)
         syncInterval = setInterval(async function() {
           console.log('Performing automatic check for new orders');
           try {
@@ -965,9 +965,9 @@
           } catch (error) {
             console.error('Error during automatic sync:', error);
           }
-        }, 10000); // 10 seconds
+        }, 5000); // 5 seconds (reduced from 10 seconds)
         
-        console.log('Automatic sync started - checking for new orders every 10 seconds');
+        console.log('Automatic sync started - checking for new orders every 5 seconds');
       }
       
       // Start the periodic sync when the page loads
