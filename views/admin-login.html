@@ -149,15 +149,15 @@
         Invalid username or password. Please try again.
       </div>
       
-      <form action="/admin/login" method="POST">
+      <form id="loginForm">
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="text" id="username" name="username" class="form-control" required>
+          <input type="text" id="username" name="username" class="form-control" value="shoaib" required>
         </div>
         
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" class="form-control" required>
+          <input type="password" id="password" name="password" class="form-control" value="adminshabi896" required>
         </div>
         
         <button type="submit" class="login-btn">
@@ -177,6 +177,51 @@
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('error') === 'invalid') {
         document.getElementById('errorMessage').style.display = 'block';
+      }
+      
+      // Handle form submission with AJAX
+      const loginForm = document.getElementById('loginForm');
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        if (!username || !password) {
+          showError('Username and password are required');
+          return;
+        }
+        
+        try {
+          const response = await fetch('/admin/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            console.log('Login successful:', data);
+            
+            // Redirect to admin page
+            window.location.href = data.redirectTo || '/admin';
+          } else {
+            const errorData = await response.json();
+            showError(errorData.error || 'Invalid username or password');
+          }
+        } catch (error) {
+          console.error('Login error:', error);
+          showError('Login failed. Please try again.');
+        }
+      });
+      
+      function showError(message) {
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
       }
     });
   </script>
