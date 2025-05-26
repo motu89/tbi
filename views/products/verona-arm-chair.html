@@ -1517,6 +1517,7 @@
   <script src="/js/script.js"></script>
   <script src="/js/basket.js"></script>
   <script src="/js/mobile-menu.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="/js/order-utils.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -1816,6 +1817,35 @@
           const orders = JSON.parse(localStorage.getItem('orders') || '[]');
           orders.push(order);
           localStorage.setItem('orders', JSON.stringify(orders));
+          
+          // Direct API call to ensure real-time updates
+          fetch('/api/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Cache-Control': 'no-cache'
+            },
+            body: JSON.stringify(order)
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Order saved to server:', data);
+            
+            // Connect to Socket.IO if not already connected
+            if (typeof io !== 'undefined') {
+              const socket = io();
+              // Emit the order event for real-time updates
+              socket.emit('new-order', {
+                order: order,
+                isNew: true,
+                timestamp: new Date().toISOString()
+              });
+            }
+          })
+          .catch(error => {
+            console.error('Error saving order to server:', error);
+            // Order is still saved in localStorage
+          });
         }
         
         // Show thank you message
