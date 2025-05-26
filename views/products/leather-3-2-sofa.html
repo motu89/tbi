@@ -1339,39 +1339,41 @@
       <!-- Order Form Section -->
       <div class="order-form" id="orderForm">
         <h2>Complete Your Order</h2>
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" placeholder="Enter your full name" required>
-        </div>
-        <div class="form-group">
-          <label for="contact">Contact No</label>
-          <input type="tel" id="contact" placeholder="Enter your phone number" required>
-        </div>
-        <div class="form-group">
-          <label for="postcode">Post Code</label>
-          <input type="text" id="postcode" placeholder="Enter your post code" required>
-        </div>
-        <div class="form-group">
-          <label for="address">Address</label>
-          <textarea id="address" rows="3" placeholder="Enter your full address" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="deliveryDate">Preferred Delivery Date (optional)</label>
-          <input type="date" id="deliveryDate">
-        </div>
-        
-        <div class="order-summary" id="orderSummary">
-          <h3>Order Summary</h3>
-          <p><strong>Product:</strong> <span id="summaryProduct">Leather Roma Recliner 3+2 Sofa</span></p>
-          <p><strong>Size:</strong> <span id="summarySize">3 Seater</span></p>
-          <p><strong>Color:</strong> <span id="summaryColor">Grey</span></p>
-          <p><strong>Delivery:</strong> <span id="summaryDelivery">Standard (£30)</span></p>
-          <p><strong>Total:</strong> <span id="summaryTotal">£580</span></p>
-        </div>
-        
-        <button id="placeOrder" class="buy-now-btn">
-          <i class="fas fa-check"></i> Place Order
-        </button>
+        <form id="orderFormElement">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="contact">Contact No</label>
+            <input type="tel" id="contact" name="contact" placeholder="Enter your phone number" required>
+          </div>
+          <div class="form-group">
+            <label for="postcode">Post Code</label>
+            <input type="text" id="postcode" name="postcode" placeholder="Enter your post code" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" rows="3" placeholder="Enter your full address" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="deliveryDate">Preferred Delivery Date (optional)</label>
+            <input type="date" id="deliveryDate" name="deliveryDate">
+          </div>
+          
+          <div class="order-summary" id="orderSummary">
+            <h3>Order Summary</h3>
+            <p><strong>Product:</strong> <span id="summaryProduct">Leather Roma Recliner 3+2 Sofa</span></p>
+            <p><strong>Size:</strong> <span id="summarySize">3 Seater</span></p>
+            <p><strong>Color:</strong> <span id="summaryColor">Grey</span></p>
+            <p><strong>Delivery:</strong> <span id="summaryDelivery">Standard (£30)</span></p>
+            <p><strong>Total:</strong> <span id="summaryTotal">£580</span></p>
+          </div>
+          
+          <button type="submit" id="placeOrder" class="buy-now-btn">
+            <i class="fas fa-check"></i> Place Order
+          </button>
+        </form>
       </div>
       
       <!-- Thank You Section -->
@@ -1455,6 +1457,8 @@
   <script src="/js/script.js"></script>
   <script src="/js/basket.js"></script>
   <script src="/js/mobile-menu.js"></script>
+  <script src="/js/order-utils.js"></script>
+  <script src="/js/product-order.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Elements
@@ -1651,66 +1655,36 @@
       });
       
       // Place order
-      placeOrderBtn.addEventListener('click', async function() {
-        const name = document.getElementById('name').value;
-        const contact = document.getElementById('contact').value;
-        const postcode = document.getElementById('postcode').value;
-        const address = document.getElementById('address').value;
-        
-        // Validate form
-        if (!name || !contact || !postcode || !address) {
-          alert('Please fill in all required fields');
-          return;
-        }
-        
-        // Create order object
-        const finalTotal = basePrice + deliveryCost;
-        
-        const order = {
-          id: 'order-' + Date.now(),
-          name: name,
-          contact: contact,
-          postcode: postcode,
-          address: address,
-          deliveryDate: document.getElementById('deliveryDate').value,
-          product: `Leather Roma Recliner ${selectedSize} (${selectedColor})`,
-          size: selectedSize,
-          color: selectedColor,
-          deliveryOption: deliveryOption,
-          deliveryCost: deliveryCost,
-          total: finalTotal,
-          timestamp: new Date().toISOString()
-        };
+      const orderFormElement = document.getElementById('orderFormElement');
+      
+      orderFormElement.addEventListener('submit', async function(event) {
+        // Prevent default form submission
+        event.preventDefault();
         
         try {
-          // Save order to server API
-          const response = await fetch('/api/orders', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(order)
-          });
+          // Create product details object
+          const productDetails = {
+            name: `Leather Roma Recliner ${selectedSize}`,
+            title: `Leather Roma Recliner ${selectedSize}`,
+            color: selectedColor,
+            size: selectedSize,
+            price: basePrice,
+            image: mainImage.src
+          };
           
-          if (response.ok) {
-            console.log('Order placed successfully');
-            
-            // Show thank you message
+          // Use the shared order handler
+          const success = await handleProductOrder(this, productDetails);
+          
+          if (success) {
+            // Hide form and show thank you message
             orderForm.style.display = 'none';
             thankYou.style.display = 'block';
           } else {
-            const errorData = await response.json();
-            console.error('Failed to place order:', errorData.error);
             alert('There was an error processing your order. Please try again.');
           }
         } catch (error) {
-          console.error('Error placing order:', error);
-          alert('There was a network error. Please try again or contact us directly.');
-          
-          // Save to localStorage as fallback
-          const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-          orders.push(order);
-          localStorage.setItem('orders', JSON.stringify(orders));
+          console.error('Error processing order:', error);
+          alert('There was an error processing your order. Please try again.');
         }
       });
       
