@@ -1221,6 +1221,8 @@
   <script src="/js/script.js"></script>
   <script src="/js/basket.js"></script>
   <script src="/js/mobile-menu.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/order-utils.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Main elements
@@ -1463,28 +1465,51 @@
           timestamp: new Date().toISOString()
         };
         
-        // Save order to localStorage
-        saveOrder(order);
-        
-        // Emit socket event if socket.io is available
-        if (typeof io !== 'undefined') {
-          const socket = io();
-          socket.emit('new order', order);
-        }
+        // Save order to localStorage and server
+        saveOrderWithRealTimeUpdate(order);
         
         // Show thank you message
         orderForm.style.display = 'none';
         thankYou.style.display = 'block';
       });
       
-      // Helper function to save order
-      function saveOrder(order) {
+      // Helper function to save order with real-time update
+      function saveOrderWithRealTimeUpdate(order) {
         // Save to localStorage
         let orders = JSON.parse(localStorage.getItem('orders') || '[]');
         orders.push(order);
         localStorage.setItem('orders', JSON.stringify(orders));
         
-        // Check if order-utils.js function is available
+        // Send to server for real-time update
+        fetch('/api/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+          },
+          body: JSON.stringify(order)
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Order saved to server:', data);
+          
+          // Connect to Socket.IO if not already connected
+          if (typeof io !== 'undefined') {
+            const socket = io();
+            // Emit the order event for real-time updates
+            socket.emit('new-order', {
+              order: order,
+              isNew: true,
+              timestamp: new Date().toISOString()
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error saving order to server:', error);
+          // Order is still saved in localStorage
+        });
+        
+        // Also use saveOrder from order-utils.js if available
         if (typeof window.saveOrder === 'function') {
           window.saveOrder(order);
         }
