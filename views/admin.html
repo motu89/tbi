@@ -918,15 +918,47 @@
       async function checkSessionAndLoadOrders() {
         try {
           // Check if we're authenticated
-          const sessionResponse = await fetch('/api/check-session');
+          const sessionResponse = await fetch('/api/check-session', {
+            headers: {
+              'Cache-Control': 'no-cache',
+              'Pragma': 'no-cache'
+            }
+          });
+          
+          if (!sessionResponse.ok) {
+            throw new Error(`Session check failed with status: ${sessionResponse.status}`);
+          }
+          
           const sessionData = await sessionResponse.json();
+          console.log('Session check response:', sessionData);
           
           if (!sessionData.isAuthenticated) {
             console.error('Not authenticated according to session check');
-            showToast('Session expired. Redirecting to login...', true);
+            showToast('Session expired. Please wait while we redirect you to login...', true);
+            
+            // Try to refresh the session before redirecting
+            try {
+              const refreshResponse = await fetch('/api/health');
+              if (refreshResponse.ok) {
+                // Check session again after the refresh attempt
+                const recheckResponse = await fetch('/api/check-session');
+                const recheckData = await recheckResponse.json();
+                
+                if (recheckData.isAuthenticated) {
+                  console.log('Session recovered after refresh!');
+                  showToast('Session recovered!');
+                  loadOrders();
+                  return;
+                }
+              }
+            } catch (refreshError) {
+              console.error('Session refresh failed:', refreshError);
+            }
+            
+            // If we reach here, session couldn't be recovered
             setTimeout(() => {
               window.location.href = '/admin/login';
-            }, 2000);
+            }, 3000);
             return;
           }
           
@@ -935,7 +967,14 @@
         } catch (error) {
           console.error('Error checking session:', error);
           showToast('Error checking authentication. Trying to load orders anyway.', true);
-          loadOrders();
+          
+          // Try to load orders anyway
+          try {
+            loadOrders();
+          } catch (loadError) {
+            console.error('Failed to load orders after session check error:', loadError);
+            showToast('Failed to load orders. Try refreshing the page.', true);
+          }
         }
       }
       
