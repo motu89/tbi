@@ -15,12 +15,12 @@ app.use(express.json());
 // Session configuration
 app.use(session({
   secret: 'british-interiors-admin-secret',
-  resave: true,
-  saveUninitialized: true,
+  resave: true, // Changed to true to ensure session is saved on each request
+  saveUninitialized: true, // Changed to true to create session for all users
   cookie: { 
-    maxAge: 3600000, // 1 hour
+    maxAge: 86400000, // 24 hours (increased from 1 hour)
     httpOnly: true,
-    secure: false, // Set to false for now to troubleshoot
+    secure: false, // Set to false for development
     sameSite: 'lax'
   }
 }));
@@ -29,7 +29,11 @@ app.use(session({
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   console.log(`Session ID: ${req.session.id}`);
+  console.log(`Session Cookie: ${JSON.stringify(req.session.cookie)}`);
   console.log(`Is Authenticated: ${req.session.isAuthenticated}`);
+  if (req.session.username) {
+    console.log(`Logged in as: ${req.session.username}`);
+  }
   next();
 });
 
@@ -39,10 +43,15 @@ app.use((req, res, next) => {
   if (req.path.startsWith('/admin') && 
       !req.path.startsWith('/admin/login')) {
     
+    console.log('AUTH CHECK - Path:', req.path);
+    console.log('AUTH CHECK - Is Authenticated:', req.session.isAuthenticated);
+    
     if (!req.session.isAuthenticated) {
-      console.log('Unauthorized access attempt to:', req.path);
+      console.log('AUTH CHECK - Not authenticated, redirecting to login');
       return res.redirect('/admin/login');
-    }
+    } 
+    
+    console.log('AUTH CHECK - User is authenticated, proceeding to admin');
   }
   next();
 });
@@ -241,21 +250,66 @@ app.get('/api/sync', (req, res) => {
   res.json({ lastSync: lastOrderSync });
 });
 
+// API endpoint to check if session is still valid
+app.get('/api/check-session', (req, res) => {
+  console.log('Session check requested - Auth status:', req.session.isAuthenticated);
+  console.log('Session check requested - Session ID:', req.session.id);
+  
+  res.json({ 
+    isAuthenticated: req.session.isAuthenticated === true,
+    username: req.session.username || null
+  });
+});
+
+// API endpoint for health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 // Admin login route
 app.post('/admin/login', (req, res) => {
+  console.log('Admin login attempt:', req.body);
   const { username, password } = req.body;
   
-  // Hardcoded admin credentials - in production this would use a database
-  if (username === 'admin' && password === 'britishinteriors2023') {
+  console.log(`Received credentials - Username: ${username}, Password: ${password}`);
+  
+  // Check if we received JSON data
+  const isJsonRequest = req.is('application/json');
+  console.log('Is JSON request:', isJsonRequest);
+  
+  // Hardcoded admin credentials
+  if (username === 'shoaib' && password === 'adminshabi896') {
+    // Set authentication in session
     req.session.isAuthenticated = true;
     req.session.username = username;
-    console.log('Admin login successful');
     
-    // Redirect to admin dashboard
-    res.json({ success: true, redirect: '/admin' });
+    // Save session explicitly
+    req.session.save(err => {
+      if (err) {
+        console.error('Error saving session:', err);
+        return res.status(500).json({ error: 'Session error', message: 'Could not save session' });
+      }
+      
+      console.log('Login successful - Session saved with auth:', req.session.isAuthenticated);
+      console.log('Login successful - Session ID:', req.session.id);
+      
+      // If this is an AJAX request, respond with JSON
+      if (isJsonRequest) {
+        return res.json({ success: true, redirectTo: '/admin' });
+      }
+      
+      // Regular form submission - redirect to admin page
+      res.redirect('/admin');
+    });
   } else {
-    console.log('Admin login failed');
-    res.status(401).json({ success: false, error: 'Invalid credentials' });
+    console.log(`Admin login failed - Username: ${username}, Password: ${password}`);
+    
+    // If this is an AJAX request, respond with JSON
+    if (isJsonRequest) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    
+    res.redirect('/admin/login?error=invalid');
   }
 });
 
@@ -271,19 +325,34 @@ app.get('/admin/logout', (req, res) => {
   });
 });
 
-// Serve HTML pages
 // Admin page
 app.get('/admin', (req, res) => {
+  console.log('ADMIN PAGE - Request received');
+  console.log('ADMIN PAGE - Auth status:', req.session.isAuthenticated);
+  console.log('ADMIN PAGE - Session ID:', req.session.id);
+  
+  // Check if user is authenticated
+  if (!req.session.isAuthenticated) {
+    console.log('ADMIN PAGE - Not authenticated, redirecting to login');
+    return res.redirect('/admin/login');
+  }
+  
+  console.log('ADMIN PAGE - Serving to authenticated user:', req.session.username);
   res.sendFile(path.join(__dirname, 'views', 'admin.html'));
 });
 
 // Admin login page
 app.get('/admin/login', (req, res) => {
+  console.log('LOGIN PAGE - Request received');
+  console.log('LOGIN PAGE - Auth status:', req.session.isAuthenticated);
+  
   // If already authenticated, redirect to admin dashboard
   if (req.session.isAuthenticated) {
+    console.log('LOGIN PAGE - Already authenticated, redirecting to admin');
     return res.redirect('/admin');
   }
   
+  console.log('LOGIN PAGE - Serving login page');
   res.sendFile(path.join(__dirname, 'views', 'admin-login.html'));
 });
 
