@@ -1219,6 +1219,8 @@
   <script src="/js/script.js"></script>
   <script src="/js/basket.js"></script>
   <script src="/js/mobile-menu.js"></script>
+  <script src="/js/order-utils.js"></script>
+  <script src="/js/product-order.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Main elements
@@ -1415,65 +1417,34 @@
       });
       
       // Place order
-      placeOrderBtn.addEventListener('click', function(event) {
+      placeOrderBtn.addEventListener('click', async function(event) {
         event.preventDefault();
         
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const postcode = document.getElementById('postcode').value;
-        const address = document.getElementById('address').value;
-        
-        // Validate form
-        if (!name || !email || !phone || !postcode || !address) {
-          alert('Please fill in all required fields');
-          return;
-        }
-        
-        // Create order object
-        const deliveryFee = document.querySelector('input[name="delivery"]:checked').value === 'standard' ? 30 : 50;
-        const totalPrice = (product.basePrice * quantity) + deliveryFee;
-        
-        const order = {
-          id: 'order-' + Date.now(),
-          name: name,
-          contact: email + ' / ' + phone,  // Add contact field as required by server.js
-          email: email,
-          phone: phone,
-          postcode: postcode,
-          address: address,
-          deliveryDate: document.getElementById('deliveryDate').value,
-          product: `Dylan Arm Chairs (${selectedColor})`,
-          productTitle: "Dylan Arm Chairs",
-          productDetails: {
+        try {
+          // Create product details object
+          const productDetails = {
             name: "Dylan Arm Chairs",
             title: "Dylan Arm Chairs",
             color: selectedColor,
             price: product.basePrice,
             image: selectedColorImage,
             quantity: quantity
-          },
-          quantity: quantity,
-          color: selectedColor,
-          deliveryOption: document.querySelector('input[name="delivery"]:checked').value,
-          deliveryCost: deliveryFee,
-          total: totalPrice,
-          timestamp: new Date().toISOString()
-        };
-        
-        // Save order to localStorage using the utility function if available
-        if (typeof window.saveOrder === 'function') {
-          window.saveOrder(order);
-        } else {
-          // Fallback if order-utils.js is not loaded
-          const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-          orders.push(order);
-          localStorage.setItem('orders', JSON.stringify(orders));
+          };
+          
+          // Use the shared order handler
+          const success = await handleProductOrder(document.querySelector('form'), productDetails);
+          
+          if (success) {
+            // Hide form and show thank you message
+            orderForm.style.display = 'none';
+            thankYou.style.display = 'block';
+          } else {
+            alert('There was an error processing your order. Please try again.');
+          }
+        } catch (error) {
+          console.error('Error processing order:', error);
+          alert('There was an error processing your order. Please try again.');
         }
-        
-        // Show thank you message
-        orderForm.style.display = 'none';
-        thankYou.style.display = 'block';
       });
       
       // Update basket count
