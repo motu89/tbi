@@ -1437,6 +1437,7 @@
         const order = {
           id: 'order-' + Date.now(),
           name: name,
+          contact: email + ' / ' + phone,  // Add contact field as required by server.js
           email: email,
           phone: phone,
           postcode: postcode,

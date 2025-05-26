@@ -1,0 +1,20 @@
+# Development files
+.git/
+.github/
+.gitignore
+.vscode/
+.idea/
+
+# Local data
+data/*.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Documentation
+README.md
+LICENSE
+
+# Dev dependencies
+node_modules/ 

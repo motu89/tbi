@@ -536,6 +536,74 @@
     <span id="toastMessage">Operation successful!</span>
   </div>
 
+  <!-- Socket.IO integration -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Connect to Socket.IO server with proper configuration
+    const socket = io({
+      transports: ['websocket', 'polling'],
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
+      timeout: 20000
+    });
+    
+    // Event: Connection established
+    socket.on('connection-established', (data) => {
+      console.log('Connected to server:', data.message);
+    });
+    
+    // Event: Connection error
+    socket.on('connect_error', (error) => {
+      console.error('Socket.IO connection error:', error);
+    });
+    
+    // Event: Reconnection attempt
+    socket.on('reconnect_attempt', (attemptNumber) => {
+      console.log(`Socket.IO reconnection attempt ${attemptNumber}`);
+    });
+    
+    // Event: New order received
+    socket.on('new-order', (data) => {
+      console.log('New order received:', data.order);
+      
+      // Play notification sound if available
+      try {
+        const audio = new Audio('/sounds/notification.mp3');
+        audio.play().catch(e => console.log('Could not play notification sound:', e));
+      } catch (e) {
+        console.log('Audio notification not supported:', e);
+      }
+      
+      // Show toast notification
+      showToast(`New order received from ${data.order.name}!`, false);
+      
+      // Reload orders automatically
+      loadOrders();
+    });
+    
+    // Event: Order updated
+    socket.on('order-updated', (data) => {
+      console.log('Order updated:', data.order);
+      
+      // Show toast notification
+      showToast(`Order #${data.orderId.substring(0, 8)} has been updated!`, false);
+      
+      // Reload orders
+      loadOrders();
+    });
+    
+    // Event: Order deleted
+    socket.on('order-deleted', (data) => {
+      console.log('Order deleted:', data.orderId);
+      
+      // Show toast notification
+      showToast(`Order #${data.orderId.substring(0, 8)} has been deleted!`, true);
+      
+      // Reload orders
+      loadOrders();
+    });
+  </script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // DOM Elements
@@ -918,15 +986,47 @@
       async function checkSessionAndLoadOrders() {
         try {
           // Check if we're authenticated
-          const sessionResponse = await fetch('/api/check-session');
+          const sessionResponse = await fetch('/api/check-session', {
+            headers: {
+              'Cache-Control': 'no-cache',
+              'Pragma': 'no-cache'
+            }
+          });
+          
+          if (!sessionResponse.ok) {
+            throw new Error(`Session check failed with status: ${sessionResponse.status}`);
+          }
+          
           const sessionData = await sessionResponse.json();
+          console.log('Session check response:', sessionData);
           
           if (!sessionData.isAuthenticated) {
             console.error('Not authenticated according to session check');
-            showToast('Session expired. Redirecting to login...', true);
+            showToast('Session expired. Please wait while we redirect you to login...', true);
+            
+            // Try to refresh the session before redirecting
+            try {
+              const refreshResponse = await fetch('/api/health');
+              if (refreshResponse.ok) {
+                // Check session again after the refresh attempt
+                const recheckResponse = await fetch('/api/check-session');
+                const recheckData = await recheckResponse.json();
+                
+                if (recheckData.isAuthenticated) {
+                  console.log('Session recovered after refresh!');
+                  showToast('Session recovered!');
+                  loadOrders();
+                  return;
+                }
+              }
+            } catch (refreshError) {
+              console.error('Session refresh failed:', refreshError);
+            }
+            
+            // If we reach here, session couldn't be recovered
             setTimeout(() => {
               window.location.href = '/admin/login';
-            }, 2000);
+            }, 3000);
             return;
           }
           
@@ -935,7 +1035,14 @@
         } catch (error) {
           console.error('Error checking session:', error);
           showToast('Error checking authentication. Trying to load orders anyway.', true);
-          loadOrders();
+          
+          // Try to load orders anyway
+          try {
+            loadOrders();
+          } catch (loadError) {
+            console.error('Failed to load orders after session check error:', loadError);
+            showToast('Failed to load orders. Try refreshing the page.', true);
+          }
         }
       }
       
