@@ -361,18 +361,147 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// Catch all other routes and serve the index.html
-app.get('*', (req, res) => {
-  // Exclude API routes
-  if (!req.path.startsWith('/api/')) {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+// Direct product routes - explicit routes for each product page
+// This ensures the routes work correctly without any routing conflicts
+
+app.get('/products/basket.html', (req, res) => {
+  console.log('Serving basket page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'basket.html'));
+});
+
+app.get('/products/dylan-sofa1.html', (req, res) => {
+  console.log('Serving dylan-sofa1 page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'dylan-sofa1.html'));
+});
+
+app.get('/products/dylan-sofa2.html', (req, res) => {
+  console.log('Serving dylan-sofa2 page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'dylan-sofa2.html'));
+});
+
+app.get('/products/dylan-sofa3.html', (req, res) => {
+  console.log('Serving dylan-sofa3 page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'dylan-sofa3.html'));
+});
+
+app.get('/products/dylan-sofa4.html', (req, res) => {
+  console.log('Serving dylan-sofa4 page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'dylan-sofa4.html'));
+});
+
+app.get('/products/verona-corner-sofa.html', (req, res) => {
+  console.log('Serving verona-corner-sofa page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'verona-corner-sofa.html'));
+});
+
+app.get('/products/verona-3-2-sofa.html', (req, res) => {
+  console.log('Serving verona-3-2-sofa page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'verona-3-2-sofa.html'));
+});
+
+app.get('/products/bishop-u-shape-sofa.html', (req, res) => {
+  console.log('Serving bishop-u-shape-sofa page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'bishop-u-shape-sofa.html'));
+});
+
+app.get('/products/mini-u-shape-sofa.html', (req, res) => {
+  console.log('Serving mini-u-shape-sofa page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'mini-u-shape-sofa.html'));
+});
+
+app.get('/products/salone-corner-sofa.html', (req, res) => {
+  console.log('Serving salone-corner-sofa page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'salone-corner-sofa.html'));
+});
+
+app.get('/products/salone-3-2-sofa.html', (req, res) => {
+  console.log('Serving salone-3-2-sofa page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'salone-3-2-sofa.html'));
+});
+
+app.get('/products/leather-corner-sofa.html', (req, res) => {
+  console.log('Serving leather-corner-sofa page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'leather-corner-sofa.html'));
+});
+
+app.get('/products/leather-3-2-sofa.html', (req, res) => {
+  console.log('Serving leather-3-2-sofa page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'leather-3-2-sofa.html'));
+});
+
+app.get('/products/dylan-arm-chair.html', (req, res) => {
+  console.log('Serving dylan-arm-chair page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'dylan-arm-chair.html'));
+});
+
+app.get('/products/salone-arm-chair.html', (req, res) => {
+  console.log('Serving salone-arm-chair page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'salone-arm-chair.html'));
+});
+
+app.get('/products/verona-arm-chair.html', (req, res) => {
+  console.log('Serving verona-arm-chair page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'verona-arm-chair.html'));
+});
+
+app.get('/products/leather-recliner-arm-chair.html', (req, res) => {
+  console.log('Serving leather-recliner-arm-chair page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'leather-recliner-arm-chair.html'));
+});
+
+app.get('/products/modern-sofabeds.html', (req, res) => {
+  console.log('Serving modern-sofabeds page');
+  res.sendFile(path.join(__dirname, 'views', 'products', 'modern-sofabeds.html'));
+});
+
+// Fallback for other product pages (if any)
+app.get('/products/:productName', (req, res) => {
+  let productName = req.params.productName;
+  
+  // Remove .html extension if it exists in the URL
+  if (productName.endsWith('.html')) {
+    productName = productName.slice(0, -5);
+  }
+  
+  const productFile = path.join(__dirname, 'views', 'products', `${productName}.html`);
+  
+  console.log(`Attempting to serve product page via fallback: ${productFile}`);
+  console.log(`Does file exist? ${fs.existsSync(productFile)}`);
+  
+  // Check if the file exists
+  if (fs.existsSync(productFile)) {
+    console.log(`Serving product file via fallback: ${productFile}`);
+    return res.sendFile(productFile);
   } else {
-    res.status(404).json({ error: 'API endpoint not found' });
+    console.log(`Product page not found: ${productFile}`);
+    // Redirect to home page if product not found
+    return res.redirect('/');
   }
 });
 
 // Start the server
 const PORT = process.env.PORT || 3000;
+
+// Handle server shutdown gracefully
+process.on('SIGINT', () => {
+  console.log('Server shutting down...');
+  process.exit(0);
+});
+
+// Catch all other routes and serve the index.html
+// This should be the LAST route
+app.get('*', (req, res) => {
+  // Exclude API routes
+  if (req.path.startsWith('/api/')) {
+    console.log(`API route not found: ${req.path}`);
+    return res.status(404).json({ error: 'API endpoint not found' });
+  } 
+  
+  // Handle all other routes by serving the index.html
+  console.log(`Catch-all route handling: ${req.path}`);
+  return res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
