@@ -2162,79 +2162,59 @@
       // Place order
       const orderFormElement = document.getElementById('orderFormElement');
       
-      orderFormElement.addEventListener('submit', function(event) {
+      orderFormElement.addEventListener('submit', async function(event) {
         // Prevent default form submission
         event.preventDefault();
         
-        // If the form is valid (browser validation will handle this)
-        if (this.checkValidity()) {
-          // Get form values using FormData
-          const formData = new FormData(this);
-          const name = formData.get('name');
-          const contact = formData.get('contact');
-          const postcode = formData.get('postcode');
-          const address = formData.get('address');
-          const deliveryDate = formData.get('deliveryDate');
+        // Create product details object
+        const extensionSeatsTotal = extensionSeats * extensionSeatPrice;
+        const backTypeTotal = backType === 'scatter' ? scatterBackPrice : 0;
+        const productTotal = basePrice + extensionSeatsTotal + backTypeTotal;
+        
+        const productDetails = {
+          name: "Bishop U-Shape Sofa",
+          title: "Bishop U-Shape Sofa",
+          color: selectedColor,
+          extensionSeats: extensionSeats,
+          backType: backType,
+          price: productTotal,
+          image: mainImage.src,
+          // Add these properties to make them show up in admin panel
+          sideFacing: "N/A"
+        };
+        
+        try {
+          // First ensure product-order.js is loaded
+          if (typeof window.handleProductOrder !== 'function') {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = '/js/product-order.js';
+              script.onload = function() {
+                console.log('product-order.js loaded successfully');
+                resolve();
+              };
+              script.onerror = function(err) {
+                console.error('Failed to load product-order.js:', err);
+                reject(err);
+              };
+              document.head.appendChild(script);
+            });
+          }
           
-          try {
-            // Create order object
-            const extensionSeatsTotal = extensionSeats * extensionSeatPrice;
-            const backTypeTotal = backType === 'scatter' ? scatterBackPrice : 0;
-            const productTotal = basePrice + extensionSeatsTotal + backTypeTotal;
-            const finalTotal = productTotal + deliveryCost;
-            
-            const order = {
-              id: 'order-' + Date.now(),
-              name: name,
-              contact: contact,
-              postcode: postcode,
-              address: address,
-              deliveryDate: deliveryDate || '',
-              product: "Bishop U-Shape Sofa", // Set product as a string, not an object
-              productTitle: "Bishop U-Shape Sofa",
-              productDetails: {
-                name: "Bishop U-Shape Sofa",
-                title: "Bishop U-Shape Sofa",
-                color: selectedColor,
-                extensionSeats: extensionSeats,
-                backType: backType,
-                price: productTotal,
-                image: mainImage.src,
-                // Add these properties to make them show up in admin panel
-                quantity: 1,
-                sideFacing: "N/A"
-              },
-              // Add at order level for compatibility
-              color: selectedColor,
-              extensionSeats: extensionSeats,
-              backType: backType,
-              deliveryOption: deliveryOption,
-              deliveryCost: deliveryCost,
-              total: finalTotal,
-              timestamp: new Date().toISOString()
-            };
-            
-            console.log("Saving order:", order);
-            
-            // Use the saveOrder utility if available, otherwise fall back to direct localStorage
-            if (typeof window.saveOrder === 'function') {
-              window.saveOrder(order);
-            } else {
-              // Fallback if order-utils.js is not loaded
-              const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-              orders.push(order);
-              localStorage.setItem('orders', JSON.stringify(orders));
-            }
-            
-            // Show thank you message
+          // Use the shared order handler
+          const success = await window.handleProductOrder(orderFormElement, productDetails);
+          
+          if (success) {
+            // Hide form and show thank you message
             orderForm.style.display = 'none';
             thankYou.style.display = 'block';
-            
             console.log("Order placed successfully, thank you page shown");
-          } catch (error) {
-            console.error("Error placing order:", error);
+          } else {
             alert('There was an error processing your order. Please try again.');
           }
+        } catch (error) {
+          console.error("Error placing order:", error);
+          alert('There was an error processing your order. Please try again.');
         }
       });
       
