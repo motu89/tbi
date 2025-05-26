@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salone 3+2 Sofa - The British Interiors</title>
+  <title>Salone Arm Chairs - The British Interiors</title>
   <link rel="icon" href="/images/logo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="/images/logo.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -172,12 +172,12 @@
       background-color: #888;
     }
     
-    .color-option.cream {
-      background-color: #e8e4d5;
-    }
-    
     .color-option.black {
       background-color: #222;
+    }
+    
+    .color-option.mink {
+      background-color: #704a44;
     }
     
     .color-option.active {
@@ -201,71 +201,55 @@
       margin-top: 0.5rem;
     }
     
-    /* Seater option section */
-    .seater-option {
+    /* Quantity control */
+    .quantity-control {
       margin: 1rem 0;
     }
     
-    .seater-option h3 {
+    .quantity-control h3 {
       margin-bottom: 0.75rem;
       font-size: 1rem;
       font-weight: 500;
       color: #555;
     }
     
-    .seater-options {
+    .quantity-buttons {
       display: flex;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .seater-toggle {
-      flex: 1;
-      padding: 0.75rem;
-      border: 2px solid #ddd;
+      align-items: center;
+      width: fit-content;
+      border: 1px solid #ddd;
       border-radius: 8px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      background-color: white;
+      overflow: hidden;
     }
     
-    .seater-toggle:hover {
-      background-color: #f8f9fa;
-      transform: translateY(-2px);
-    }
-    
-    .seater-toggle.active {
-      border-color: #0e4c92;
-      background-color: #f0f7ff;
-    }
-    
-    .seater-label {
-      display: block;
-      font-weight: 500;
-      margin-bottom: 0.25rem;
-    }
-    
-    .seater-price {
-      display: block;
-      font-size: 0.9rem;
-      color: #2e8b57;
-    }
-    
-    /* Total price */
-    .total-price {
-      background-color: #e6f0ff;
-      padding: 1rem;
-      border-radius: 8px;
-      margin: 1rem 0;
-    }
-    
-    .total-price h3 {
-      display: flex;
-      justify-content: space-between;
+    .quantity-btn {
+      background-color: #f5f5f5;
+      border: none;
+      width: 40px;
+      height: 40px;
       font-size: 1.2rem;
-      font-weight: 600;
-      color: #0e4c92;
+      font-weight: 700;
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease;
+    }
+    
+    .quantity-btn:hover {
+      background-color: #e0e0e0;
+    }
+    
+    .quantity-value {
+      width: 60px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
     }
     
     /* Action buttons */
@@ -343,233 +327,6 @@
     .product-description li {
       margin-bottom: 0.5rem;
       color: #555;
-    }
-    
-    /* Modal styling */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    
-    .modal-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .modal-content {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 12px;
-      max-width: 600px;
-      width: 90%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-    }
-    
-    .modal-overlay.show .modal-content {
-      transform: translateY(0);
-    }
-    
-    .close-modal {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #777;
-      transition: color 0.2s ease;
-    }
-    
-    .close-modal:hover {
-      color: #333;
-    }
-    
-    /* Delivery options */
-    .delivery-options {
-      margin: 1rem 0 2rem;
-    }
-    
-    .delivery-options h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      color: #333;
-    }
-    
-    .delivery-option {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      transition: all 0.2s ease;
-    }
-    
-    .delivery-option:hover {
-      border-color: #0e4c92;
-      background-color: #f8f9fa;
-    }
-    
-    .delivery-option input {
-      margin: 0.25rem 1rem 0 0;
-      transform: scale(1.2);
-    }
-    
-    .delivery-option label {
-      flex: 1;
-    }
-    
-    .delivery-option strong {
-      display: block;
-      margin-bottom: 0.25rem;
-      color: #333;
-    }
-    
-    .delivery-option p {
-      font-size: 0.9rem;
-      color: #777;
-      margin: 0;
-    }
-    
-    /* Order form */
-    .order-form {
-      max-width: 100%;
-      margin: 0;
-      padding: 0;
-      display: none;
-    }
-    
-    .order-form h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      color: #333;
-    }
-    
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: #555;
-      font-size: 0.95rem;
-    }
-    
-    .form-group input, 
-    .form-group textarea {
-      width: 100%;
-      padding: 0.875rem;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      font-family: inherit;
-      font-size: 1rem;
-      transition: border-color 0.2s ease;
-    }
-    
-    .form-group input:focus, 
-    .form-group textarea:focus {
-      border-color: #0e4c92;
-      outline: none;
-    }
-    
-    /* Order summary */
-    .order-summary {
-      margin: 1.5rem 0;
-      padding: 1.25rem;
-      background-color: #f8f9fa;
-      border-radius: 8px;
-    }
-    
-    .order-summary h3 {
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-      color: #333;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 0.5rem;
-    }
-    
-    .order-summary p {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
-    }
-    
-    .order-summary p:last-child {
-      font-weight: 600;
-      color: #0e4c92;
-      margin-top: 0.5rem;
-      padding-top: 0.5rem;
-      border-top: 1px solid #ddd;
-    }
-    
-    /* Thank you message */
-    .thank-you {
-      text-align: center;
-      padding: 1rem;
-      display: none;
-    }
-    
-    .thank-you h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: #2e8b57;
-    }
-    
-    .thank-you p {
-      color: #555;
-      margin-bottom: 0.75rem;
-    }
-    
-    .success-icon {
-      font-size: 4rem;
-      color: #2e8b57;
-      margin-bottom: 1rem;
-    }
-    
-    .order-id {
-      font-weight: 600;
-      color: #0e4c92;
-      margin-bottom: 2rem;
-    }
-    
-    /* Confirmation message */
-    .confirmation-message {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #2e8b57;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 6px;
-      font-weight: 500;
-      z-index: 9999;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s ease;
-    }
-    
-    .confirmation-message.show {
-      transform: translateY(0);
-      opacity: 1;
     }
     
     /* WhatsApp Custom Order Section */
@@ -669,87 +426,74 @@
     }
     
     .total-reviews {
-      color: #777;
       font-size: 0.9rem;
+      color: #777;
     }
     
     .rating-bars {
       flex: 1;
-      min-width: 200px;
+      max-width: 400px;
     }
     
     .rating-bar {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
       margin-bottom: 0.5rem;
     }
     
     .rating-label {
-      flex: 0 0 15px;
+      width: 25px;
       text-align: right;
-      color: #555;
-      font-weight: 500;
+      margin-right: 10px;
+      color: #777;
     }
     
     .bar-container {
       flex: 1;
       height: 12px;
-      background-color: #eee;
+      background-color: #e9ecef;
       border-radius: 10px;
       overflow: hidden;
+      margin: 0 10px;
+      position: relative;
     }
     
     .bar {
       height: 100%;
       background-color: #0e4c92;
       border-radius: 10px;
+      position: absolute;
+      left: 0;
+      top: 0;
     }
     
     .count {
-      flex: 0 0 20px;
+      width: 25px;
       color: #777;
       font-size: 0.9rem;
     }
     
     .reviews-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 1.5rem;
+      margin-bottom: 1.5rem;
       max-height: 800px;
       overflow-y: auto;
-      padding-right: 0.5rem;
-    }
-    
-    .reviews-container::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    .reviews-container::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-    
-    .reviews-container::-webkit-scrollbar-thumb {
-      background: #ccc;
-      border-radius: 10px;
-    }
-    
-    .reviews-container::-webkit-scrollbar-thumb:hover {
-      background: #aaa;
+      padding-right: 10px;
     }
     
     .review-card {
       background-color: white;
+      border-radius: 8px;
       padding: 1.25rem;
-      border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: all 0.2s ease;
     }
     
     .review-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       transform: translateY(-3px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     
     .review-header {
@@ -762,7 +506,6 @@
     .reviewer {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
     }
     
     .avatar {
@@ -775,12 +518,13 @@
       align-items: center;
       justify-content: center;
       font-weight: 600;
+      margin-right: 0.75rem;
       font-size: 0.9rem;
     }
     
     .reviewer-name {
       font-weight: 500;
-      color: #333;
+      color: #444;
     }
     
     .review-rating {
@@ -801,38 +545,6 @@
       margin: 0;
     }
     
-    .reviews-pagination {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 1.5rem;
-    }
-    
-    .pagination-btn {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      border: 1px solid #ddd;
-      background-color: white;
-      color: #555;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-    }
-    
-    .pagination-btn:hover {
-      background-color: #f2f2f2;
-    }
-    
-    .pagination-btn.active {
-      background-color: #0e4c92;
-      color: white;
-      border-color: #0e4c92;
-    }
-    
     @media (max-width: 768px) {
       .reviews-summary {
         flex-direction: column;
@@ -846,6 +558,316 @@
       .reviews-container {
         grid-template-columns: 1fr;
         max-height: 600px;
+      }
+    }
+    
+    /* Modal styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+      display: flex !important;
+    }
+    
+    /* Additional modal styling to ensure visibility */
+    #buyNowModal.show {
+      display: flex !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    .modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    
+    .modal-overlay.show .modal-content {
+      transform: translateY(0);
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+      transition: color 0.2s ease;
+    }
+    
+    .close-modal:hover {
+      color: #333;
+    }
+    
+    /* Delivery options */
+    .delivery-options {
+      margin: 1rem 0 2rem;
+    }
+    
+    .delivery-options h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+    
+    .delivery-option {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    
+    .delivery-option:hover {
+      border-color: #0e4c92;
+      background-color: #f8f9fa;
+    }
+    
+    .delivery-option input {
+      margin: 0.25rem 1rem 0 0;
+      transform: scale(1.2);
+    }
+    
+    .delivery-option label {
+      flex: 1;
+    }
+    
+    .delivery-option strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: #333;
+    }
+    
+    .delivery-option p {
+      font-size: 0.9rem;
+      color: #777;
+      margin: 0;
+    }
+    
+    /* Order form */
+    .order-form {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .order-form h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+    
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #555;
+      font-size: 0.95rem;
+    }
+    
+    .form-group input, 
+    .form-group textarea {
+      width: 100%;
+      padding: 0.875rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+    }
+    
+    .form-group input:focus, 
+    .form-group textarea:focus {
+      border-color: #0e4c92;
+      outline: none;
+    }
+    
+    /* Order summary */
+    .order-summary {
+      margin: 1.5rem 0;
+      padding: 1.25rem;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+    }
+    
+    .order-summary h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    
+    .order-summary p {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+    
+    .order-summary p:last-child {
+      font-weight: 600;
+    }
+    
+    /* Thank you message */
+    .thank-you {
+      text-align: center;
+      padding: 1rem;
+    }
+    
+    .thank-you h2 {
+      color: #2e8b57;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .thank-you p {
+      margin-bottom: 0.75rem;
+      color: #555;
+    }
+    
+    .thank-you .whatsapp-contact {
+      margin-top: 2rem;
+      text-align: center;
+      padding: 1rem;
+      background-color: #f0f8f0;
+      border-radius: 8px;
+    }
+    
+    .whatsapp-contact p {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+    
+    .whatsapp-contact .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      position: static;
+      width: auto;
+      height: auto;
+    }
+    
+    /* Floating buttons */
+    .basket-btn {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #3498db;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 9;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+    
+    .basket-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+    
+    .basket-icon {
+      width: 35px;
+      height: 35px;
+    }
+    
+    .basket-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #e74c3c;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid white;
+    }
+    
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #25d366;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 9;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+    
+    .whatsapp-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+    
+    .whatsapp-icon {
+      width: 35px;
+      height: 35px;
+    }
+    
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
       }
     }
   </style>
@@ -867,8 +889,8 @@
     
     <div class="logo-container">
       <a href="/" class="home-link">
-        <div class="logo">
-          <img src="/images/logo.jpg" alt="The British Interiors Logo">
+    <div class="logo">
+        <img src="/images/logo.jpg" alt="The British Interiors Logo">
         </div>
         <h1 class="site-title">The British Interiors</h1>
       </a>
@@ -876,7 +898,7 @@
     <nav class="main-nav">
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/#salone-sofa">Salone Sofa</a></li>
+        <li><a href="/#arm-chair">Arm Chair</a></li>
         <li><a href="/products/basket.html">Cart</a></li>
         <li><a href="/#contact">Contact Us</a></li>
         <li class="search-container">
@@ -891,558 +913,461 @@
     </nav>
   </header>
 
-  <div class="content-wrapper">
-    <!-- Breadcrumbs -->
-    <div class="breadcrumbs">
-      <a href="/">Home</a>
-      <span class="separator">/</span>
-      <a href="/#salone-sofa">Salone Sofa</a>
-      <span class="separator">/</span>
-      <span class="current">Salone 3+2 Sofa</span>
-    </div>
-
-    <!-- Product Detail Section -->
-    <section class="product-detail">
-      <!-- Product Gallery -->
-      <div class="product-gallery">
-        <div class="main-image">
-          <img src="/images/Salone%20Sofa/3%2B2/cream1.jpg" alt="Salone 3+2 Sofa" id="mainImage">
-        </div>
-        <div class="thumbnail-gallery">
-          <div class="thumbnail active" data-image="/images/Salone%20Sofa/3%2B2/cream1.jpg">
-            <img src="/images/Salone%20Sofa/3%2B2/cream1.jpg" alt="Cream Salone 3+2 Sofa">
-          </div>
-          <div class="thumbnail" data-image="/images/Salone%20Sofa/3%2B2/grey.jpg">
-            <img src="/images/Salone%20Sofa/3%2B2/grey.jpg" alt="Grey Salone 3+2 Sofa">
-          </div>
-          <div class="thumbnail" data-image="/images/Salone%20Sofa/3%2B2/black.jpg">
-            <img src="/images/Salone%20Sofa/3%2B2/black.jpg" alt="Black Salone 3+2 Sofa">
-          </div>
-          <div class="thumbnail" data-image="/images/Salone%20Sofa/3%2B2/ss.jpg">
-            <img src="/images/Salone%20Sofa/3%2B2/ss.jpg" alt="Additional View">
-          </div>
-          <div class="thumbnail" data-image="/images/Salone%20Sofa/3%2B2/size1.jpg">
-            <img src="/images/Salone%20Sofa/3%2B2/size1.jpg" alt="Size Chart">
-          </div>
-          <div class="thumbnail" data-image="/images/Salone%20Sofa/3%2B2/size2.jpg">
-            <img src="/images/Salone%20Sofa/3%2B2/size2.jpg" alt="Size Chart">
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Info -->
-      <div class="product-info-detail">
-        <h2 class="product-title">Salone 3+2 Sofa</h2>
-        <div class="product-price">
-          <span class="old-price">£700</span>
-          <span class="current-price">£550</span>
-          <span class="discount-badge">Save £150</span>
-        </div>
-
-        <!-- Color Selection -->
-        <div class="color-selection">
-          <h3>Select Color:</h3>
-          <div class="color-options">
-            <div class="color-option grey" data-color="Grey" data-image="/images/Salone%20Sofa/3%2B2/grey.jpg"></div>
-            <div class="color-option cream active" data-color="Cream" data-image="/images/Salone%20Sofa/3%2B2/cream1.jpg"></div>
-            <div class="color-option black" data-color="Black" data-image="/images/Salone%20Sofa/3%2B2/black.jpg"></div>
-          </div>
-          <p class="selected-color">Selected: <span id="selected-color-text">Cream</span></p>
-        </div>
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Product Detail -->
+    <section class="product-detail-section">
+      <div class="container">
+        <a href="/" class="back-btn">
+          <span class="back-arrow">←</span> Back to Home
+        </a>
         
-        <!-- Seater Selection -->
-        <div class="seater-option">
-          <h3>Select Seater Option:</h3>
-          <div class="seater-options">
-            <div class="seater-toggle active" data-seater="3" data-old-price="700" data-price="550">
-              <span class="seater-label">3 Seater</span>
-              <span class="seater-price">£550</span>
+        <div class="product-detail">
+          <!-- Product Gallery -->
+          <div class="product-gallery">
+            <div class="main-image">
+              <img src="/images/Arm Chair/s/sgrey.jpg" alt="Salone Arm Chairs" id="mainImage">
             </div>
-            <div class="seater-toggle" data-seater="2" data-old-price="550" data-price="450">
-              <span class="seater-label">2 Seater</span>
-              <span class="seater-price">£450</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Total Price -->
-        <div class="total-price">
-          <h3>Total Price: <span id="total-price">£550</span></h3>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-          <button class="add-to-cart-btn">
-            <i class="fas fa-shopping-cart"></i> Add to Basket
-          </button>
-          <button type="button" class="buy-now-btn">
-            <i class="fas fa-bolt"></i> Buy Now
-          </button>
-        </div>
-        
-        <!-- WhatsApp Custom Order Message -->
-        <div class="whatsapp-custom-order">
-          <p>If you want any customize sofa or if you want to book order via WhatsApp contact us on WhatsApp</p>
-          <a href="https://wa.me/447351898651" class="whatsapp-button" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-whatsapp"></i> Message Us on WhatsApp
-          </a>
-        </div>
-
-        <!-- Product Description -->
-        <div class="product-description">
-          <p>The Salone 3+2 Sofa combines luxury and comfort in a stylish design perfect for modern homes.</p>
-          <ul>
-            <li>Premium fabric upholstery</li>
-            <li>Sturdy wooden frame</li>
-            <li>High-density foam cushions</li>
-            <li>Available in multiple colors</li>
-            <li>Available as 3 or 2 seater option</li>
-          </ul>
-        </div>
-        
-        <!-- Customer Reviews Section -->
-        <div class="customer-reviews">
-          <h2 class="reviews-title">Customer Reviews</h2>
-          <div class="reviews-summary">
-            <div class="average-rating">
-              <span class="rating-number">4.2</span>
-              <div class="stars">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star-half-alt"></i>
+            <div class="thumbnail-gallery">
+              <div class="thumbnail active" data-image="/images/Arm Chair/s/sgrey.jpg">
+                <img src="/images/Arm Chair/s/sgrey.jpg" alt="Grey Salone Arm Chair">
               </div>
-              <span class="total-reviews">15 reviews</span>
-            </div>
-            <div class="rating-bars">
-              <div class="rating-bar">
-                <span class="rating-label">5</span>
-                <div class="bar-container">
-                  <div class="bar" style="width: 40%"></div>
-                </div>
-                <span class="count">6</span>
+              <div class="thumbnail" data-image="/images/Arm Chair/s/sblack.jpg">
+                <img src="/images/Arm Chair/s/sblack.jpg" alt="Black Salone Arm Chair">
               </div>
-              <div class="rating-bar">
-                <span class="rating-label">4</span>
-                <div class="bar-container">
-                  <div class="bar" style="width: 40%"></div>
-                </div>
-                <span class="count">6</span>
+              <div class="thumbnail" data-image="/images/Arm Chair/s/smink.jpg">
+                <img src="/images/Arm Chair/s/smink.jpg" alt="Mink Salone Arm Chair">
               </div>
-              <div class="rating-bar">
-                <span class="rating-label">3</span>
-                <div class="bar-container">
-                  <div class="bar" style="width: 20%"></div>
-                </div>
-                <span class="count">3</span>
-              </div>
-              <div class="rating-bar">
-                <span class="rating-label">2</span>
-                <div class="bar-container">
-                  <div class="bar" style="width: 0%"></div>
-                </div>
-                <span class="count">0</span>
-              </div>
-              <div class="rating-bar">
-                <span class="rating-label">1</span>
-                <div class="bar-container">
-                  <div class="bar" style="width: 0%"></div>
-                </div>
-                <span class="count">0</span>
+              <div class="thumbnail" data-image="/images/Arm Chair/s/size.jpg">
+                <img src="/images/Arm Chair/s/size.jpg" alt="Size Chart">
               </div>
             </div>
           </div>
           
-          <div class="reviews-container">
-            <!-- 5 Star Reviews -->
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">AK</div>
-                  <div class="reviewer-name">Alex K.</div>
-                </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
+          <!-- Product Info -->
+          <div class="product-info-detail">
+            <h1 class="product-title">Salone Arm Chairs</h1>
+            <div class="product-price">
+              <span class="old-price">£399</span>
+              <span class="current-price">£350</span>
+              <span class="discount-badge">SAVE £49</span>
+            </div>
+            
+            <div class="color-selection">
+              <h3>Select Color:</h3>
+              <div class="color-options">
+                <div class="color-option grey active" data-color="Grey" data-image="/images/Arm Chair/s/sgrey.jpg"></div>
+                <div class="color-option black" data-color="Black" data-image="/images/Arm Chair/s/sblack.jpg"></div>
+                <div class="color-option mink" data-color="Mink" data-image="/images/Arm Chair/s/smink.jpg"></div>
               </div>
-              <div class="review-date">Purchased 2 months ago</div>
-              <div class="review-content">
-                <p>Absolutely love our new Salone 3+2 Sofa! The quality is exceptional and it looks much more expensive than it was. Super comfortable and the grey color is perfect for our living room. Highly recommend!</p>
+              <div class="selected-color">Selected Color: <span id="selectedColorText">Grey</span></div>
+            </div>
+            
+            <div class="quantity-control">
+              <h3>Quantity:</h3>
+              <div class="quantity-buttons">
+                <button class="quantity-btn minus-btn">-</button>
+                <div class="quantity-value">1</div>
+                <button class="quantity-btn plus-btn">+</button>
               </div>
             </div>
             
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">SM</div>
-                  <div class="reviewer-name">Sarah M.</div>
-                </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
-              </div>
-              <div class="review-date">Purchased 1 month ago</div>
-              <div class="review-content">
-                <p>Fantastic sofa that fits perfectly in our space. The delivery was prompt and assembly was straightforward. The cushions are just the right firmness and the fabric feels durable. Very happy with this purchase!</p>
-              </div>
+            <div class="total-price">
+              <h3>Total Price: <span id="totalPrice">£350</span></h3>
+            </div>
+            <div class="action-buttons">
+              <button class="add-to-cart-btn" id="addToCartBtn" data-product-id="salone-arm-chair" data-price="350">
+                <i class="fas fa-shopping-cart"></i> Add to Basket
+            </button>
+              <button class="buy-now-btn" id="buyNowBtn">
+                <i class="fas fa-bolt"></i> Buy Now
+              </button>
             </div>
             
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">JD</div>
-                  <div class="reviewer-name">James D.</div>
-                </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
-              </div>
-              <div class="review-date">Purchased 3 months ago</div>
-              <div class="review-content">
-                <p>We opted for the cream color and it looks stunning in our living room. The sofa is incredibly comfortable and has ample seating. Great value for money - would definitely buy from The British Interiors again.</p>
-              </div>
+            <!-- WhatsApp Custom Order Message -->
+            <div class="whatsapp-custom-order">
+              <p>If you want any customized sofa or if you want to book your order through WhatsApp, contact us on WhatsApp.</p>
+              <a href="https://wa.me/447351898651" class="whatsapp-button" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-whatsapp"></i> Message Us on WhatsApp
+              </a>
             </div>
             
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">KP</div>
-                  <div class="reviewer-name">Karen P.</div>
-                </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
-              </div>
-              <div class="review-date">Purchased 2 weeks ago</div>
-              <div class="review-content">
-                <p>The Salone 3+2 Sofa exceeded our expectations! The black fabric is easy to clean and looks sleek. The cushions are supportive yet soft, and the overall construction feels very sturdy. Excellent customer service too!</p>
-              </div>
+            <div class="product-description">
+              <h3>Product Description</h3>
+              <p>The Salone Arm Chair offers both style and comfort in a compact design. Crafted with high-quality materials, this elegant arm chair enhances any living space.</p>
+              <ul class="features-list">
+                <li>Solid wood frame for durability</li>
+                <li>High-density foam padding</li>
+                <li>Multiple upholstery color options</li>
+                <li>Free delivery to mainland UK</li>
+              </ul>
+              <p class="disclaimer">Note: Actual colors may vary slightly due to screen settings.</p>
             </div>
             
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">TJ</div>
-                  <div class="reviewer-name">Thomas J.</div>
-                </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
-              </div>
-              <div class="review-date">Purchased 1 month ago</div>
-              <div class="review-content">
-                <p>This sofa is perfect for our family room. The grey color matches our decor beautifully, and it's held up well to our kids and pets. The delivery team was professional and set everything up quickly. Highly recommend!</p>
-              </div>
+            <!-- Customer Reviews Section -->
+            <div class="customer-reviews">
+              <h2 class="reviews-title">Customer Reviews</h2>
+              <div class="reviews-summary">
+                <div class="average-rating">
+                  <span class="rating-number">4.2</span>
+                  <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
             </div>
-            
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">LB</div>
-                  <div class="reviewer-name">Laura B.</div>
-                </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
-              </div>
-              <div class="review-date">Purchased 1 month ago</div>
-              <div class="review-content">
-                <p>I bought the 2 seater option and it's perfect for my apartment! The design is modern yet comfortable, and it's become everyone's favorite spot in the house. Delivery and assembly were hassle-free. Would definitely recommend!</p>
-              </div>
-            </div>
-            
-            <!-- 4 Star Reviews -->
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">RL</div>
-                  <div class="reviewer-name">Rachel L.</div>
-                </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
-                </div>
-              </div>
-              <div class="review-date">Purchased 2 months ago</div>
-              <div class="review-content">
-                <p>Very comfortable sofa and the color options are great. I ordered the cream one and it looks elegant in my living room. The only minor issue was that delivery took a bit longer than expected, but the quality makes up for it.</p>
-              </div>
-            </div>
-            
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">DM</div>
-                  <div class="reviewer-name">David M.</div>
-                </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
+                  <span class="total-reviews">15 reviews</span>
+          </div>
+                <div class="rating-bars">
+                  <div class="rating-bar">
+                    <span class="rating-label">5</span>
+                    <div class="bar-container">
+                      <div class="bar" style="width: 40%"></div>
+                    </div>
+                    <span class="count">6</span>
+                  </div>
+                  <div class="rating-bar">
+                    <span class="rating-label">4</span>
+                    <div class="bar-container">
+                      <div class="bar" style="width: 40%"></div>
+                    </div>
+                    <span class="count">6</span>
+                  </div>
+                  <div class="rating-bar">
+                    <span class="rating-label">3</span>
+                    <div class="bar-container">
+                      <div class="bar" style="width: 20%"></div>
+                    </div>
+                    <span class="count">3</span>
+                  </div>
+                  <div class="rating-bar">
+                    <span class="rating-label">2</span>
+                    <div class="bar-container">
+                      <div class="bar" style="width: 0%"></div>
+                    </div>
+                    <span class="count">0</span>
+                  </div>
+                  <div class="rating-bar">
+                    <span class="rating-label">1</span>
+                    <div class="bar-container">
+                      <div class="bar" style="width: 0%"></div>
+                    </div>
+                    <span class="count">0</span>
+                  </div>
                 </div>
               </div>
-              <div class="review-date">Purchased 3 months ago</div>
-              <div class="review-content">
-                <p>The sofa fits perfectly in our space and is very comfortable. The fabric quality is good, though I would have preferred slightly firmer cushions. Overall, we're happy with the purchase and the value for money is excellent.</p>
-              </div>
-            </div>
-            
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">MT</div>
-                  <div class="reviewer-name">Mark T.</div>
+              
+              <div class="reviews-container">
+                <!-- 5 Star Reviews -->
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">JS</div>
+                      <div class="reviewer-name">James S.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 3 months ago</div>
+                  <div class="review-content">
+                    <p>Super comfortable and looks amazing in my living room. The velvet material is luxurious and the color is exactly as shown in the pictures. Assembly was straightforward and the chair feels very sturdy. Highly recommend!</p>
+                  </div>
                 </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">EM</div>
+                      <div class="reviewer-name">Emma M.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 1 month ago</div>
+                  <div class="review-content">
+                    <p>We love our new Salone arm chair! The crush velvet is beautiful and feels really luxurious. It's been perfect for my reading corner. The delivery team was also very professional.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="review-date">Purchased 2 months ago</div>
-              <div class="review-content">
-                <p>Good value for money and very stylish. The Salone sofa is firm but comfortable. Taking one star off because assembly instructions could have been clearer, but managed to put it together with a bit of effort.</p>
-              </div>
-            </div>
-            
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">JW</div>
-                  <div class="reviewer-name">Jessica W.</div>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">RT</div>
+                      <div class="reviewer-name">Ryan T.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 2 months ago</div>
+                  <div class="review-content">
+                    <p>Fabric is soft and durable. Happy with the purchase. This chair has transformed our living space and become a favorite spot in our home. The cushions are the perfect balance of soft yet supportive.</p>
+                  </div>
                 </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">LB</div>
+                      <div class="reviewer-name">Lisa B.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 4 months ago</div>
+                  <div class="review-content">
+                    <p>Absolutely worth every penny! The color is gorgeous and it fits perfectly in our space. Very happy with this purchase and would buy from The British Interiors again.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="review-date">Purchased 1 month ago</div>
-              <div class="review-content">
-                <p>The sofa looks fantastic and the material feels premium. Very comfortable to sit and lie on. Would've given 5 stars but the cushions are a bit firmer than I personally prefer. Overall still very satisfied.</p>
-              </div>
-            </div>
-            
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">AH</div>
-                  <div class="reviewer-name">Ashley H.</div>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">AK</div>
+                      <div class="reviewer-name">Alex K.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 2 months ago</div>
+                  <div class="review-content">
+                    <p>Extremely comfortable and stylish. The delivery was quick and the setup was hassle-free. The velvet material is easy to clean which is great for our household with kids and pets. Couldn't be happier!</p>
+                  </div>
                 </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">NP</div>
+                      <div class="reviewer-name">Nina P.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 3 months ago</div>
+                  <div class="review-content">
+                    <p>The quality exceeded my expectations. This chair is both beautiful and functional. The cushions retain their shape well even after daily use. Very pleased with this purchase and the customer service I received.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="review-date">Purchased 4 months ago</div>
-              <div class="review-content">
-                <p>Really happy with my new Salone sofa. It's very comfortable and fits perfectly in our space. Only reason for not giving 5 stars is that the delivery was delayed by a week from the original date.</p>
-              </div>
-            </div>
-            
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">BL</div>
-                  <div class="reviewer-name">Brian L.</div>
+                
+                <!-- 4 Star Reviews -->
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">MD</div>
+                      <div class="reviewer-name">Monica D.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 2 months ago</div>
+                  <div class="review-content">
+                    <p>Great build quality but delivery took a bit longer than expected. The chair itself is comfortable and looks elegant in our living room. Just taking off one star for the delay in delivery.</p>
+                  </div>
                 </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">JT</div>
+                      <div class="reviewer-name">John T.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 1 month ago</div>
+                  <div class="review-content">
+                    <p>Very comfortable chair that looks premium. The only minor issue is that the color is slightly different from what I expected based on the website images. Still very happy with it overall.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="review-date">Purchased 1 month ago</div>
-              <div class="review-content">
-                <p>Very nice sofa with good quality upholstery. Color matches perfectly with our living room. Taking off one star as the cushions could use a bit more padding for my taste, but overall excellent value.</p>
-              </div>
-            </div>
-            
-            <!-- 3 Star Reviews -->
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">PM</div>
-                  <div class="reviewer-name">Paul M.</div>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">SP</div>
+                      <div class="reviewer-name">Sarah P.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 3 months ago</div>
+                  <div class="review-content">
+                    <p>Really pleased with this purchase. The chair is comfortable and the fabric feels durable. Only reason for 4 stars is that one of the legs was slightly damaged, but customer service was quick to send a replacement.</p>
+                  </div>
                 </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
-                  <i class="far fa-star"></i>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">DH</div>
+                      <div class="reviewer-name">Daniel H.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 2 months ago</div>
+                  <div class="review-content">
+                    <p>Good value for money and very stylish. The chair is firm but comfortable. Taking one star off because assembly instructions could have been clearer, but managed to put it together with a bit of effort.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="review-date">Purchased 3 months ago</div>
-              <div class="review-content">
-                <p>Looks good but seat depth could be better. The quality of the sofa is decent for the price, but I find the seats not deep enough for my preference. The fabric material does look nice though.</p>
-              </div>
-            </div>
-            
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">CL</div>
-                  <div class="reviewer-name">Catherine L.</div>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">CW</div>
+                      <div class="reviewer-name">Charlotte W.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 4 months ago</div>
+                  <div class="review-content">
+                    <p>Really happy with my new Salone arm chair. It's very comfortable and works perfectly in our space. Only reason for not giving 5 stars is that the delivery was delayed by a week from the original date.</p>
+                  </div>
                 </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
-                  <i class="far fa-star"></i>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">MR</div>
+                      <div class="reviewer-name">Mike R.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 1 month ago</div>
+                  <div class="review-content">
+                    <p>The chair looks fantastic and the material feels premium. Very comfortable to sit on. Would've given 5 stars but the cushions are a bit firmer than I personally prefer. Overall still very satisfied.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="review-date">Purchased 2 months ago</div>
-              <div class="review-content">
-                <p>The sofa looks nice but isn't as comfortable as I hoped. The cushions are quite firm and I needed to add extra pillows. Delivery was prompt and assembly was easy, which is why I'm giving 3 stars.</p>
-              </div>
-            </div>
-            
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer">
-                  <div class="avatar">RJ</div>
-                  <div class="reviewer-name">Robert J.</div>
+                
+                <!-- 3 Star Reviews -->
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">KL</div>
+                      <div class="reviewer-name">Kevin L.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 3 months ago</div>
+                  <div class="review-content">
+                    <p>Looks good but seat depth could be better. The quality of the chair is decent for the price, but I find the seat not deep enough for my preference. The velvet material does look nice though.</p>
+                  </div>
                 </div>
-                <div class="review-rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
-                  <i class="far fa-star"></i>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">FG</div>
+                      <div class="reviewer-name">Fiona G.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 2 months ago</div>
+                  <div class="review-content">
+                    <p>The chair looks nice but isn't as comfortable as I hoped. The cushions are quite firm and I needed to add extra pillows. Delivery was prompt and assembly was easy, which is why I'm giving 3 stars.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="review-date">Purchased 3 months ago</div>
-              <div class="review-content">
-                <p>Average quality for the price point. The sofa looks good but after a few months of use, the cushions are starting to lose their shape. The color is nice and as shown in the pictures, but durability seems questionable.</p>
+                
+                <div class="review-card">
+                  <div class="review-header">
+                    <div class="reviewer">
+                      <div class="avatar">BR</div>
+                      <div class="reviewer-name">Ben R.</div>
+                    </div>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="review-date">Purchased 3 months ago</div>
+                  <div class="review-content">
+                    <p>Average quality for the price point. The chair looks good but after a few months of use, the cushion is starting to lose its shape. The color is nice and as shown in the pictures, but durability seems questionable.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  </div>
-
-  <!-- Modal for Order Form -->
-  <div class="modal-overlay" id="orderModal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      
-      <!-- Delivery Options Section -->
-      <div class="delivery-options" id="deliveryOptions">
-        <h2>Select Delivery Option</h2>
-        <div class="delivery-option">
-          <input type="radio" id="standardDelivery" name="delivery" value="standard" checked>
-          <label for="standardDelivery">
-            <strong>Standard Delivery - £30</strong>
-            <p>Delivery in 3-5 days</p>
-          </label>
-        </div>
-        <div class="delivery-option">
-          <input type="radio" id="premiumDelivery" name="delivery" value="premium">
-          <label for="premiumDelivery">
-            <strong>Premium Delivery - £50</strong>
-            <p>Delivery in 1 day</p>
-          </label>
-        </div>
-        <button id="continueToOrder" class="add-to-cart-btn">
-          <i class="fas fa-arrow-right"></i> Continue to Order Details
-        </button>
-      </div>
-      
-      <!-- Order Form Section -->
-      <div class="order-form" id="orderForm">
-        <h2>Complete Your Order</h2>
-        <form id="orderFormElement">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-          </div>
-          <div class="form-group">
-            <label for="contact">Contact No</label>
-            <input type="tel" id="contact" name="contact" placeholder="Enter your phone number" required>
-          </div>
-          <div class="form-group">
-            <label for="postcode">Post Code</label>
-            <input type="text" id="postcode" name="postcode" placeholder="Enter your post code" required>
-          </div>
-          <div class="form-group">
-            <label for="address">Address</label>
-            <textarea id="address" name="address" rows="3" placeholder="Enter your full address" required></textarea>
-          </div>
-          <div class="form-group">
-            <label for="deliveryDate">Preferred Delivery Date (optional)</label>
-            <input type="date" id="deliveryDate" name="deliveryDate">
-          </div>
-          
-          <div class="order-summary" id="orderSummary">
-            <h3>Order Summary</h3>
-            <p><strong>Product:</strong> <span id="summaryProduct">Salone 3+2 Sofa</span></p>
-            <p><strong>Seater:</strong> <span id="summarySeater">3</span></p>
-            <p><strong>Color:</strong> <span id="summaryColor">Grey</span></p>
-            <p><strong>Delivery:</strong> <span id="summaryDelivery">Standard (£30)</span></p>
-            <p><strong>Total:</strong> <span id="summaryTotal">£980</span></p>
-          </div>
-          
-          <button type="submit" id="placeOrder" class="buy-now-btn">
-            <i class="fas fa-check"></i> Place Order
-          </button>
-        </form>
-      </div>
-      
-      <!-- Thank You Section -->
-      <div class="thank-you" id="thankYou">
-        <i class="fas fa-check-circle success-icon"></i>
-        <h2>Thank You for Your Order!</h2>
-        <p>Your order has been successfully placed.</p>
-        <p>We will contact you shortly to confirm your order details.</p>
-        <p class="order-id">Order ID: <span id="orderId"></span></p>
-        <button id="continueShoppingBtn" class="add-to-cart-btn">
-          <i class="fas fa-arrow-left"></i> Continue Shopping
-        </button>
-      </div>
-    </div>
-  </div>
+  </main>
 
   <!-- Footer Section -->
   <footer id="contact" class="footer">
@@ -1455,12 +1380,10 @@
       <div class="footer-links">
         <h4>Quick Links</h4>
         <ul>
-          <li><a href="/#dylan-sofa">Dylan Sofa</a></li>
-          <li><a href="/#verona-sofa">Verona Sofa</a></li>
-          <li><a href="/#u-shape-sofa">U-Shape Sofa</a></li>
-          <li><a href="/#salone-sofa">Salone Sofa</a></li>
-          <li><a href="/#leather-sofa">Leather Sofa</a></li>
+          <li><a href="/">Home</a></li>
           <li><a href="/#arm-chair">Arm Chair</a></li>
+          <li><a href="/products/basket.html">Cart</a></li>
+          <li><a href="/#contact">Contact Us</a></li>
         </ul>
       </div>
       <div class="footer-contact">
@@ -1487,13 +1410,6 @@
     </div>
   </footer>
 
-  <script src="/js/script.js"></script>
-  <script src="/js/smooth-scroll.js"></script>
-  <script src="/js/basket.js"></script>
-  <script src="/js/mobile-menu.js"></script>
-  <script src="/js/order-utils.js"></script>
-  <script src="/js/product-order.js"></script>
-
   <!-- Basket Button -->
   <a href="/products/basket.html" class="basket-btn" title="View your basket">
     <svg class="basket-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1502,7 +1418,7 @@
     </svg>
     <span class="basket-count">0</span>
   </a>
-
+  
   <!-- WhatsApp Chat Support Button -->
   <a href="https://wa.me/447351898651" 
      class="whatsapp-btn" 
@@ -1515,333 +1431,438 @@
     </svg>
   </a>
 
+  <!-- Modal Overlay for Buy Now -->
+  <div class="modal-overlay" id="buyNowModal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeModal">&times;</span>
+      <div class="delivery-options" id="deliveryOptions">
+        <h2>Select Delivery Option</h2>
+        <div class="delivery-option">
+          <input type="radio" id="standard" name="delivery" value="standard" checked>
+          <label for="standard">
+            <strong>Standard Delivery - £30</strong>
+            <p>Delivery within 7-10 business days.</p>
+          </label>
+        </div>
+        <div class="delivery-option">
+          <input type="radio" id="express" name="delivery" value="express">
+          <label for="express">
+            <strong>Express Delivery - £50</strong>
+            <p>Delivery within 3-5 business days.</p>
+          </label>
+        </div>
+        <button id="continueToOrder" class="buy-now-btn" style="width: 100%; margin-top: 20px;">
+          <i class="fas fa-arrow-right"></i> Continue to Order Details
+        </button>
+      </div>
+      
+      <form class="order-form" id="orderForm" style="display: none;">
+        <h2>Your Details</h2>
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Delivery Address</label>
+          <textarea id="address" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="postcode">Postcode</label>
+          <input type="text" id="postcode" required>
+        </div>
+        <div class="form-group">
+          <label for="deliveryDate">Preferred Delivery Date (optional)</label>
+          <input type="date" id="deliveryDate">
+        </div>
+        
+        <div class="order-summary" id="orderSummary">
+          <h3>Order Summary</h3>
+          <p><strong>Product:</strong> <span id="summaryProduct">Salone Arm Chairs (Grey)</span></p>
+          <p><strong>Color:</strong> <span id="summaryColor">Grey</span></p>
+          <p><strong>Quantity:</strong> <span id="summaryQuantity">1</span></p>
+          <p><strong>Delivery:</strong> <span id="summaryDelivery">Standard (£30)</span></p>
+          <p><strong>Total:</strong> <span id="summaryTotal">£380</span></p>
+        </div>
+        
+        <button type="submit" id="placeOrder" class="buy-now-btn" style="width: 100%;">
+          <i class="fas fa-check"></i> Place Order
+        </button>
+      </form>
+      
+      <div class="thank-you" id="thankYou" style="display: none;">
+        <h2><i class="fas fa-check-circle"></i> Thank You For Your Order!</h2>
+        <p>Your order has been placed successfully.</p>
+        <p>We will contact you shortly to confirm your order details.</p>
+        
+        <div class="whatsapp-contact">
+          <p>If you want any customized chair or want to book via WhatsApp, contact us.</p>
+          <a href="https://wa.me/447351898651" class="whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i> Contact on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+  <script src="/js/basket.js"></script>
+  <script src="/js/mobile-menu.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/order-utils.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Clear any duplicates in the basket when the page loads
-      cleanBasket();
-      
-      // Elements
+      // Main elements
       const mainImage = document.getElementById('mainImage');
       const thumbnails = document.querySelectorAll('.thumbnail');
       const colorOptions = document.querySelectorAll('.color-option');
-      const selectedColorText = document.getElementById('selected-color-text');
-      const seaterToggles = document.querySelectorAll('.seater-toggle');
-      const totalPriceElement = document.getElementById('total-price');
-      const addToCartBtn = document.querySelector('.add-to-cart-btn');
-      const buyNowBtn = document.querySelector('.buy-now-btn');
-      const modal = document.getElementById('orderModal');
-      const closeModal = document.querySelector('.close-modal');
-      const deliveryOptions = document.getElementById('deliveryOptions');
-      const orderForm = document.getElementById('orderForm');
-      const thankYou = document.getElementById('thankYou');
-      const continueToOrderBtn = document.getElementById('continueToOrder');
-      const placeOrderBtn = document.getElementById('placeOrder');
-      const continueShoppingBtn = document.getElementById('continueShoppingBtn');
+      const selectedColorSpan = document.getElementById('selectedColorText');
+      const totalPriceSpan = document.getElementById('totalPrice');
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      const buyNowBtn = document.getElementById('buyNowBtn');
+      const quantityBtns = document.querySelectorAll('.quantity-btn');
+      const quantityValue = document.querySelector('.quantity-value');
       
-      // Variables
-      let selectedSeater = '3';
-      let basePrice = 550;
-      let oldPrice = 700;
-      let selectedColor = 'Cream';
-      let deliveryOption = 'standard';
-      let deliveryCost = 30;
+      // Set product details
+      const product = {
+        name: 'Salone Arm Chairs',
+        basePrice: 350,
+        color: 'Grey',
+        image: '/images/Arm Chair/s/sgrey.jpg'
+      };
       
-      // Clean the basket of any duplicate items based on product ID
-      function cleanBasket() {
-        const basket = JSON.parse(localStorage.getItem('basket') || '[]');
-        if (basket.length === 0) return;
-        
-        // Use a Map to track unique items by ID + color + seater
-        const uniqueItems = new Map();
-        
-        basket.forEach(item => {
-          const key = `${item.id}-${item.color || ''}-${item.seater || ''}`;
-          
-          if (uniqueItems.has(key)) {
-            // Found a duplicate - add its quantity to the existing item
-            const existingItem = uniqueItems.get(key);
-            existingItem.quantity += item.quantity;
-          } else {
-            // First occurrence - add to map
-            uniqueItems.set(key, item);
-          }
-        });
-        
-        // Convert map values back to array
-        const cleanedBasket = Array.from(uniqueItems.values());
-        
-        // Save the cleaned basket
-        localStorage.setItem('basket', JSON.stringify(cleanedBasket));
-        
-        // Update basket count
-        updateBasketCount();
+      // Initialize variables
+      let selectedColor = 'Grey';
+      let selectedColorImage = '/images/Arm Chair/s/sgrey.jpg';
+      let quantity = 1;
+      
+      // Update total price based on quantity
+      function updateTotalPrice() {
+        const totalPrice = product.basePrice * quantity;
+        totalPriceSpan.textContent = `£${totalPrice}`;
       }
       
-      // Thumbnail gallery
+      // Quantity controls
+      quantityBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (this.classList.contains('minus-btn') && quantity > 1) {
+            quantity--;
+          } else if (this.classList.contains('plus-btn')) {
+            quantity++;
+          }
+          
+          // Update UI
+          quantityValue.textContent = quantity;
+          updateTotalPrice();
+          
+          // Update data attributes for basket.js
+          addToCartBtn.setAttribute('data-quantity', quantity);
+        });
+      });
+      
+      // Set active thumbnail and update main image
       thumbnails.forEach(thumbnail => {
         thumbnail.addEventListener('click', function() {
           thumbnails.forEach(t => t.classList.remove('active'));
           this.classList.add('active');
           
-          const newSrc = this.getAttribute('data-image');
-          mainImage.src = newSrc;
+          const newImageSrc = this.getAttribute('data-image');
+          mainImage.src = newImageSrc;
         });
       });
       
-      // Color selection
+      // Handle color selection
       colorOptions.forEach(option => {
         option.addEventListener('click', function() {
-          colorOptions.forEach(opt => opt.classList.remove('active'));
+          colorOptions.forEach(o => o.classList.remove('active'));
           this.classList.add('active');
           
           selectedColor = this.getAttribute('data-color');
-          selectedColorText.textContent = selectedColor;
+          selectedColorImage = this.getAttribute('data-image');
+          selectedColorSpan.textContent = selectedColor;
           
-          const newImage = this.getAttribute('data-image');
-          if (newImage) {
-            mainImage.src = newImage;
-            
-            thumbnails.forEach(thumb => {
-              if (thumb.getAttribute('data-image') === newImage) {
-                thumb.classList.add('active');
-              } else {
-                thumb.classList.remove('active');
-              }
-            });
-          }
+          // Update main image
+          mainImage.src = selectedColorImage;
           
-          updateSummary();
+          // Find and activate the corresponding thumbnail
+          thumbnails.forEach(thumb => {
+            if (thumb.getAttribute('data-image') === selectedColorImage) {
+              thumbnails.forEach(t => t.classList.remove('active'));
+              thumb.classList.add('active');
+            }
+          });
+          
+          // Update data attributes for basket.js
+          addToCartBtn.setAttribute('data-color', selectedColor);
         });
       });
       
-      // Seater selection
-      seaterToggles.forEach(toggle => {
-        toggle.addEventListener('click', function() {
-          seaterToggles.forEach(t => t.classList.remove('active'));
-          this.classList.add('active');
-          
-          selectedSeater = this.getAttribute('data-seater');
-          basePrice = parseInt(this.getAttribute('data-price'));
-          oldPrice = parseInt(this.getAttribute('data-old-price'));
-          
-          totalPriceElement.textContent = `£${basePrice}`;
-          document.querySelector('.old-price').textContent = `£${oldPrice}`;
-          document.querySelector('.current-price').textContent = `£${basePrice}`;
-          document.querySelector('.discount-badge').textContent = `Save £${oldPrice - basePrice}`;
-          
-          updateSummary();
-        });
-      });
-      
-      // Function to update summary
-      function updateSummary() {
-        document.getElementById('summaryProduct').textContent = `Salone ${selectedSeater}+2 Sofa`;
-        document.getElementById('summaryColor').textContent = selectedColor;
-        document.getElementById('summarySeater').textContent = `${selectedSeater} Seater`;
-        document.getElementById('summaryDelivery').textContent = deliveryOption === 'standard' ? 'Standard (£30)' : 'Premium (£50)';
-        document.getElementById('summaryTotal').textContent = `£${basePrice + deliveryCost}`;
-      }
-      
-      // IMPORTANT: Remove any existing event listeners first
-      if (addToCartBtn) {
-        // Clone the button to remove all event listeners
-        const newButton = addToCartBtn.cloneNode(true);
-        addToCartBtn.parentNode.replaceChild(newButton, addToCartBtn);
-        
-        // Now add our single event listener to the new button
-        newButton.addEventListener('click', addToCart);
-      }
-      
-      // Add to Cart function separated from the event listener
-      function addToCart(event) {
+      // Add to basket functionality
+      addToCartBtn.addEventListener('click', function(event) {
+        // Prevent default behavior and stop event propagation
         event.preventDefault();
         event.stopPropagation();
         
-        // Clean the basket first to remove any existing duplicates
-        cleanBasket();
+        // We'll let basket.js handle this functionality
+        // Create a confirmation message
+        const confirmationMsg = document.createElement('div');
+        confirmationMsg.className = 'confirmation-message';
+        confirmationMsg.textContent = 'Added to basket!';
+        document.body.appendChild(confirmationMsg);
         
-        // Create a unique product ID including all key attributes
-        const productId = `salone-3-2-${selectedSeater}-seater`;
+        // Show message with animation
+        setTimeout(() => confirmationMsg.classList.add('show'), 10);
         
-        // Create the product
-        const product = {
-          id: productId,
-          name: `Salone 3+2 ${selectedSeater} Seater Sofa - ${selectedColor}`,
-          price: basePrice,
-          image: mainImage.src,
-          color: selectedColor,
-          seater: selectedSeater,
-          quantity: 1,
-          configId: `${productId}-${selectedColor.toLowerCase()}-${Date.now()}`
-        };
-        
-        console.log('Adding product to basket:', product);
-        
-        // Get the current basket
-        const basket = JSON.parse(localStorage.getItem('basket') || '[]');
-        
-        // Create a key for this product to check for duplicates
-        const productKey = `${productId}-${selectedColor}`;
-        
-        // Check if this product is already in the basket
-        const existingIndex = basket.findIndex(item => 
-          `${item.id}-${item.color}` === productKey && 
-          item.seater === selectedSeater
-        );
-        
-        if (existingIndex >= 0) {
-          // Product already exists, increase quantity
-          basket[existingIndex].quantity += 1;
-        } else {
-          // Add as new product
-          basket.push(product);
-        }
-        
-        // Save basket
-        localStorage.setItem('basket', JSON.stringify(basket));
-        
-        // Update the basket count
-        updateBasketCount();
-        
-        // Show confirmation
-        showConfirmation('Product added to basket!');
-      }
-      
-      // Buy now button
-      if (buyNowBtn) {
-        // Clone the button to remove all event listeners
-        const newBuyButton = buyNowBtn.cloneNode(true);
-        buyNowBtn.parentNode.replaceChild(newBuyButton, buyNowBtn);
-        
-        // Add our event listener
-        newBuyButton.addEventListener('click', function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-          openModal();
-          deliveryOptions.style.display = 'block';
-          orderForm.style.display = 'none';
-          thankYou.style.display = 'none';
-        });
-      }
-      
-      // Helper function to update basket count
-      function updateBasketCount() {
-        const basketCountEl = document.querySelector('.basket-count');
-        if (basketCountEl) {
-          const basket = JSON.parse(localStorage.getItem('basket') || '[]');
-          const itemCount = basket.reduce((total, item) => total + item.quantity, 0);
-          basketCountEl.textContent = itemCount;
-          basketCountEl.style.display = itemCount > 0 ? 'flex' : 'none';
-        }
-      }
-
-      // Helper function to show confirmation message
-      function showConfirmation(message) {
-        // Create confirmation element if it doesn't exist
-        let confirmationElement = document.querySelector('.confirmation-message');
-        
-        if (!confirmationElement) {
-          confirmationElement = document.createElement('div');
-          confirmationElement.className = 'confirmation-message';
-          document.body.appendChild(confirmationElement);
-        }
-        
-        // Set message and show
-        confirmationElement.textContent = message;
-        confirmationElement.classList.add('show');
-        
-        // Hide after 3 seconds
+        // Remove after 3 seconds
         setTimeout(() => {
-          confirmationElement.classList.remove('show');
+          confirmationMsg.classList.remove('show');
+          setTimeout(() => document.body.removeChild(confirmationMsg), 300);
         }, 3000);
-      }
-      
-      // Continue to order form
-      continueToOrderBtn.addEventListener('click', function() {
-        deliveryOptions.style.display = 'none';
-        orderForm.style.display = 'block';
-        updateSummary();
       });
       
-      // Place order
-      const orderFormElement = document.getElementById('orderFormElement');
+      // Modal elements
+      const buyNowModal = document.getElementById('buyNowModal');
+      const closeModalBtn = document.getElementById('closeModal');
+      const deliveryOptions = document.getElementById('deliveryOptions');
+      const orderForm = document.getElementById('orderForm');
+      const thankYou = document.getElementById('thankYou');
+      const continueToOrderBtn = document.getElementById('continueToOrder');
+      const placeOrderBtn = document.getElementById('placeOrder');
       
-      orderFormElement.addEventListener('submit', async function(event) {
-        // Prevent default form submission
-        event.preventDefault();
+      // Buy Now functionality
+      buyNowBtn.addEventListener('click', function() {
+        console.log('Buy Now button clicked');
         
-        try {
-          // Create product details object
-          const productDetails = {
-            name: `Salone ${selectedSeater} Seater Sofa`,
-            title: `Salone ${selectedSeater} Seater Sofa`,
-            color: selectedColor,
-            size: selectedSeater,
-            price: basePrice,
-            image: mainImage.src
-          };
-          
-          // Use the shared order handler
-          const success = await handleProductOrder(this, productDetails);
-          
-          if (success) {
-            // Hide form and show thank you message
-            orderForm.style.display = 'none';
-            thankYou.style.display = 'block';
-          } else {
-            alert('There was an error processing your order. Please try again.');
-          }
-        } catch (error) {
-          console.error('Error processing order:', error);
-          alert('There was an error processing your order. Please try again.');
+        // Make sure modal exists
+        if (!buyNowModal) {
+          console.error('Buy Now Modal not found');
+          return;
         }
-      });
-      
-      // Continue shopping button
-      if (continueShoppingBtn) {
-        continueShoppingBtn.addEventListener('click', function() {
-          closeModalFunc();
-          setTimeout(() => {
-            window.location.href = '/';
-          }, 300);
-        });
-      }
-      
-      // Modal functions
-      function openModal() {
-        modal.style.display = 'flex';
-        modal.classList.add('show');
+        
+        // Show delivery options
+        if (deliveryOptions) {
+          deliveryOptions.style.display = 'block';
+        } else {
+          console.error('Delivery options not found');
+        }
+        
+        // Hide other sections
+        if (orderForm) orderForm.style.display = 'none';
+        if (thankYou) thankYou.style.display = 'none';
+        
+        // Display modal with improved visibility
+        buyNowModal.style.display = 'flex';
+        buyNowModal.style.opacity = '1';
+        buyNowModal.style.visibility = 'visible';
+        buyNowModal.classList.add('show');
         document.body.style.overflow = 'hidden'; // Prevent scrolling
-      }
+        
+        // Force modal to be visible with a slight delay
+        setTimeout(function() {
+          buyNowModal.style.display = 'flex';
+          buyNowModal.style.opacity = '1';
+          buyNowModal.style.visibility = 'visible';
+        }, 50);
+      });
       
       function closeModalFunc() {
-        modal.classList.remove('show');
+        buyNowModal.classList.remove('show');
         setTimeout(() => {
-          modal.style.display = 'none';
+          buyNowModal.style.display = 'none';
           document.body.style.overflow = '';
         }, 300);
       }
       
-      closeModal.addEventListener('click', closeModalFunc);
-      
-      window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-          closeModalFunc();
-        }
-      });
-      
-      // Delivery option selection
-      document.querySelectorAll('input[name="delivery"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-          deliveryOption = this.value;
-          deliveryCost = deliveryOption === 'standard' ? 30 : 50;
-          updateSummary();
+      // Add event listeners for modal if they exist
+      if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeModalFunc);
+        
+        window.addEventListener('click', function(event) {
+          if (event.target === buyNowModal) {
+            closeModalFunc();
+          }
         });
-      });
+      }
       
-      // Initialize on page load
+      // Continue to order form if button exists
+      if (continueToOrderBtn) {
+        continueToOrderBtn.addEventListener('click', function() {
+          deliveryOptions.style.display = 'none';
+          orderForm.style.display = 'block';
+          
+          // Update summary
+          document.getElementById('summaryProduct').textContent = `Salone Arm Chairs (${selectedColor})`;
+          document.getElementById('summaryColor').textContent = selectedColor;
+          document.getElementById('summaryQuantity').textContent = quantity;
+          document.getElementById('summaryDelivery').textContent = 
+            document.querySelector('input[name="delivery"]:checked').value === 'standard' ? 
+            'Standard (£30)' : 'Premium (£50)';
+          
+          const deliveryFee = document.querySelector('input[name="delivery"]:checked').value === 'standard' ? 30 : 50;
+          document.getElementById('summaryTotal').textContent = `£${(product.basePrice * quantity) + deliveryFee}`;
+        });
+      }
+      
+      // Place order if button exists
+      if (placeOrderBtn) {
+        placeOrderBtn.addEventListener('click', function(event) {
+          event.preventDefault();
+          
+          const name = document.getElementById('name').value;
+          const email = document.getElementById('email').value;
+          const phone = document.getElementById('phone').value;
+          const postcode = document.getElementById('postcode').value;
+          const address = document.getElementById('address').value;
+          
+          // Validate form
+          if (!name || !email || !phone || !postcode || !address) {
+            alert('Please fill in all required fields');
+            return;
+          }
+          
+          // Create order object
+          const deliveryFee = document.querySelector('input[name="delivery"]:checked').value === 'standard' ? 30 : 50;
+          const totalPrice = (product.basePrice * quantity) + deliveryFee;
+          
+          const order = {
+            id: 'order-' + Date.now(),
+            name: name,
+            email: email,
+            phone: phone,
+            contact: phone, // Add this field for compatibility with admin page
+            postcode: postcode,
+            address: address,
+            deliveryDate: document.getElementById('deliveryDate').value,
+            product: `Salone Arm Chairs (${selectedColor})`,
+            productTitle: "Salone Arm Chairs",
+            productDetails: {
+              name: "Salone Arm Chairs",
+              title: "Salone Arm Chairs",
+              color: selectedColor,
+              price: product.basePrice,
+              image: selectedColorImage,
+              quantity: quantity
+            },
+            quantity: quantity,
+            color: selectedColor,
+            deliveryOption: document.querySelector('input[name="delivery"]:checked').value,
+            deliveryCost: deliveryFee,
+            total: totalPrice,
+            timestamp: new Date().toISOString()
+          };
+          
+          // Ensure order-utils.js is loaded before saving the order
+          if (typeof window.ensureOrderUtilsLoaded === 'function') {
+            window.ensureOrderUtilsLoaded(function() {
+              saveOrderAndShowThankYou(order);
+            });
+          } else {
+            // If the ensureOrderUtilsLoaded function isn't available, try to use saveOrder directly
+            saveOrderAndShowThankYou(order);
+          }
+        });
+      }
+      
+      // Helper function to save order and show thank you message
+      function saveOrderAndShowThankYou(order) {
+        // Save order to localStorage using the utility function if available
+        if (typeof window.saveOrder === 'function') {
+          window.saveOrder(order);
+        } else {
+          // Fallback if order-utils.js is not loaded
+          const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+          orders.push(order);
+          localStorage.setItem('orders', JSON.stringify(orders));
+          
+          // Direct API call to ensure real-time updates
+          fetch('/api/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Cache-Control': 'no-cache'
+            },
+            body: JSON.stringify(order)
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Order saved to server:', data);
+            
+            // Connect to Socket.IO if not already connected
+            if (typeof io !== 'undefined') {
+              const socket = io();
+              // Emit the order event for real-time updates
+              socket.emit('new-order', {
+                order: order,
+                isNew: true,
+                timestamp: new Date().toISOString()
+              });
+            }
+          })
+          .catch(error => {
+            console.error('Error saving order to server:', error);
+            // Order is still saved in localStorage
+          });
+        }
+        
+        // Show thank you message
+        orderForm.style.display = 'none';
+        thankYou.style.display = 'block';
+      }
+      
+      // Update basket count
+      function updateBasketCount() {
+        const basket = JSON.parse(localStorage.getItem('basket') || '[]');
+        const totalItems = basket.reduce((total, item) => total + item.quantity, 0);
+        document.querySelector('.basket-count').textContent = totalItems;
+        
+        // Show or hide the count based on whether there are items
+        document.querySelector('.basket-count').style.display = totalItems > 0 ? 'flex' : 'none';
+      }
+      
+      // Initial basket count update
       updateBasketCount();
-      updateSummary();
+      
+      // Initialize price display
+      updateTotalPrice();
+      
+      // Add custom confirmation message style if not already in stylesheet
+      if (!document.getElementById('confirmationStyle')) {
+        const style = document.createElement('style');
+        style.id = 'confirmationStyle';
+        style.textContent = `
+          .confirmation-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2e8b57;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+          }
+          .confirmation-message.show {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      // Initialize data attributes for basket.js
+      addToCartBtn.setAttribute('data-color', selectedColor);
+      addToCartBtn.setAttribute('data-quantity', quantity);
     });
   </script>
 </body>
