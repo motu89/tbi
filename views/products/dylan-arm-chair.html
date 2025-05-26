@@ -1160,46 +1160,48 @@
         </button>
       </div>
       
-      <form class="order-form" id="orderForm" style="display: none;">
+      <div class="order-form" id="orderForm" style="display: none;">
         <h2>Your Details</h2>
-        <div class="form-group">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" required>
+        <div id="orderFormElement">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="contact">Contact No</label>
+            <input type="tel" id="phone" name="contact" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Delivery Address</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="postcode">Postcode</label>
+            <input type="text" id="postcode" name="postcode" required>
+          </div>
+          <div class="form-group">
+            <label for="deliveryDate">Preferred Delivery Date (optional)</label>
+            <input type="date" id="deliveryDate" name="deliveryDate">
+          </div>
+          
+          <div class="order-summary" id="orderSummary">
+            <h3>Order Summary</h3>
+            <p><strong>Product:</strong> <span id="summaryProduct">Dylan Arm Chairs (Jumbo Beige)</span></p>
+            <p><strong>Color:</strong> <span id="summaryColor">Jumbo Beige</span></p>
+            <p><strong>Quantity:</strong> <span id="summaryQuantity">1</span></p>
+            <p><strong>Delivery:</strong> <span id="summaryDelivery">Standard (£30)</span></p>
+            <p><strong>Total:</strong> <span id="summaryTotal">£260</span></p>
+          </div>
+          
+          <button type="button" id="placeOrder" class="buy-now-btn" style="width: 100%;">
+            <i class="fas fa-check"></i> Place Order
+          </button>
         </div>
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" required>
-        </div>
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" required>
-        </div>
-        <div class="form-group">
-          <label for="address">Delivery Address</label>
-          <textarea id="address" rows="3" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="postcode">Postcode</label>
-          <input type="text" id="postcode" required>
-        </div>
-        <div class="form-group">
-          <label for="deliveryDate">Preferred Delivery Date (optional)</label>
-          <input type="date" id="deliveryDate">
-        </div>
-        
-        <div class="order-summary" id="orderSummary">
-          <h3>Order Summary</h3>
-          <p><strong>Product:</strong> <span id="summaryProduct">Dylan Arm Chairs (Jumbo Beige)</span></p>
-          <p><strong>Color:</strong> <span id="summaryColor">Jumbo Beige</span></p>
-          <p><strong>Quantity:</strong> <span id="summaryQuantity">1</span></p>
-          <p><strong>Delivery:</strong> <span id="summaryDelivery">Standard (£30)</span></p>
-          <p><strong>Total:</strong> <span id="summaryTotal">£260</span></p>
-        </div>
-        
-        <button type="submit" id="placeOrder" class="buy-now-btn" style="width: 100%;">
-          <i class="fas fa-check"></i> Place Order
-        </button>
-      </form>
+      </div>
       
       <div class="thank-you" id="thankYou" style="display: none;">
         <h2><i class="fas fa-check-circle"></i> Thank You For Your Order!</h2>
@@ -1219,8 +1221,6 @@
   <script src="/js/script.js"></script>
   <script src="/js/basket.js"></script>
   <script src="/js/mobile-menu.js"></script>
-  <script src="/js/order-utils.js"></script>
-  <script src="/js/product-order.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Main elements
@@ -1417,35 +1417,78 @@
       });
       
       // Place order
-      placeOrderBtn.addEventListener('click', async function(event) {
+      placeOrderBtn.addEventListener('click', function(event) {
         event.preventDefault();
         
-        try {
-          // Create product details object
-          const productDetails = {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const email = document.getElementById('email').value;
+        const postcode = document.getElementById('postcode').value;
+        const address = document.getElementById('address').value;
+        
+        // Validate form
+        if (!name || !phone || !postcode || !address) {
+          alert('Please fill in all required fields');
+          return;
+        }
+        
+        // Create order object
+        const deliveryFee = document.querySelector('input[name="delivery"]:checked').value === 'standard' ? 30 : 50;
+        const totalPrice = (product.basePrice * quantity) + deliveryFee;
+        
+        const order = {
+          id: 'order-' + Date.now(),
+          name: name,
+          contact: phone,
+          email: email,
+          phone: phone,
+          postcode: postcode,
+          address: address,
+          deliveryDate: document.getElementById('deliveryDate').value,
+          product: `Dylan Arm Chairs (${selectedColor})`,
+          productTitle: "Dylan Arm Chairs",
+          productDetails: {
             name: "Dylan Arm Chairs",
             title: "Dylan Arm Chairs",
             color: selectedColor,
             price: product.basePrice,
             image: selectedColorImage,
             quantity: quantity
-          };
-          
-          // Use the shared order handler
-          const success = await handleProductOrder(document.querySelector('form'), productDetails);
-          
-          if (success) {
-            // Hide form and show thank you message
-            orderForm.style.display = 'none';
-            thankYou.style.display = 'block';
-          } else {
-            alert('There was an error processing your order. Please try again.');
-          }
-        } catch (error) {
-          console.error('Error processing order:', error);
-          alert('There was an error processing your order. Please try again.');
+          },
+          quantity: quantity,
+          color: selectedColor,
+          deliveryOption: document.querySelector('input[name="delivery"]:checked').value,
+          deliveryCost: deliveryFee,
+          total: totalPrice,
+          timestamp: new Date().toISOString()
+        };
+        
+        // Save order to localStorage
+        saveOrder(order);
+        
+        // Emit socket event if socket.io is available
+        if (typeof io !== 'undefined') {
+          const socket = io();
+          socket.emit('new order', order);
         }
+        
+        // Show thank you message
+        orderForm.style.display = 'none';
+        thankYou.style.display = 'block';
       });
+      
+      // Helper function to save order
+      function saveOrder(order) {
+        // Save to localStorage
+        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
+        
+        // Check if order-utils.js function is available
+        if (typeof window.saveOrder === 'function') {
+          window.saveOrder(order);
+        }
+      }
       
       // Update basket count
       function updateBasketCount() {
