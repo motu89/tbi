@@ -289,14 +289,14 @@ app.get('/admin/login', (req, res) => {
 
 // Home page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
 // Catch all other routes and serve the index.html
 app.get('*', (req, res) => {
   // Exclude API routes
   if (!req.path.startsWith('/api/')) {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
   } else {
     res.status(404).json({ error: 'API endpoint not found' });
   }
