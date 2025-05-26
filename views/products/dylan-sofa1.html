@@ -1421,41 +1421,43 @@
       
       <!-- Order Form Section -->
       <div class="order-form" id="orderForm">
-        <h2>Complete Your Order</h2>
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" placeholder="Enter your full name" required>
-        </div>
-        <div class="form-group">
-          <label for="contact">Contact No</label>
-          <input type="tel" id="contact" placeholder="Enter your phone number" required>
-        </div>
-        <div class="form-group">
-          <label for="postcode">Post Code</label>
-          <input type="text" id="postcode" placeholder="Enter your post code" required>
-        </div>
-        <div class="form-group">
-          <label for="address">Address</label>
-          <textarea id="address" rows="3" placeholder="Enter your full address" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="deliveryDate">Preferred Delivery Date (optional)</label>
-          <input type="date" id="deliveryDate">
-        </div>
-        
-        <div class="order-summary" id="orderSummary">
-          <h3>Order Summary</h3>
-          <p><strong>Product:</strong> <span id="summaryProduct">Crush Velvet L-Shape Dylan Sofa</span></p>
-          <p><strong>Color:</strong> <span id="summaryColor">Grey</span></p>
-          <p><strong>Side:</strong> <span id="summarySide">Left Facing</span></p>
-          <p><strong>Extra Seats:</strong> <span id="summarySeats">0</span></p>
-          <p><strong>Delivery:</strong> <span id="summaryDelivery">Standard (£30)</span></p>
-          <p><strong>Total:</strong> <span id="summaryTotal">£479</span></p>
-        </div>
-        
-        <button id="placeOrder" class="buy-now-btn">
-          <i class="fas fa-check"></i> Place Order
-        </button>
+        <form id="orderFormElement">
+          <h2>Complete Your Order</h2>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="contact">Contact No</label>
+            <input type="tel" id="contact" name="contact" placeholder="Enter your phone number" required>
+          </div>
+          <div class="form-group">
+            <label for="postcode">Post Code</label>
+            <input type="text" id="postcode" name="postcode" placeholder="Enter your post code" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" rows="3" placeholder="Enter your full address" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="deliveryDate">Preferred Delivery Date (optional)</label>
+            <input type="date" id="deliveryDate" name="deliveryDate">
+          </div>
+          
+          <div class="order-summary" id="orderSummary">
+            <h3>Order Summary</h3>
+            <p><strong>Product:</strong> <span id="summaryProduct">Crush Velvet L-Shape Dylan Sofa</span></p>
+            <p><strong>Color:</strong> <span id="summaryColor">Grey</span></p>
+            <p><strong>Side:</strong> <span id="summarySide">Left Facing</span></p>
+            <p><strong>Extra Seats:</strong> <span id="summarySeats">0</span></p>
+            <p><strong>Delivery:</strong> <span id="summaryDelivery">Standard (£30)</span></p>
+            <p><strong>Total:</strong> <span id="summaryTotal">£479</span></p>
+          </div>
+          
+          <button type="submit" id="placeOrder" class="buy-now-btn">
+            <i class="fas fa-check"></i> Place Order
+          </button>
+        </form>
       </div>
       
       <!-- Thank You Section -->
@@ -1720,65 +1722,55 @@
       });
       
       // Place order
-      placeOrderBtn.addEventListener('click', function() {
-        const name = document.getElementById('name').value;
-        const contact = document.getElementById('contact').value;
-        const postcode = document.getElementById('postcode').value;
-        const address = document.getElementById('address').value;
+      placeOrderBtn.addEventListener('click', async function(event) {
+        event.preventDefault();
         
-        // Validate form
-        if (!name || !contact || !postcode || !address) {
-          alert('Please fill in all required fields');
-          return;
-        }
-        
-        // Create order object
+        // Create product details object
         const extraSeatsTotal = extraSeats * extraSeatPrice;
         const productTotal = basePrice + extraSeatsTotal;
-        const finalTotal = productTotal + deliveryCost;
         
-        const order = {
-          id: 'order-' + Date.now(),
-          name: name,
-          contact: contact,
-          postcode: postcode,
-          address: address,
-          deliveryDate: document.getElementById('deliveryDate').value,
-          product: `Crush Velvet L-Shape Dylan Sofa (${selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1)})`,
-          productTitle: "Crush Velvet L-Shape Dylan Sofa",
-          productDetails: {
-            name: "Crush Velvet L-Shape Dylan Sofa",
-            title: "Crush Velvet L-Shape Dylan Sofa",
-            color: selectedColor,
-            sideFacing: selectedSide,
-            extraSeats: extraSeats,
-            price: productTotal,
-            image: mainImage.src,
-            quantity: 1
-          },
-          // Add at order level for compatibility
+        const productDetails = {
+          name: `Crush Velvet L-Shape Dylan Sofa (${selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1)})`,
+          title: "Crush Velvet L-Shape Dylan Sofa",
           color: selectedColor,
           sideFacing: selectedSide,
           extraSeats: extraSeats,
-          deliveryOption: deliveryOption,
-          deliveryCost: deliveryCost,
-          total: finalTotal,
-          timestamp: new Date().toISOString()
+          price: productTotal,
+          image: mainImage.src
         };
         
-        // Save order to localStorage using the utility function if available
-        if (typeof window.saveOrder === 'function') {
-          window.saveOrder(order);
-        } else {
-          // Fallback if order-utils.js is not loaded
-          const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-          orders.push(order);
-          localStorage.setItem('orders', JSON.stringify(orders));
+        try {
+          // First ensure order-utils.js is loaded
+          if (typeof window.handleProductOrder !== 'function') {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = '/js/product-order.js';
+              script.onload = function() {
+                console.log('product-order.js loaded successfully');
+                resolve();
+              };
+              script.onerror = function(err) {
+                console.error('Failed to load product-order.js:', err);
+                reject(err);
+              };
+              document.head.appendChild(script);
+            });
+          }
+          
+          // Use the shared order handler
+          const success = await window.handleProductOrder(document.getElementById('orderFormElement'), productDetails);
+          
+          if (success) {
+            // Hide form and show thank you message
+            orderForm.style.display = 'none';
+            thankYou.style.display = 'block';
+          } else {
+            alert('There was an error processing your order. Please try again.');
+          }
+        } catch (error) {
+          console.error('Error processing order:', error);
+          alert('There was an error processing your order. Please try again.');
         }
-        
-        // Show thank you message
-        orderForm.style.display = 'none';
-        thankYou.style.display = 'block';
       });
       
       // Add custom confirmation message style if not already in stylesheet
