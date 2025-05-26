@@ -1765,81 +1765,57 @@
       // Place order
       const orderFormElement = document.getElementById('orderFormElement');
       
-      orderFormElement.addEventListener('submit', function(event) {
+      orderFormElement.addEventListener('submit', async function(event) {
         // Prevent default form submission
         event.preventDefault();
         
-        // If the form is valid (browser validation will handle this)
-        if (this.checkValidity()) {
-          // Get form values using FormData
-          const formData = new FormData(this);
-          const name = formData.get('name');
-          const contact = formData.get('contact');
-          const postcode = formData.get('postcode');
-          const address = formData.get('address');
-          const deliveryDate = formData.get('deliveryDate');
+        // Create product details object
+        const extraSeatsTotal = extraSeats * extraSeatPrice;
+        const productTotal = basePrice + extraSeatsTotal;
+        
+        const productDetails = {
+          name: "Verona Corner Sofa",
+          title: "Verona Corner Sofa",
+          color: selectedColor,
+          extraSeats: extraSeats,
+          price: productTotal,
+          image: mainImage.src,
+          // Add these properties to make them show up in admin panel
+          sideFacing: "N/A"
+        };
+        
+        try {
+          // First ensure order-utils.js is loaded
+          if (typeof window.handleProductOrder !== 'function') {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = '/js/product-order.js';
+              script.onload = function() {
+                console.log('product-order.js loaded successfully');
+                resolve();
+              };
+              script.onerror = function(err) {
+                console.error('Failed to load product-order.js:', err);
+                reject(err);
+              };
+              document.head.appendChild(script);
+            });
+          }
           
-          console.log("Form data:", { name, contact, postcode, address });
+          // Use the shared order handler
+          const success = await window.handleProductOrder(orderFormElement, productDetails);
           
-          // Calculate final price
-          const extraSeatsTotal = extraSeats * extraSeatPrice;
-          const productTotal = basePrice + extraSeatsTotal;
-          const finalTotal = productTotal + deliveryCost;
-          
-          try {
-            // Create order object
-            const order = {
-              id: 'order-' + Date.now(),
-              name: name,
-              contact: contact,
-              postcode: postcode,
-              address: address,
-              deliveryDate: deliveryDate || '',
-              product: "Verona Corner Sofa",
-              productTitle: "Verona Corner Sofa",
-              productDetails: {
-                name: "Verona Corner Sofa",
-                title: "Verona Corner Sofa",
-                color: selectedColor,
-                extraSeats: extraSeats,
-                price: productTotal,
-                image: mainImage.src,
-                // Add these properties to make them show up in admin panel
-                quantity: 1,
-                sideFacing: "N/A"
-              },
-              color: selectedColor, // Add at order level for compatibility
-              extraSeats: extraSeats, // Add at order level for compatibility
-              deliveryOption: deliveryOption,
-              deliveryCost: deliveryCost,
-              total: finalTotal,
-              timestamp: new Date().toISOString()
-            };
-            
-            console.log("Saving order:", order);
-            
-            // Save order to localStorage using the utility function if available
-            if (typeof window.saveOrder === 'function') {
-              window.saveOrder(order);
-            } else {
-              // Fallback if order-utils.js is not loaded
-              const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-              orders.push(order);
-              localStorage.setItem('orders', JSON.stringify(orders));
-            }
-            
+          if (success) {
             // Hide form and show thank you message
             orderForm.style.display = 'none';
             thankYou.style.display = 'block';
-            
             console.log("Order placed successfully, thank you page shown");
-          } catch (error) {
-            console.error("Error placing order:", error);
+          } else {
             alert('There was an error processing your order. Please try again.');
           }
-        } else {
-          // Form is invalid, browser will show validation messages
-          console.log("Form validation failed");
+        } catch (error) {
+          console.error("Error placing order:", error);
+          alert('There was an error processing your order. Please try again.');
         }
       });
       
