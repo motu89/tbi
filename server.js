@@ -46,8 +46,8 @@ app.use(express.json());
 // Session configuration with secure cookies in production
 const sessionConfig = {
   secret: 'british-interiors-admin-secret',
-  resave: true,
-  saveUninitialized: true,
+  resave: true, // Changed to true to ensure session is saved on each request
+  saveUninitialized: true, // Changed to true to create session for all users
   cookie: { 
     maxAge: 86400000, // 24 hours
     httpOnly: true,
