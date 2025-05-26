@@ -375,35 +375,41 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Firebase order placement function
-  async function placeOrder(orderData) {
+  // Function to place an order
+  async function placeOrder() {
+    // Get form data
+    const orderData = getFormData();
+    
+    if (!validateOrderData(orderData)) {
+      return;
+    }
+    
+    // Show loading state
+    const buyNowButton = document.querySelector('#buyNowButton');
+    const originalButtonText = buyNowButton.innerText;
+    buyNowButton.innerText = 'Processing...';
+    buyNowButton.disabled = true;
+    
     try {
-      // Load order-utils.js if not already loaded
-      if (typeof window.saveOrder !== 'function') {
-        await new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = '/js/order-utils.js';
-          script.onload = resolve;
-          script.onerror = reject;
-          document.head.appendChild(script);
-        });
-      }
+      // Order placement function
+      const success = await saveOrder(orderData);
       
-      // If saveOrder function exists now, use it
-      if (typeof window.saveOrder === 'function') {
-        // Use the existing function which now handles Firebase
-        const result = await window.saveOrder(orderData);
-        return result;
+      if (success) {
+        // Show success message and clear form
+        showOrderConfirmation(orderData);
+        clearBasket();
+        hideCheckoutForm();
       } else {
-        console.error('Failed to load order-utils.js');
-        return false;
+        // Show error message
+        showOrderError();
       }
     } catch (error) {
       console.error('Error placing order:', error);
-      return false;
+      showOrderError();
+    } finally {
+      // Reset button state
+      buyNowButton.innerText = originalButtonText;
+      buyNowButton.disabled = false;
     }
   }
-  
-  // Make placeOrder function available globally
-  window.placeOrder = placeOrder;
 });
