@@ -536,6 +536,59 @@
     <span id="toastMessage">Operation successful!</span>
   </div>
 
+  <!-- Socket.IO integration -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Connect to Socket.IO server
+    const socket = io();
+    
+    // Event: Connection established
+    socket.on('connection-established', (data) => {
+      console.log('Connected to server:', data.message);
+    });
+    
+    // Event: New order received
+    socket.on('new-order', (data) => {
+      console.log('New order received:', data.order);
+      
+      // Play notification sound if available
+      try {
+        const audio = new Audio('/sounds/notification.mp3');
+        audio.play().catch(e => console.log('Could not play notification sound:', e));
+      } catch (e) {
+        console.log('Audio notification not supported:', e);
+      }
+      
+      // Show toast notification
+      showToast(`New order received from ${data.order.name}!`, false);
+      
+      // Reload orders automatically
+      loadOrders();
+    });
+    
+    // Event: Order updated
+    socket.on('order-updated', (data) => {
+      console.log('Order updated:', data.order);
+      
+      // Show toast notification
+      showToast(`Order #${data.orderId.substring(0, 8)} has been updated!`, false);
+      
+      // Reload orders
+      loadOrders();
+    });
+    
+    // Event: Order deleted
+    socket.on('order-deleted', (data) => {
+      console.log('Order deleted:', data.orderId);
+      
+      // Show toast notification
+      showToast(`Order #${data.orderId.substring(0, 8)} has been deleted!`, true);
+      
+      // Reload orders
+      loadOrders();
+    });
+  </script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // DOM Elements
