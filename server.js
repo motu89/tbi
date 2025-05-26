@@ -3,6 +3,32 @@ const path = require('path');
 const app = express();
 const session = require('express-session');
 const fs = require('fs');
+const http = require('http');
+const socketIO = require('socket.io');
+
+// Create HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.IO with CORS enabled
+const io = socketIO(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+    credentials: true
+  }
+});
+
+// Socket.IO connection handling
+io.on('connection', (socket) => {
+  console.log('Client connected:', socket.id);
+  
+  // Notify client that connection is established
+  socket.emit('connection-established', { message: 'Connected to server' });
+  
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+  });
+});
 
 // Log environment
 console.log('Running in local environment');
@@ -161,6 +187,13 @@ app.post('/api/orders', async (req, res) => {
     return res.status(500).json({ error: 'Failed to save order' });
   }
   
+  // Emit real-time event for new/updated order
+  io.emit('new-order', {
+    order: orderData,
+    isNew: existingOrderIndex < 0,
+    timestamp: new Date().toISOString()
+  });
+  
   res.status(201).json({ success: true, orderId: orderData.id });
 });
 
@@ -197,6 +230,12 @@ app.delete('/api/orders/:id', async (req, res) => {
     console.error('Error saving updated orders to file:', error);
     // Don't return error here, as the order was removed from memory
   }
+  
+  // Emit real-time event for deleted order
+  io.emit('order-deleted', {
+    orderId: orderId,
+    timestamp: new Date().toISOString()
+  });
   
   res.json({ success: true });
 });
@@ -241,6 +280,14 @@ app.patch('/api/orders/:id', async (req, res) => {
     console.error('Error saving updated order to file:', error);
     // Don't return error here, as the order was updated in memory
   }
+  
+  // Emit real-time event for updated order
+  io.emit('order-updated', {
+    order: orders[orderIndex],
+    orderId: orderId,
+    changes: updateData,
+    timestamp: new Date().toISOString()
+  });
   
   res.json({ success: true, order: orders[orderIndex] });
 });
@@ -361,100 +408,13 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// Direct product routes - explicit routes for each product page
-// This ensures the routes work correctly without any routing conflicts
-
-app.get('/products/basket.html', (req, res) => {
+// Basket page route - must be before the generic product route
+app.get(['/products/basket', '/products/basket.html'], (req, res) => {
   console.log('Serving basket page');
   res.sendFile(path.join(__dirname, 'views', 'products', 'basket.html'));
 });
 
-app.get('/products/dylan-sofa1.html', (req, res) => {
-  console.log('Serving dylan-sofa1 page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'dylan-sofa1.html'));
-});
-
-app.get('/products/dylan-sofa2.html', (req, res) => {
-  console.log('Serving dylan-sofa2 page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'dylan-sofa2.html'));
-});
-
-app.get('/products/dylan-sofa3.html', (req, res) => {
-  console.log('Serving dylan-sofa3 page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'dylan-sofa3.html'));
-});
-
-app.get('/products/dylan-sofa4.html', (req, res) => {
-  console.log('Serving dylan-sofa4 page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'dylan-sofa4.html'));
-});
-
-app.get('/products/verona-corner-sofa.html', (req, res) => {
-  console.log('Serving verona-corner-sofa page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'verona-corner-sofa.html'));
-});
-
-app.get('/products/verona-3-2-sofa.html', (req, res) => {
-  console.log('Serving verona-3-2-sofa page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'verona-3-2-sofa.html'));
-});
-
-app.get('/products/bishop-u-shape-sofa.html', (req, res) => {
-  console.log('Serving bishop-u-shape-sofa page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'bishop-u-shape-sofa.html'));
-});
-
-app.get('/products/mini-u-shape-sofa.html', (req, res) => {
-  console.log('Serving mini-u-shape-sofa page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'mini-u-shape-sofa.html'));
-});
-
-app.get('/products/salone-corner-sofa.html', (req, res) => {
-  console.log('Serving salone-corner-sofa page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'salone-corner-sofa.html'));
-});
-
-app.get('/products/salone-3-2-sofa.html', (req, res) => {
-  console.log('Serving salone-3-2-sofa page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'salone-3-2-sofa.html'));
-});
-
-app.get('/products/leather-corner-sofa.html', (req, res) => {
-  console.log('Serving leather-corner-sofa page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'leather-corner-sofa.html'));
-});
-
-app.get('/products/leather-3-2-sofa.html', (req, res) => {
-  console.log('Serving leather-3-2-sofa page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'leather-3-2-sofa.html'));
-});
-
-app.get('/products/dylan-arm-chair.html', (req, res) => {
-  console.log('Serving dylan-arm-chair page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'dylan-arm-chair.html'));
-});
-
-app.get('/products/salone-arm-chair.html', (req, res) => {
-  console.log('Serving salone-arm-chair page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'salone-arm-chair.html'));
-});
-
-app.get('/products/verona-arm-chair.html', (req, res) => {
-  console.log('Serving verona-arm-chair page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'verona-arm-chair.html'));
-});
-
-app.get('/products/leather-recliner-arm-chair.html', (req, res) => {
-  console.log('Serving leather-recliner-arm-chair page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'leather-recliner-arm-chair.html'));
-});
-
-app.get('/products/modern-sofabeds.html', (req, res) => {
-  console.log('Serving modern-sofabeds page');
-  res.sendFile(path.join(__dirname, 'views', 'products', 'modern-sofabeds.html'));
-});
-
-// Fallback for other product pages (if any)
+// Product pages route - high priority
 app.get('/products/:productName', (req, res) => {
   let productName = req.params.productName;
   
@@ -465,17 +425,24 @@ app.get('/products/:productName', (req, res) => {
   
   const productFile = path.join(__dirname, 'views', 'products', `${productName}.html`);
   
-  console.log(`Attempting to serve product page via fallback: ${productFile}`);
+  console.log(`Attempting to serve product page: ${productFile}`);
   console.log(`Does file exist? ${fs.existsSync(productFile)}`);
   
   // Check if the file exists
   if (fs.existsSync(productFile)) {
-    console.log(`Serving product file via fallback: ${productFile}`);
+    console.log(`Serving product file: ${productFile}`);
     return res.sendFile(productFile);
   } else {
     console.log(`Product page not found: ${productFile}`);
-    // Redirect to home page if product not found
-    return res.redirect('/');
+    // Try to send a 404 page, or fall back to index if 404 doesn't exist
+    const notFoundPage = path.join(__dirname, 'views', '404.html');
+    if (fs.existsSync(notFoundPage)) {
+      console.log(`Serving 404 page: ${notFoundPage}`);
+      return res.status(404).sendFile(notFoundPage);
+    } else {
+      console.log(`Serving index page as fallback`);
+      return res.status(404).sendFile(path.join(__dirname, 'views', 'index.html'));
+    }
   }
 });
 
@@ -490,7 +457,7 @@ process.on('SIGINT', () => {
 
 // Catch all other routes and serve the index.html
 // This should be the LAST route
-app.get('*', (req, res) => {
+app.get('*', (req, res, next) => {
   // Exclude API routes
   if (req.path.startsWith('/api/')) {
     console.log(`API route not found: ${req.path}`);
@@ -502,6 +469,58 @@ app.get('*', (req, res) => {
   return res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-app.listen(PORT, () => {
+// Start server
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+// The following is a sample <script> block to add to admin.html for Socket.IO integration
+/* 
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  // Connect to Socket.IO server
+  const socket = io();
+  
+  // Event: Connection established
+  socket.on('connection-established', (data) => {
+    console.log('Connected to server:', data.message);
+  });
+  
+  // Event: New order received
+  socket.on('new-order', (data) => {
+    console.log('New order received:', data.order);
+    
+    // Play notification sound
+    const audio = new Audio('/sounds/notification.mp3');
+    audio.play();
+    
+    // Show toast notification
+    showToast(`New order received from ${data.order.name}!`, false);
+    
+    // Reload orders if we're on the admin page
+    if (typeof loadOrders === 'function') {
+      loadOrders();
+    }
+  });
+  
+  // Event: Order updated
+  socket.on('order-updated', (data) => {
+    console.log('Order updated:', data.order);
+    
+    // Reload orders if we're on the admin page
+    if (typeof loadOrders === 'function') {
+      loadOrders();
+    }
+  });
+  
+  // Event: Order deleted
+  socket.on('order-deleted', (data) => {
+    console.log('Order deleted:', data.orderId);
+    
+    // Reload orders if we're on the admin page
+    if (typeof loadOrders === 'function') {
+      loadOrders();
+    }
+  });
+</script>
+*/
